@@ -210,3 +210,9 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+
+node_modules
+wwwroot/js
+wwwroot/css
+wwwroot/fonts
+.idea

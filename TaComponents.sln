@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B4897704-0840-4FD2-B746-92176FDB4203}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{57104C6F-227D-44CD-A5B8-49F55DB60B94}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TaComponents", "src\TaComponents\TaComponents.xproj", "{E3F668BC-B746-4F8F-A5C4-36DEB5683D3E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3F668BC-B746-4F8F-A5C4-36DEB5683D3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3F668BC-B746-4F8F-A5C4-36DEB5683D3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3F668BC-B746-4F8F-A5C4-36DEB5683D3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3F668BC-B746-4F8F-A5C4-36DEB5683D3E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E3F668BC-B746-4F8F-A5C4-36DEB5683D3E} = {B4897704-0840-4FD2-B746-92176FDB4203}
+	EndGlobalSection
+EndGlobal

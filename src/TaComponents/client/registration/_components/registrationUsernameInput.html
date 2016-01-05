@@ -1,0 +1,20 @@
+<div ng-form="registrationUsernameInputForm">
+  <form-group>
+    <control-label>Username</control-label>
+    <input
+      type="email"
+      class="form-control"
+      required
+      maxlength="50"
+      ng-model="credentials.username"
+      name="username"
+      ng-model-options="{'debounce': 500}">
+    <error-block>
+      <ng-messages for="registrationUsernameInputForm.username.$error" role="alert">
+        <ng-message when="email" class="fade-element">Username must be a valid email</ng-message>
+        <ng-message when="required" class="fade-element">Username is required</ng-message>
+        <ng-message when="usernameExists" class="fade-element">Username is already in use</ng-message>
+      </ng-messages>
+    </error-block>
+  </form-group>
+</div>

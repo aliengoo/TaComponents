@@ -1,0 +1,10 @@
+.error-block {
+  font-size: 12px;
+  margin-top: 5px;
+  color: red;
+
+  ng-message {
+    display: block;
+  }
+}
+
