@@ -15,6 +15,8 @@
 
         public string Company { get; set; }
 
+        public string System { get; set; }
+
         [BsonSerializer(typeof(EnumSerializer<ComponentProductRiskLevel>), SerializerType = typeof(string))]
         public ComponentProductRiskLevel StaffRisk { get; set; }
 
@@ -32,10 +34,7 @@
         public List<string> TeamMembers { get; set; }
 
         public List<string> BusinessOwners { get; set; }
-
-        [BsonRequired]
-        public int Version { get; set; }
-
+        
         public List<Comment> Comments { get; set; }
     }
 }

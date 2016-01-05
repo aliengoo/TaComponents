@@ -1,12 +1,21 @@
 export default class ProductController {
   /* @ngInject */
-  constructor(productServices, product) {
-    this.productServices = productServices;
+  constructor(productService, product, editable) {
+    this.productService = productService;
     this.loading = false;
-
+    this.product = product;
+    this.editable = editable;
   }
 
   save() {
+    this.loading = true;
 
+
+    if (this.editable) {
+
+
+      this.productService.insert(this.product).then(() => {});
+
+    }
   }
 }

@@ -1,4 +1,4 @@
-export default class ProductServices {
+export default class ProductService {
   constructor($http, $log) {
     this.$http = $http;
     this.$log = $log;
@@ -18,5 +18,12 @@ export default class ProductServices {
   
   remove(id) {
     return this.$http.delete(`api/product${id}`);
+  }
+
+  getRiskLevels() {
+    return this.$http.get("api/risk-levels").then((response) => {
+        return response.data;
+      }
+    );
   }
 }

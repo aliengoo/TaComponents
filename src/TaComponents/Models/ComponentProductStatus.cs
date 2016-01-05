@@ -3,6 +3,7 @@
     public enum ComponentProductStatus
     {
         Live,
+        Migrated,
         Retired       
     }
 }

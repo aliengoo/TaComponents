@@ -1,0 +1,20 @@
+<div ng-form="productNameForm">
+  <div ng-show="editable">
+    <form-group>
+      <control-label>Name <small>(required)</small></control-label>
+      <input type="text" class="form-control" required name="productName">
+      <div ng-messages="productNameForm.productName.$error">
+        <span ng-message-exp="required" class="help-block" ng-model="product.name">Name is required</span>
+      </div>
+
+    </form-group>
+
+  </div>
+  <div ng-hide="editable">
+    <form-group>
+      <control-label>Name</control-label>
+      <p class="form-control-static">{{product.name}}</p>
+    </form-group>
+  </div>
+</div>
+

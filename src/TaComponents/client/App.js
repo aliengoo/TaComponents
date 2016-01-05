@@ -42,6 +42,7 @@ angular.module(MODULE_NAME,
     AccessDenied.name,
     Error.name,
     Home.name,
+    Product.name,
     Products.name
   ])
   .config(appConfig)

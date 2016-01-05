@@ -1,4 +1,4 @@
-﻿{
+{
   "version": "1.0.0-*",
   "compilationOptions": {
     "emitEntryPoint": true
@@ -6,6 +6,8 @@
 
     "dependencies": {
         "Microsoft.AspNet.Http.Abstractions": "1.0.0-rc1-final",
+        "Microsoft.AspNet.Identity": "3.0.0-rc1-final",
+        "Microsoft.AspNet.Identity.Core": "2.2.1",
         "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
         "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
         "Microsoft.AspNet.Owin": "1.0.0-rc1-final",
@@ -25,7 +27,11 @@
   },
 
   "frameworks": {
-    "dnx451": { }
+    "dnx451": {
+        "frameworkAssemblies": {
+            "System.Security": "4.0.0.0"
+        }
+    }
   },
 
   "exclude": [

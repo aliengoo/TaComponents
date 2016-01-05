@@ -1,4 +1,10 @@
-﻿namespace TaComponents.Repositories.Mongo
+﻿using System.Collections.Generic;
+using Microsoft.AspNet.Http;
+using MongoDB.Bson;
+using TaComponents.Exceptions;
+using TaComponents.Helpers;
+
+namespace TaComponents.Repositories.Mongo
 {
     using System.Threading.Tasks;
 
@@ -8,18 +14,27 @@
 
     using Models;
 
-    public abstract class MongoRepository<T> : IRepository<T> where T : ModelBase
+    public class MongoRepository<T> : IRepository<T> where T : ModelBase
     {
+        private readonly IDateContext _dateContext;
+        private readonly IUserContext _userContext;
+        private static volatile object _syncObject = new object();
+
         protected IMongoDatabase Database { get; }
 
         protected IMongoCollection<T> Collection { get; }
 
-        protected MongoRepository(IConfiguration config, string collectionName, string connectionStringName = "Data:Mongo:App:ConnectionString")
+        public MongoRepository(
+            IConfiguration config,
+            IDateContext dateContext, 
+            IUserContext userContext)
         {
-            var url = MongoUrl.Create(config.Get<string>(connectionStringName));
+            _dateContext = dateContext;
+            _userContext = userContext;
+            var url = MongoUrl.Create(config.Get<string>("Data:App:ConnectionString"));
 
             Database = new MongoClient(url).GetDatabase(url.DatabaseName);
-            Collection = Database.GetCollection<T>(collectionName);
+            Collection = Database.GetCollection<T>(nameof(T));
         }
 
         public Task<T> FindById(string id)
@@ -27,16 +42,40 @@
             return Collection.Find(t => t.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<T> Update(T doc)
+        public Task<T> Update(T doc)
         {
-            await Collection.UpdateOneAsync(t => t.Id == doc.Id, new ObjectUpdateDefinition<T>(doc));
 
-            return doc;
+            lock (_syncObject)
+            {
+                // get the latest version of the document
+
+                var latestVersion = Collection.Find(t => t.Id == doc.Id).SortByDescending(t => t.Version).FirstOrDefault();
+
+                if (latestVersion.Version != doc.Version)
+                {
+                    throw new VersionConflictException($"The version of ${nameof(doc)}v${doc.Version} did not match the current version v${latestVersion.Version}");
+                }
+
+                doc.Version += 1;
+                doc.Updated = _dateContext.Now;
+                doc.UpdatedBy = _userContext.Name; 
+
+                Collection.InsertOne(doc);
+
+                // TODO: Notify change
+            }
+
+            return Task.FromResult(doc);
         }
 
         public async Task<T> Insert(T doc)
         {
             doc.Version = 1;
+            doc.Created = _dateContext.Now;
+            doc.CreatedBy = _userContext.Name;
+            doc.Updated = doc.Created;
+            doc.UpdatedBy = doc.UpdatedBy;
+
             await Collection.InsertOneAsync(doc);
 
             return doc;
@@ -47,13 +86,10 @@
             return Collection.DeleteOneAsync(t => t.Id == id);
         }
 
-        private async bool Task<bool> IsCurrentVersion(int version, string id)
+        public Task<List<T>> Find(BsonDocument query)
         {
-            var sortByVersion = new SortDefinitionBuilder<T>().Descending(t => t.Version);
-
-            var doc = await Collection.Find(t => t.Id == id).Sort(sortByVersion).FirstOrDefaultAsync();
-
-            return doc.Version == version;
+            // TODO: Enhance MongoRepository.Find
+            return Collection.Find(new BsonDocumentFilterDefinition<T>(query)).ToListAsync();
         }
     }
 }

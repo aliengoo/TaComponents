@@ -1,8 +1,11 @@
-﻿namespace TaComponents.Repositories
+﻿using System.Collections.Generic;
+using MongoDB.Bson;
+
+namespace TaComponents.Repositories
 {
     using System.Threading.Tasks;
 
-    using TaComponents.Models;
+    using Models;
 
     public interface IRepository<T> where T : ModelBase
     {
@@ -13,5 +16,7 @@
         Task<T> Insert(T t);
 
         Task Delete(string id);
+
+        Task<List<T>> Find(BsonDocument query);
     }
 }

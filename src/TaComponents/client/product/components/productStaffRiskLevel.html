@@ -1,0 +1,20 @@
+<div ng-form="productStaffRiskLevelForm">
+  <div ng-show="editable">
+    <form-group>
+      <control-label>Staff Risk</control-label>
+      <select class="form-control" name="productStaffRiskLevel" ng-options="label for value in riskLevels" ng-model="product.staffRisk">
+      </select>
+      <div ng-messages="productStaffRiskLevelForm.productStaffRiskLevel.$error">
+      </div>
+
+    </form-group>
+
+  </div>
+  <div ng-hide="editable">
+    <form-group>
+      <control-label>Staff Risk</control-label>
+      <p class="form-control-static">{{product.staffRisk}}</p>
+    </form-group>
+  </div>
+</div>
+

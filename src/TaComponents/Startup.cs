@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Builder;
+﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNet.Owin;
+using Newtonsoft.Json.Serialization;
+using TaComponents.Helpers;
+using TaComponents.Models;
+using TaComponents.Repositories;
+using TaComponents.Repositories.Mongo;
 
 
 namespace TaComponents
@@ -42,13 +43,28 @@ namespace TaComponents
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc().AddMvcOptions(o =>
+            {
+                var jsonOutputFormatter = new JsonOutputFormatter
+                {
+                    SerializerSettings =
+                    {
+                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                        DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.Ignore
+                    }
+                };
+
+                o.OutputFormatters.RemoveType<JsonOutputFormatter>();
+                o.OutputFormatters.Insert(0, jsonOutputFormatter);
+            });
 
 
             // Application wide configuration
             services.AddInstance(typeof(IConfiguration), Configuration);
 
-           
+            services.AddTransient<IUserContext, UserContext>();
+
+            services.AddTransient<IRepository<ComponentProduct>, MongoRepository<ComponentProduct>>();
 
         }
 
@@ -68,8 +84,6 @@ namespace TaComponents
             app.UseDefaultFiles();
 
             app.UseStaticFiles();
-
-            app.UseSignalR();
 
             app.UseMvc();
         }
