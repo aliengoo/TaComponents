@@ -3,7 +3,10 @@ export default class ProductController {
   constructor(productService, product, editable) {
     this.productService = productService;
     this.loading = false;
-    this.product = product || {};
+    this.product = product || {
+        name: "test",
+        staffRisk: "Low"
+      };
     this.editable = editable;
   }
 

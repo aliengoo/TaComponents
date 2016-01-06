@@ -1,9 +1,9 @@
 import $ from "jquery";
 import _ from "lodash";
-import template from "./productTeamMembers.html";
+import template from "./productBusinessOwners.html";
 
 /* @ngInject */
-export default function productTeamMembers(userService) {
+export default function productBusinessOwners(userService) {
   return {
     link,
     require: "^form",
@@ -27,7 +27,7 @@ export default function productTeamMembers(userService) {
 
     userService.getUsersForSelect().then((options) => {
       selectElement.select2({
-        placeholder: "Enter team members",
+        placeholder: "Enter business owners",
         allowClear: true,
         theme: "bootstrap",
         data: options

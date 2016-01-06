@@ -2,7 +2,7 @@
   <div ng-show="editable">
     <form-group>
       <control-label>Staff Risk <required-indicator></required-indicator></control-label>
-      <select class="form-control" name="productStaffRiskLevel" ng-options="o as o for o in riskLevels" ng-model="product.staffRisk" required>
+      <select class="form-control" name="productStaffRiskLevel" ng-model="product.staffRisk">
       </select>
 
       <div ng-messages="productStaffRiskLevelForm.productStaffRiskLevel.$error">

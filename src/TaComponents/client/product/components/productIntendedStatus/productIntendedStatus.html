@@ -1,0 +1,17 @@
+<div ng-form="productIntendedStatusForm" class="productIntendedStatus">
+  <div ng-show="editable">
+    <form-group>
+      <control-label>Intended Status</control-label>
+      <select class="form-control" name="productIntendedStatus">
+      </select>
+    </form-group>
+
+  </div>
+  <div ng-hide="editable">
+    <form-group>
+      <control-label>Intended Status</control-label>
+      <p class="form-control-static">{{product.intendedStatus}}</p>
+    </form-group>
+  </div>
+</div>
+

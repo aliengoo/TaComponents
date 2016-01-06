@@ -58,9 +58,20 @@ namespace TaComponents
             services.AddSingleton<IDateContext, DateContext>();
 
             services.AddTransient<IUserContext, UserContext>();
+
+            if (Configuration.Get<bool>("Fake:UserRepository"))
+            {
+                services.AddSingleton<IUserRepository, FakeUserRepository>();
+            }
+            else
+            {
+                services.AddSingleton<IUserRepository, UserRepository>();
+            }
+
             services.AddTransient<IDataRepository<ComponentProduct>, MongoRepository<ComponentProduct>>();
             services.AddTransient<IDataRepository<User>, MongoRepository<User>>();
-            services.AddSingleton<IUserRepository, UserRepository>();
+
+
             services.AddTransient<IUserCacheRepository, UserCacheRepository>();
         }
 

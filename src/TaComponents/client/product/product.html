@@ -4,17 +4,23 @@
 
   <container>
     <form name="productForm" class="col-lg-12">
+      <product-header product="product.product" editable="product.editable"></product-header>
       <div class="col-lg-6">
         <product-name product="product.product" editable="product.editable"></product-name>
         <product-parent-product product="product.product" editable="product.editable"></product-parent-product>
         <product-company product="product.product" editable="product.editable"></product-company>
+        <product-current-status product="product.product" editable="product.editable"></product-current-status>
+        <product-intended-status product="product.product" editable="product.editable"></product-intended-status>
         <product-staff-risk-level product="product.product" editable="product.editable"></product-staff-risk-level>
       </div>
 
       <div class="col-lg-6">
         <product-information product="product.product" editable="product.editable"></product-information>
         <product-team-members product="product.product" editable="product.editable"></product-team-members>
+        <product-business-owners product="product.product" editable="product.editable"></product-business-owners>
       </div>
     </form>
+
+    <product-debug product="product.product"></product-debug>
   </container>
 </div>

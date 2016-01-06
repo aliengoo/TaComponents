@@ -2,7 +2,7 @@
   <div ng-show="editable">
     <form-group>
       <control-label>Name <required-indicator></required-indicator></control-label>
-      <input type="text" class="form-control" required name="productName">
+      <input type="text" class="form-control" required name="productName" ng-model="product.name">
       <div ng-messages="productNameForm.productName.$error">
         <span ng-message-exp="required" class="help-block" ng-model="product.name">Name is required</span>
       </div>

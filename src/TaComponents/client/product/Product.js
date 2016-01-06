@@ -13,6 +13,11 @@ import productStaffRiskLevel from "./components/productStaffRiskLevel/productSta
 import productInformation from "./components/productInformation/productInformation";
 import productParentProduct from "./components/productParentProduct/productParentProduct";
 import productTeamMembers from "./components/productTeamMembers/productTeamMembers";
+import productBusinessOwners from "./components/productBusinessOwners/productBusinessOwners";
+import productCurrentStatus from "./components/productCurrentStatus/productCurrentStatus";
+import productIntendedStatus from "./components/productIntendedStatus/productIntendedStatus";
+import productHeader from "./components/productHeader/productHeader";
+import productDebug from "./components/productDebug/productDebug";
 
 import template from "./product.html";
 
@@ -88,6 +93,11 @@ export default angular.module(MODULE_NAME, [
   .directive("productStaffRiskLevel", productStaffRiskLevel)
   .directive("productInformation", productInformation)
   .directive("productParentProduct", productParentProduct)
+  .directive("productDebug", productDebug)
+  .directive("productHeader", productHeader)
+  .directive("productIntendedStatus", productIntendedStatus)
+  .directive("productCurrentStatus", productCurrentStatus)
+  .directive("productBusinessOwners", productBusinessOwners)
   .directive("productTeamMembers", productTeamMembers)
   .config(productConfig);
 

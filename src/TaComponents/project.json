@@ -5,6 +5,7 @@
   },
 
     "dependencies": {
+        "AutoFixture": "3.38.1",
         "Microsoft.AspNet.Http.Abstractions": "1.0.0-rc1-final",
         "Microsoft.AspNet.Identity": "3.0.0-rc1-final",
         "Microsoft.AspNet.Identity.Core": "2.2.1",

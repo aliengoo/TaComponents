@@ -8,6 +8,7 @@ import Constants from "../constants/Constants";
 import LogoutService from "./LogoutService";
 import StorageService from "./StorageService";
 import UserNotifierService, {userNotifierServiceConfig} from "./UserNotifierService";
+import UserService from "./UserService";
 
 import VerifyAccessService from "./VerifyAccessService";
 
@@ -30,4 +31,5 @@ export default angular.module("Services", [
   .service("accessTokenInterceptorService", AccessTokenInterceptorService)
   .service("responseExtendInterceptorService", ResponseExtendInterceptorService)
   .service("verifyAccessService", VerifyAccessService)
+  .service("userService", UserService)
   .config(userNotifierServiceConfig);

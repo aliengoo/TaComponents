@@ -35,7 +35,10 @@ gulp.task('vendor:css', ['vendor:fonts'], function () {
     'node_modules/bootstrap/dist/css/bootstrap.css',
     'node_modules/angular-toastr/dist/angular-toastr.css',
     'node_modules/select2/dist/css/select2.css',
-    'node_modules/select2-bootstrap-theme/dist/select2-bootstrap.css'
+    'node_modules/select2-bootstrap-theme/dist/select2-bootstrap.css',
+    'node_modules/epiceditor/epiceditor/themes/base/epiceditor.css',
+    'node_modules/epiceditor/epiceditor/themes/editor/epic-light.css',
+    'node_modules/epiceditor/epiceditor/themes/preview/bartik.css'
   ];
 
   return gulp.src(src)
