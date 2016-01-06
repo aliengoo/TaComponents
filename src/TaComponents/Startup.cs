@@ -13,26 +13,20 @@ using TaComponents.Repositories.Mongo;
 
 namespace TaComponents
 {
+    using Microsoft.AspNet.SignalR.Transports;
     using Microsoft.AspNet.StaticFiles;
+
+    using TaComponents.Repositories.ActiveDirectory;
+    using TaComponents.Repositories.Database;
 
     public class Startup
     {
-        private const string ConfigurationPrefix = "TaComponents";
-
         public Startup(IHostingEnvironment env)
         {
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
                 .AddEnvironmentVariables();
-            /* 
-                when not in development obtain some settings from the environment, 
-                e.g. "TaComponents:Data:Mongo:App:ConnectionString"
-            */
-            if (!env.IsDevelopment())
-            {
-                builder.AddEnvironmentVariables(prefix: ConfigurationPrefix);
-            }
 
             Configuration = builder.Build();
         }
@@ -61,11 +55,13 @@ namespace TaComponents
 
             // Application wide configuration
             services.AddInstance(typeof(IConfiguration), Configuration);
+            services.AddSingleton<IDateContext, DateContext>();
 
             services.AddTransient<IUserContext, UserContext>();
-
-            services.AddTransient<IRepository<ComponentProduct>, MongoRepository<ComponentProduct>>();
-
+            services.AddTransient<IDataRepository<ComponentProduct>, MongoRepository<ComponentProduct>>();
+            services.AddTransient<IDataRepository<User>, MongoRepository<User>>();
+            services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddTransient<IUserCacheRepository, UserCacheRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -5,6 +5,7 @@ import Constants from "../_common/constants/Constants";
 import Services from "../_common/services/Services";
 
 import template from "./users.html";
+import UsersController from "./UsersController";
 
 const MODULE_NAME = "Users";
 

@@ -1,0 +1,22 @@
+<div ng-form="productTeamMembersForm" class="productTeamMembers">
+  <div ng-show="editable">
+    <form-group>
+      <control-label>Team Member(s)</control-label>
+      <select class="form-control" name="productTeamMembers" ng-model="product.teamMembers" required multiple="multiple">
+      </select>
+      <p>{{product.teamMembers}}</p>
+
+      <div ng-messages="productTeamMembersForm.productTeamMembers.$error">
+      </div>
+
+    </form-group>
+
+  </div>
+  <div ng-hide="editable">
+    <form-group>
+      <control-label>Team Member(s)</control-label>
+      <p class="form-control-static">{{product.teamMembers}}</p>
+    </form-group>
+  </div>
+</div>
+

@@ -1,7 +1,7 @@
-<div ng-form="productCompanyForm">
+<div ng-form="productCompanyForm" class="productCompany">
   <div ng-show="editable">
     <form-group>
-      <control-label>Company <small>(required)</small></control-label>
+      <control-label>Company <required-indicator></required-indicator></control-label>
       <input type="text" class="form-control" required name="productCompany">
       <div ng-messages="productCompanyForm.productCompany.$error">
         <span ng-message-exp="required" class="help-block" ng-model="product.company">Company is required</span>

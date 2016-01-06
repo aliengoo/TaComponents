@@ -11,11 +11,11 @@
         [BsonRequired]
         public string Name { get; set; }
 
-        public string Description { get; set; }
+        public string Information { get; set; }
 
         public string Company { get; set; }
 
-        public string System { get; set; }
+        public string ParentComponentProduct { get; set; }
 
         [BsonSerializer(typeof(EnumSerializer<ComponentProductRiskLevel>), SerializerType = typeof(string))]
         public ComponentProductRiskLevel StaffRisk { get; set; }

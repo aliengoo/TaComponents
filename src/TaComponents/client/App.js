@@ -8,10 +8,13 @@ import _ from "lodash";
 import angular from "angular";
 import "angular-animate";
 import "angular-messages";
-import "angular-ui-router";
+import "angular-sanitize";
 import "angular-local-storage";
-import "angular-ui-bootstrap";
 import "angular-toastr";
+import "angular-ui-router";
+import "angular-ui-bootstrap";
+
+import "select2";
 
 // application level dependencies
 import Services from "./_common/services/Services";
@@ -29,6 +32,12 @@ import appRun from "./appRun";
 import AppController from "./AppController";
 
 const MODULE_NAME = "app";
+
+// https://github.com/angular-ui/ui-select/issues/224
+/* @ngInject */
+function appRunHackFix($templateCache) {
+
+}
 
 angular.module(MODULE_NAME,
   [

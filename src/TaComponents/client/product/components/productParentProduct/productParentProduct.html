@@ -1,0 +1,21 @@
+<div ng-form="productParentProductForm" class="productParentProduct">
+  <div ng-show="editable">
+    <form-group>
+      <control-label>Parent Product</control-label>
+      <!-- TODO: Add interface to return other products -->
+      <select class="form-control" name="productParentProduct" ng-options="o as o for o in products" ng-model="product.parentComponentProduct">
+      </select>
+      <div ng-messages="productParentProductForm.productParentProduct.$error">
+      </div>
+
+    </form-group>
+
+  </div>
+  <div ng-hide="editable">
+    <form-group>
+      <control-label>Parent Product</control-label>
+      <p class="form-control-static">{{product.parentComponentProduct}}</p>
+    </form-group>
+  </div>
+</div>
+

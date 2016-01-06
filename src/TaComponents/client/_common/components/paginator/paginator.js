@@ -1,9 +1,9 @@
 "use strict";
 
-import template from "./pagination.html";
+import template from "./paginator.html";
 
 /* @ngInject */
-export default function pagination() {
+export default function paginator() {
 
   return {
     link,

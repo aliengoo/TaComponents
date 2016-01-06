@@ -7,9 +7,12 @@ import Services from "../_common/services/Services";
 import ProductController from "./ProductController";
 import ProductService from "./ProductService";
 
-import productName from "./components/productName";
-import productCompany from "./components/productCompany";
-import productStaffRiskLevel from "./components/productStaffRiskLevel";
+import productName from "./components/productName/productName";
+import productCompany from "./components/productCompany/productCompany";
+import productStaffRiskLevel from "./components/productStaffRiskLevel/productStaffRiskLevel";
+import productInformation from "./components/productInformation/productInformation";
+import productParentProduct from "./components/productParentProduct/productParentProduct";
+import productTeamMembers from "./components/productTeamMembers/productTeamMembers";
 
 import template from "./product.html";
 
@@ -17,7 +20,6 @@ const MODULE_NAME = "product";
 
 /* @ngInject */
 function resolveProduct($state, $stateParams, $q, productService) {
-  console.log($state);
   if ($stateParams.id) {
     return productService.get($stateParams.id);
   }
@@ -37,7 +39,6 @@ function resolveEditableFalse($q) {
 
 /* @ngInject */
 function productConfig($stateProvider) {
-
   $stateProvider.state(`${MODULE_NAME}New`, {
     controller: ProductController,
     controllerAs: MODULE_NAME,
@@ -76,6 +77,7 @@ export default angular.module(MODULE_NAME, [
   "ui.router",
   "ngAnimate",
   "ngMessages",
+  "ngSanitize",
 
   Components.name,
   Constants.name,
@@ -84,6 +86,9 @@ export default angular.module(MODULE_NAME, [
   .directive("productName", productName)
   .directive("productCompany", productCompany)
   .directive("productStaffRiskLevel", productStaffRiskLevel)
+  .directive("productInformation", productInformation)
+  .directive("productParentProduct", productParentProduct)
+  .directive("productTeamMembers", productTeamMembers)
   .config(productConfig);
 
 

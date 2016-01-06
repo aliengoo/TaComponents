@@ -11,12 +11,14 @@ namespace TaComponents.Controllers
 {
     using Repositories;
 
+    using TaComponents.Repositories.Database;
+
     [Route("api/product")]
     public class ComponentProductController : Controller
     {
-        private readonly IRepository<ComponentProduct> _componentProductRepository;
+        private readonly IDataRepository<ComponentProduct> _componentProductRepository;
 
-        public ComponentProductController(IRepository<ComponentProduct> componentProductRepository)
+        public ComponentProductController(IDataRepository<ComponentProduct> componentProductRepository)
         {
             _componentProductRepository = componentProductRepository;
         }
@@ -24,32 +26,32 @@ namespace TaComponents.Controllers
         [HttpGet("{id}")]
         public Task<ComponentProduct> Get(string id)
         {
-            return _componentProductRepository.FindById(id);
+            return _componentProductRepository.FindByIdAsync(id);
         }
 
         [HttpPost]
         public Task<ComponentProduct> Post([FromBody]ComponentProduct componentProduct)
         {
-            return _componentProductRepository.Insert(componentProduct);
+            return _componentProductRepository.InsertAsync(componentProduct);
         }
 
         [HttpPut("{id}")]
         public Task<ComponentProduct> Put([FromRoute]string id, [FromBody] ComponentProduct componentProduct)
         {
-            return _componentProductRepository.Update(componentProduct);
+            return _componentProductRepository.UpdateAsync(componentProduct);
         }
 
         [HttpDelete("{id}")]
         public Task Delete(string id)
         {
-            return _componentProductRepository.Delete(id);
+            return _componentProductRepository.DeleteAsync(id);
         }
 
         [HttpPost("query")]
         public Task<List<ComponentProduct>> Find(JObject query)
         {
             var queryDoc = BsonDocument.Parse(query.ToString());
-            return _componentProductRepository.Find(queryDoc);
+            return _componentProductRepository.FindAsync(queryDoc);
         }
     }
 }

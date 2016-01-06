@@ -6,6 +6,8 @@ using TaComponents.Helpers;
 
 namespace TaComponents.Repositories.Mongo
 {
+    using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.Extensions.Configuration;
@@ -14,7 +16,11 @@ namespace TaComponents.Repositories.Mongo
 
     using Models;
 
-    public class MongoRepository<T> : IRepository<T> where T : ModelBase
+    using Newtonsoft.Json.Linq;
+
+    using TaComponents.Repositories.Database;
+
+    public class MongoRepository<T> : IDataRepository<T> where T : ModelBase
     {
         private readonly IDateContext _dateContext;
         private readonly IUserContext _userContext;
@@ -34,15 +40,15 @@ namespace TaComponents.Repositories.Mongo
             var url = MongoUrl.Create(config.Get<string>("Data:App:ConnectionString"));
 
             Database = new MongoClient(url).GetDatabase(url.DatabaseName);
-            Collection = Database.GetCollection<T>(nameof(T));
+            Collection = Database.GetCollection<T>(typeof(T).Name);
         }
 
-        public Task<T> FindById(string id)
+        public Task<T> FindByIdAsync(string id)
         {
             return Collection.Find(t => t.Id == id).FirstOrDefaultAsync();
         }
 
-        public Task<T> Update(T doc)
+        public Task<T> UpdateAsync(T doc)
         {
 
             lock (_syncObject)
@@ -68,7 +74,7 @@ namespace TaComponents.Repositories.Mongo
             return Task.FromResult(doc);
         }
 
-        public async Task<T> Insert(T doc)
+        public async Task<T> InsertAsync(T doc)
         {
             doc.Version = 1;
             doc.Created = _dateContext.Now;
@@ -81,15 +87,50 @@ namespace TaComponents.Repositories.Mongo
             return doc;
         }
 
-        public Task Delete(string id)
+        public Task InsertManyAsync(IEnumerable<T> t)
+        {
+            return Collection.InsertManyAsync(t);
+        }
+
+        public Task DeleteAsync(string id)
         {
             return Collection.DeleteOneAsync(t => t.Id == id);
         }
 
-        public Task<List<T>> Find(BsonDocument query)
+        public Task DeleteAllAsync()
         {
-            // TODO: Enhance MongoRepository.Find
+            // delete everything
+            return Collection.DeleteManyAsync(t => t.Version >= 0);
+        }
+
+        public Task<List<T>> FindAsync(BsonDocument query)
+        {
             return Collection.Find(new BsonDocumentFilterDefinition<T>(query)).ToListAsync();
+        }
+
+        public Task<List<T>> FindPageAsync(JObject query)
+        {
+            //// create the query
+            //JToken queryPart;
+            //BsonDocument queryDoc;
+
+            //if (query.TryGetValue("query", out queryPart))
+            //{
+            //     queryDoc = BsonDocument.Parse(queryPart.ToString());
+            //}
+            //else
+            //{
+            //    throw new QueryException("Could not load query");
+            //}
+
+
+
+            //// count
+
+            //// calculate the page
+            /// 
+
+            throw new NotImplementedException();
         }
     }
 }

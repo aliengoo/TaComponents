@@ -29,6 +29,7 @@
   "frameworks": {
     "dnx451": {
         "frameworkAssemblies": {
+            "System.DirectoryServices.AccountManagement": "4.0.0.0",
             "System.Security": "4.0.0.0"
         }
     }

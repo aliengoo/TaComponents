@@ -12,6 +12,8 @@
       "commandName": "IISExpress",
       "launchUrl": "api/values",
       "environmentVariables": {
+        "ActiveDirectory:DomainName": "teachers-group.co.uk",
+        "ActiveDirectory:UserGroup": "GG-Jira_Everyone",
         "Hosting:Environment": "Development"
       }
     },
