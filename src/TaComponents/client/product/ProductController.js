@@ -5,7 +5,8 @@ export default class ProductController {
     this.loading = false;
     this.product = product || {
         name: "test",
-        staffRisk: "Low"
+        staffRisk: "Low",
+        currentStatus: "Migrated"
       };
     this.editable = editable;
   }

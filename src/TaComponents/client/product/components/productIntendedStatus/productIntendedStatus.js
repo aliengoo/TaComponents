@@ -13,25 +13,16 @@ export default function productIntendedStatus(productService) {
     template
   };
 
-  function link(scope, element) {
-    const selectElement = $(element).find("select");
-    // HACK: Select2
-    $(selectElement).on("change", (event) => {
-      scope.product.intendedStatus = _.first(_.map($(event.target).select2("data"), "id"));
-      scope.$apply();
-    });
+  function link(scope) {
+    scope.select2Data = [];
+    scope.select2Options = {
+      allowClear: true,
+      placeholder: "Select the intended status"
+    };
 
     productService.getProductStatuses()
       .then(options => {
-        options.unshift({id: "", text: ""});
-
-        selectElement.select2({
-          placeholder: "Select a status",
-          tags: false,
-          allowClear: true,
-          theme: "bootstrap",
-          data: options
-        });
+        scope.select2Data = options;
       })
       .finally(() => scope.loading = false);
   }

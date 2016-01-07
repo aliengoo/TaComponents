@@ -2,7 +2,12 @@
   <div ng-show="editable">
     <form-group>
       <control-label>Intended Status</control-label>
-      <select class="form-control" name="productIntendedStatus">
+      <select class="form-control"
+              name="productIntendedStatus"
+              ng-model="product.intendedStatus"
+              select2
+              select2-data="select2Data"
+              select2-options="select2Options">
       </select>
     </form-group>
 
