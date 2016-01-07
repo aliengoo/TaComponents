@@ -15,16 +15,26 @@
 
         public string Company { get; set; }
 
-        public string ParentComponentProduct { get; set; }
+        /// <summary>
+        /// <see cref="ComponentProduct"/> that this product relies upon
+        /// </summary>
+        public List<string> Stack { get; set; }
 
-        [BsonSerializer(typeof(EnumSerializer<ComponentProductRiskLevel>), SerializerType = typeof(string))]
-        public ComponentProductRiskLevel StaffRisk { get; set; }
-
+        /// <summary>
+        /// <see cref="RiskLevel"/>
+        /// </summary>
         [BsonRequired]
-        [BsonSerializer(typeof(EnumSerializer<ComponentProductStatus>), SerializerType = typeof(string))]
-        public ComponentProductStatus CurrentStatus { get; set; }
+        public string StaffRisk { get; set; }
 
-        [BsonSerializer(typeof(EnumSerializer<ComponentProductStatus>), SerializerType = typeof(string))]
+        /// <summary>
+        /// <see cref="ComponentProductStatus"/>
+        /// </summary>
+        [BsonRequired]
+        public string CurrentStatusId { get; set; }
+
+        /// <summary>
+        /// <see cref="ComponentProductStatus"/>
+        /// </summary>
         public ComponentProductStatus IntendedStatus { get; set; }
 
         public DateTime? IntendedStatusDueDate { get; set; }

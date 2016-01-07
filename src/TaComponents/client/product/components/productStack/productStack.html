@@ -1,0 +1,17 @@
+<div ng-form="productStackForm" class="productStack">
+  <div ng-show="editable">
+    <form-group>
+      <control-label>Stack</control-label>
+      <select class="form-control" name="productStack" ng-model="product.stack" multiple="multiple">
+      </select>
+    </form-group>
+
+  </div>
+  <div ng-hide="editable">
+    <form-group>
+      <control-label>Stack</control-label>
+      <p class="form-control-static">{{product.stack}}</p>
+    </form-group>
+  </div>
+</div>
+

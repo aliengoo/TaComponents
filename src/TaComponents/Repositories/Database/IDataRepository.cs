@@ -26,5 +26,7 @@
         Task<List<T>> FindAsync(BsonDocument query);
 
         Task<List<T>> FindPageAsync(JObject query);
+
+        Task<bool> IsEmptyAsync();
     }
 }

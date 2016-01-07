@@ -1,9 +1,9 @@
 ﻿namespace TaComponents.Models
 {
-    public enum ComponentProductStatus
+    public class ComponentProductStatus : ModelBase
     {
-        Live,
-        Migrated,
-        Retired       
+        public string Text { get; set; }
+
+        public string Description { get; set; }
     }
 }

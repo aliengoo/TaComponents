@@ -1,0 +1,22 @@
+<div class="productActions">
+  <div ng-show="editable">
+    <div class="pull-right">
+      <button
+        class="btn btn-primary btn-success btn-lg"
+        ng-click="save()"
+        ng-disabled="productForm.$invalid">Save <i class="fa fa-save"></i></button>
+    </div>
+  </div>
+  <div ng-hide="editable">
+    <div class="pull-right">
+      <button
+        class="btn btn-primary btn-success btn-lg"
+        ng-click="edit()">Edit <i class="fa fa-pencil"></i></button>
+
+      <button
+        class="btn btn-primary btn-success btn-lg"
+        ng-click="undo()">Reset <i class="fa fa-undo"></i></button>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>

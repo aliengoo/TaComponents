@@ -6,6 +6,18 @@ export default class ProductService {
     this.$log = $log;
   }
 
+  isNameUnique(name, id) {
+    var config = {
+      method: "GET",
+      url: `api/product/is-name-unique`,
+      params: {
+        id,
+        name
+      }
+    };
+    return this.$http(config);
+  }
+
   get(id) {
     return this.$http.get(`api/product/${id}`);
   }
@@ -23,25 +35,15 @@ export default class ProductService {
   }
 
   getRiskLevels() {
-    return this.$http.get("api/risk-levels").then((response) => {
-        return _.map(response.data, (item) => {
-          return {
-            id: item,
-            text: item
-          }
-        });
+    return this.$http.get("api/risk-level").then((response) => {
+        return response.data;
       }
     );
   }
 
   getProductStatuses() {
-    return this.$http.get("api/product-statuses").then((response) => {
-        return _.map(response.data, (item) => {
-          return {
-            id: item,
-            text: item
-          }
-        });
+    return this.$http.get("api/component-product-status").then((response) => {
+        return response.data;
       }
     );
   }

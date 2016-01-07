@@ -4,13 +4,27 @@ using TaComponents.Models;
 
 namespace TaComponents.Controllers
 {
-    [Route("api/product-statuses")]
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using MongoDB.Bson;
+
+    using TaComponents.Repositories.Database;
+
+    [Route("api/component-product-status")]
     public class ComponentProductStatusController : Controller
     {
-        [HttpGet]
-        public string[] Get()
+        private readonly IDataRepository<ComponentProductStatus> _componentProductStatusRepository;
+
+        public ComponentProductStatusController(IDataRepository<ComponentProductStatus> componentProductStatusRepository)
         {
-            return Enum.GetNames(typeof(ComponentProductStatus));
+            _componentProductStatusRepository = componentProductStatusRepository;
+        }
+
+        [HttpGet]
+        public Task<List<ComponentProductStatus>> Get()
+        {
+            return _componentProductStatusRepository.FindAsync(new BsonDocument());
         }
     }
 }

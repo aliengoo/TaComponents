@@ -1,24 +1,19 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNet.Http;
-using MongoDB.Bson;
-using TaComponents.Exceptions;
-using TaComponents.Helpers;
-
-namespace TaComponents.Repositories.Mongo
+﻿namespace TaComponents.Repositories.Database
 {
     using System;
-    using System.Linq;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using Microsoft.Extensions.Configuration;
 
+    using MongoDB.Bson;
     using MongoDB.Driver;
-
-    using Models;
 
     using Newtonsoft.Json.Linq;
 
-    using TaComponents.Repositories.Database;
+    using TaComponents.Exceptions;
+    using TaComponents.Helpers;
+    using TaComponents.Models;
 
     public class MongoRepository<T> : IDataRepository<T> where T : ModelBase
     {
@@ -33,6 +28,14 @@ namespace TaComponents.Repositories.Mongo
         public MongoRepository(
             IConfiguration config,
             IDateContext dateContext, 
+            IUserContext userContext) : this(typeof(T).Name, config, dateContext, userContext)
+        {
+        }
+
+        public MongoRepository(
+            string collectionName,
+            IConfiguration config,
+            IDateContext dateContext,
             IUserContext userContext)
         {
             _dateContext = dateContext;
@@ -40,7 +43,16 @@ namespace TaComponents.Repositories.Mongo
             var url = MongoUrl.Create(config.Get<string>("Data:App:ConnectionString"));
 
             Database = new MongoClient(url).GetDatabase(url.DatabaseName);
-            Collection = Database.GetCollection<T>(typeof(T).Name);
+            Collection = Database.GetCollection<T>(collectionName);
+
+            // Version index for quickly determining the latest version
+            Collection.Indexes.CreateOne(Builders<T>.IndexKeys.Descending(t => t.Version));
+            Collection.Indexes.CreateOne(Builders<T>.IndexKeys.Ascending(t => t.Created));
+            Collection.Indexes.CreateOne(Builders<T>.IndexKeys.Ascending(t => t.CreatedBy));
+            Collection.Indexes.CreateOne(Builders<T>.IndexKeys.Descending(t => t.CreatedBy));
+            Collection.Indexes.CreateOne(Builders<T>.IndexKeys.Ascending(t => t.Updated));
+            Collection.Indexes.CreateOne(Builders<T>.IndexKeys.Ascending(t => t.UpdatedBy));
+            Collection.Indexes.CreateOne(Builders<T>.IndexKeys.Descending(t => t.UpdatedBy));
         }
 
         public Task<T> FindByIdAsync(string id)
@@ -131,6 +143,11 @@ namespace TaComponents.Repositories.Mongo
             /// 
 
             throw new NotImplementedException();
+        }
+
+        public Task<bool> IsEmptyAsync()
+        {
+            return Task.FromResult(Collection.Count(FilterDefinition<T>.Empty) == 0);
         }
     }
 }

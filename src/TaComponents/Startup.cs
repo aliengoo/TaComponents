@@ -8,8 +8,6 @@ using Newtonsoft.Json.Serialization;
 using TaComponents.Helpers;
 using TaComponents.Models;
 using TaComponents.Repositories;
-using TaComponents.Repositories.Mongo;
-
 
 namespace TaComponents
 {
@@ -68,10 +66,11 @@ namespace TaComponents
                 services.AddSingleton<IUserRepository, UserRepository>();
             }
 
-            services.AddTransient<IDataRepository<ComponentProduct>, MongoRepository<ComponentProduct>>();
+            services.AddTransient<IComponentProductRepository, ComponentProductRepository>();
+            services.AddTransient<IDataRepository<ComponentProductStatus>, ComponentProductStatusRepository>();
+            services.AddTransient<IDataRepository<RiskLevel>, RiskLevelRepository>();
             services.AddTransient<IDataRepository<User>, MongoRepository<User>>();
-
-
+            
             services.AddTransient<IUserCacheRepository, UserCacheRepository>();
         }
 
@@ -80,6 +79,8 @@ namespace TaComponents
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            
 
             app.UseIISPlatformHandler();
 

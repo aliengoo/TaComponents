@@ -11,25 +11,25 @@ import productName from "./components/productName/productName";
 import productCompany from "./components/productCompany/productCompany";
 import productStaffRiskLevel from "./components/productStaffRiskLevel/productStaffRiskLevel";
 import productInformation from "./components/productInformation/productInformation";
-import productParentProduct from "./components/productParentProduct/productParentProduct";
 import productTeamMembers from "./components/productTeamMembers/productTeamMembers";
 import productBusinessOwners from "./components/productBusinessOwners/productBusinessOwners";
 import productCurrentStatus from "./components/productCurrentStatus/productCurrentStatus";
 import productIntendedStatus from "./components/productIntendedStatus/productIntendedStatus";
 import productHeader from "./components/productHeader/productHeader";
 import productDebug from "./components/productDebug/productDebug";
+import productStack from "./components/productStack/productStack";
 
 import template from "./product.html";
 
 const MODULE_NAME = "product";
 
 /* @ngInject */
-function resolveProduct($state, $stateParams, $q, productService) {
+function resolveProduct($stateParams, $q, productService) {
   if ($stateParams.id) {
     return productService.get($stateParams.id);
   }
 
-  return $q.when(undefined);
+  return $q.when({});
 }
 
 /* @ngInject */
@@ -92,13 +92,13 @@ export default angular.module(MODULE_NAME, [
   .directive("productCompany", productCompany)
   .directive("productStaffRiskLevel", productStaffRiskLevel)
   .directive("productInformation", productInformation)
-  .directive("productParentProduct", productParentProduct)
   .directive("productDebug", productDebug)
   .directive("productHeader", productHeader)
   .directive("productIntendedStatus", productIntendedStatus)
   .directive("productCurrentStatus", productCurrentStatus)
   .directive("productBusinessOwners", productBusinessOwners)
   .directive("productTeamMembers", productTeamMembers)
+  .directive("productStack", productStack)
   .config(productConfig);
 
 

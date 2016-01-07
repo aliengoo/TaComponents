@@ -9,16 +9,19 @@ using TaComponents.Models;
 
 namespace TaComponents.Controllers
 {
+    using Ploeh.AutoFixture;
+
     using Repositories;
 
+    using TaComponents.Models.View;
     using TaComponents.Repositories.Database;
 
-    [Route("api/product")]
+    [Route("api/component-product")]
     public class ComponentProductController : Controller
     {
-        private readonly IDataRepository<ComponentProduct> _componentProductRepository;
+        private readonly IComponentProductRepository _componentProductRepository;
 
-        public ComponentProductController(IDataRepository<ComponentProduct> componentProductRepository)
+        public ComponentProductController(IComponentProductRepository componentProductRepository)
         {
             _componentProductRepository = componentProductRepository;
         }
@@ -52,6 +55,21 @@ namespace TaComponents.Controllers
         {
             var queryDoc = BsonDocument.Parse(query.ToString());
             return _componentProductRepository.FindAsync(queryDoc);
+        }
+
+        [HttpGet("is-name-unique")]
+        public async Task<HttpStatusCodeResult> IsNameUnique([FromQuery] string name, [FromQuery] string id)
+        {
+            var isUnique = await _componentProductRepository.IsNameUnique(name);
+
+            // ok or conflict
+            return isUnique ? Ok() : new HttpStatusCodeResult(409);
+        }
+
+        [HttpGet("name-search")]
+        public Task<List<SelectOption>> NameSearch([FromQuery] string q)
+        {
+            return _componentProductRepository.NameSearch(q);
         }
     }
 }
