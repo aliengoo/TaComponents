@@ -2,8 +2,8 @@
   <div ng-show="editable">
     <form-group>
       <control-label>Business Owner(s)</control-label>
-      <select class="form-control" name="productBusinessOwners" ng-model="product.businessOwners" required multiple="multiple">
-      </select>
+      <user-multi-select required="required" ng-model="product.businessOwners" name="productBusinessOwners"></user-multi-select>
+
       <div ng-messages="productBusinessOwnersForm.productBusinessOwners.$error">
       </div>
 

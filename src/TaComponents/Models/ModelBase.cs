@@ -26,5 +26,15 @@
 
         [BsonRequired]
         public int Version { get; set; }
+
+        /// <summary>
+        /// Nothing is actually deleted, just marked as deleted
+        /// </summary>
+        public bool? Deleted { get; set; }
+
+        /// <summary>
+        /// Editing is not allowed
+        /// </summary>
+        public bool? Frozen { get; set; }
     }
 }

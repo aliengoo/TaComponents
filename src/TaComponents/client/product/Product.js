@@ -18,6 +18,7 @@ import productIntendedStatus from "./components/productIntendedStatus/productInt
 import productHeader from "./components/productHeader/productHeader";
 import productDebug from "./components/productDebug/productDebug";
 import productStack from "./components/productStack/productStack";
+import productActions from "./components/productActions/productActions";
 
 import template from "./product.html";
 
@@ -99,6 +100,7 @@ export default angular.module(MODULE_NAME, [
   .directive("productBusinessOwners", productBusinessOwners)
   .directive("productTeamMembers", productTeamMembers)
   .directive("productStack", productStack)
+  .directive("productActions", productActions)
   .config(productConfig);
 
 

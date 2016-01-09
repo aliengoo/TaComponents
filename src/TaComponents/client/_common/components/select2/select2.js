@@ -67,8 +67,6 @@ export default function select2($log) {
           val = _.first(val);
         }
 
-        //$log.debug(`${$(select).attr("name")}:${val}`);
-
         if (val || val === "") {
           ngModel.$setViewValue(val);
         }

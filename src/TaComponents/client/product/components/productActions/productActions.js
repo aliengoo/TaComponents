@@ -1,7 +1,7 @@
 import _ from "lodash";
 import template from "./productActions.html";
 
-export default function productActions($state, productServices, userNotifierService) {
+export default function productActions($state, productService, userNotifierService) {
   return {
     restrict: "E",
     require: ["^form", "^ProductController"],
@@ -39,11 +39,11 @@ export default function productActions($state, productServices, userNotifierServ
       var andFinally = () => scope.loading = false;
 
       if (scope.product._id) {
-        productServices.update(scope.product)
+        productService.update(scope.product)
           .then(redirectUserToViewMode, handleError)
           .finally(andFinally);
       } else {
-        productServices.insert(scope.product)
+        productService.insert(scope.product)
           .then(redirectUserToViewMode, handleError)
           .finally(andFinally);
       }

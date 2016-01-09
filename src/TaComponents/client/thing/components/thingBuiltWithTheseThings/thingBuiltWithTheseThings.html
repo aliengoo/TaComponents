@@ -1,0 +1,21 @@
+<div ng-form="thingsBuiltWithTheseThingsForm" class="thingsBuiltWithTheseThings">
+  <div ng-show="editable">
+    <form-group>
+      <control-label>Was built with</control-label>
+      <select
+        class="form-control"
+        name="thingsBuiltWithTheseThings"
+        ng-model="thing.builtWithTheseThings"
+        multiple="multiple">
+      </select>
+    </form-group>
+
+  </div>
+  <div ng-hide="editable">
+    <form-group>
+      <control-label>Was built with</control-label>
+      <p class="form-control-static">{{thing.builtWithTheseThings}}</p>
+    </form-group>
+  </div>
+</div>
+

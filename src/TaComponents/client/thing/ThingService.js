@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-export default class ProductService {
+export default class ThingService {
   constructor($http, $log) {
     this.$http = $http;
     this.$log = $log;
@@ -9,7 +9,7 @@ export default class ProductService {
   isNameUnique(name, id) {
     var config = {
       method: "GET",
-      url: `api/component-product/is-name-unique`,
+      url: `api/thing/is-name-unique`,
       params: {
         id,
         name
@@ -19,19 +19,19 @@ export default class ProductService {
   }
 
   get(id) {
-    return this.$http.get(`api/component-product/${id}`);
+    return this.$http.get(`api/thing/${id}`);
   }
 
-  insert(product) {
-    return this.$http.post(`api/component-product`, product);
+  insert(thing) {
+    return this.$http.post(`api/thing`, thing);
   }
 
-  update(product) {
-    return this.$http.put(`api/component-product/${product._id}`, product);
+  update(thing) {
+    return this.$http.put(`api/thing/${thing._id}`, thing);
   }
 
   remove(id) {
-    return this.$http.delete(`api/component-product/${id}`);
+    return this.$http.delete(`api/thing/${id}`);
   }
 
   getRiskLevels() {
@@ -42,7 +42,7 @@ export default class ProductService {
   }
 
   getProductStatuses() {
-    return this.$http.get("api/component-product-status").then((response) => {
+    return this.$http.get("api/status").then((response) => {
         return response.data;
       }
     );
