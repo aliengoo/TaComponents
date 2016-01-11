@@ -1,4 +1,4 @@
-<div ng-form="thingNameForm" class="thingName">
+<div class="thingName">
   <div ng-show="editable">
     <form-group>
       <control-label>Name
@@ -7,15 +7,13 @@
       <input type="text" class="form-control" required name="thingName" ng-model="thing.name"
              ng-model-options="{'debounce' : 500}">
 
-      <div ng-show="thingNameForm.thingName.$dirty">
-        <div ng-messages="thingNameForm.thingName.$error">
-        <span ng-message="required">
-          <error-block>Name is required</error-block>
-        </span>
+      <div ng-show="form.thingName.$dirty">
+        <div ng-messages="form.thingName.$error">
+          <span ng-message="required">
+            <error-block>Name is required</error-block>
+          </span>
 
-        <span ng-message="conflict">
-          <error-block>The name {{thing.name}} is already in use</error-block>
-        </span>
+          <error-block ng-message="conflict">The name {{thing.name}} is already in use</error-block>
         </div>
       </div>
 

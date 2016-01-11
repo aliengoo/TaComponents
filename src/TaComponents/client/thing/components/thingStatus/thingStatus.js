@@ -1,22 +1,30 @@
+import angular from "angular";
 import _ from "lodash";
 import template from "./thingStatus.html";
 
-export default function thingCurrentStatus(thingService) {
+/* @ngInject */
+export default function thingStatus(thingService) {
   return {
     link,
     restrict: "E",
     scope: {
-      ngModel: "=",
+      required: "=?",
+      status: "=",
       editable: "=",
-      ngForm: "@",
       label: "@",
       name: "@"
     },
     require: "^form",
-    template
+    template,
+    transclude: {
+      messages: "?messages",
+      help: "?help"
+    }
   };
 
-  function link(scope) {
+  function link(scope, element, attributes, form) {
+    scope.required = angular.isDefined(scope.required) ? scope.required : false;
+    scope.form = form;
     scope.loading = true;
     scope.select2Data = [];
     scope.select2Options = {
@@ -24,7 +32,10 @@ export default function thingCurrentStatus(thingService) {
       placeholder: "Select the current status"
     };
 
-    thingService.getProductStatuses()
+    // used to get around isolated scoping.
+    scope.setter = (value) => scope.status = value;
+
+    thingService.getStatuses()
       .then(options => {
         scope.select2Data = options;
       })

@@ -23,8 +23,7 @@ import About from "./about/About";
 import AccessDenied from "./access-denied/AccessDenied";
 import Error from "./error/Error";
 import Home from "./home/Home";
-import Product from "./product/Product";
-import Products from "./products/Products";
+import Thing from "./thing/Thing";
 
 // module level dependencies
 import appConfig from "./appConfig";
@@ -51,8 +50,7 @@ angular.module(MODULE_NAME,
     AccessDenied.name,
     Error.name,
     Home.name,
-    Product.name,
-    Products.name
+    Thing.name
   ])
   .config(appConfig)
   .run(appRun)

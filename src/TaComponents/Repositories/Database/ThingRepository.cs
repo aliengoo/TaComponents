@@ -31,9 +31,6 @@
                                                                                        Unique = true
                                                                                    });
 
-            Collection.Indexes.CreateOne(
-                Builders<Thing>.IndexKeys.Text(cp => cp.Name).Text(cp => cp.Information),
-                new CreateIndexOptions { Name = "name_information_text" });
         }
 
         public async Task<bool> IsNameUnique(string name, string id = null)

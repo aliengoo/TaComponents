@@ -13,9 +13,10 @@ export default function thingName(thingService) {
     template
   };
 
-  function link(scope, element) {
-    var input = element.find("input");
-    var ngModel = angular.element(input).controller("ngModel");
+  function link(scope, element, attributes, form) {
+    scope.form = form;
+    const input = element.find("input");
+    const ngModel = angular.element(input).controller("ngModel");
 
     ngModel.$asyncValidators.conflict = (modelValue, viewValue) => {
       var value = modelValue || viewValue;

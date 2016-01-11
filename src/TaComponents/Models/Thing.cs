@@ -31,6 +31,12 @@
         public string CurrentStatusId { get; set; }
 
         /// <summary>
+        /// Post TA, in what state does this thing need to be in?
+        /// <see cref="Status"/>
+        /// </summary>
+        public string IntendedStatusId { get; set; }
+
+        /// <summary>
         /// Key individual or individuals who are regarded as experts on thing thing
         /// </summary>
         public List<string> PrimaryTechnicalTeam { get; set; }

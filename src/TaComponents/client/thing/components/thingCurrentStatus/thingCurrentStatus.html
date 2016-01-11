@@ -1,0 +1,17 @@
+<div>
+  <thing-status
+    name="thingCurrentStatus"
+    editable="editable"
+    label="Current Status"
+    status="thing.currentStatusId">
+
+    <messages>
+      <div ng-messages="form.thingCurrentStatus.$error">
+        <span ng-message="required">Current status is required</span>
+      </div>
+    </messages>
+    <help ng-show="form.thingCurrentStatus.$valid || form.thingCurrentStatus.$pristine">
+      Indicates the current status of this thing.
+    </help>
+  </thing-status>
+</div>

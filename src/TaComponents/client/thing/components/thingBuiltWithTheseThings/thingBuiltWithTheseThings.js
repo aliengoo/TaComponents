@@ -9,7 +9,7 @@ export default function thingBuiltWithTheseThings(thingService) {
     require: "^form",
     restrict: "E",
     scope: {
-      thing: "=",
+      ngModel: "=",
       editable: "="
     },
     template

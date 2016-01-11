@@ -1,28 +1,23 @@
-<div class="thingStatus">
+<div class="thingRiskLevel">
   <div ng-show="editable">
     <form-group>
-      <control-label>
-        {{label}}
+      <control-label>{{label}}
         <span ng-if="required">
-          <require-indicator></require-indicator>
+          <required-indicator></required-indicator>
         </span>
       </control-label>
-
       <select
         class="form-control"
-        name="{{name}}"
-        required
+        name="thingRiskLevel"
+        ng-model="ngModel"
         select2
-        setter="setter(value)"
         select2-data="select2Data"
         select2-options="select2Options"
-        ng-model="status"
       >
       </select>
 
-      <div ng-transclude="messages">
-      </div>
-      <div ng-transclude="help">
+      <div ng-transclude>
+        <!-- error messages-->
       </div>
 
     </form-group>

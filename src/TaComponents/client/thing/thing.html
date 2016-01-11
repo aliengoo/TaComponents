@@ -3,28 +3,49 @@
   </authenticated-navbar>
 
   <container>
-    <form name="productForm" class="col-lg-12">
+    <form name="thingForm" class="col-lg-12">
       <thing-header thing="thing.thing" editable="thing.editable"></thing-header>
       <div class="col-lg-6">
         <thing-name thing="thing.thing" editable="thing.editable"></thing-name>
-        <product-current-status product="product.product" editable="product.editable"></product-current-status>
-        <product-intended-status product="product.product" editable="product.editable"></product-intended-status>
-        <product-staff-risk-level product="product.product" editable="product.editable"></product-staff-risk-level>
+        <thing-current-status thing="thing.thing" editable="thing.editable"></thing-current-status>
+        <thing-primary-technical-team thing="thing.thing" editable="thing.editable"></thing-primary-technical-team>
+        <!--<thing-intended-status thing="thing.thing" editable="thing.editable"></thing-intended-status>-->
+        <!--<thing-risk-level-->
+          <!--ng-model="thing.thing.staffRiskLevelId"-->
+          <!--editable="thing.editable"-->
+          <!--required="true"-->
+          <!--label="Staff Risk Level"-->
+          <!--name="thingStaffRiskLevelId"></thing-risk-level>-->
       </div>
 
       <div class="col-lg-6">
-        <product-information product="product.product" editable="product.editable"></product-information>
-        <product-stack product="product.product" editable="product.editable"></product-stack>
-        <product-team-members product="product.product" editable="product.editable"></product-team-members>
-        <product-business-owners product="product.product" editable="product.editable"></product-business-owners>
+        <!--<thing-users-selector-->
+          <!--label="Primary Technical Team"-->
+          <!--name="thingPrimaryTechnicalTeam"-->
+          <!--editable="thing.editable"-->
+          <!--required="false"-->
+          <!--ng-model="thing.thing.primaryTechnicalTeam"-->
+        <!--&gt;</thing-users-selector>-->
+
+        <!--<thing-users-selector-->
+          <!--label="Secondary Technical Team"-->
+          <!--name="thingSecondaryTechnicalTeam"-->
+          <!--editable="thing.editable"-->
+          <!--required="false"-->
+          <!--ng-model="thing.thing.secondaryTechnicalTeam"-->
+        <!--&gt;</thing-users-selector>-->
+
+        <!--<product-team-members product="product.product" editable="product.editable"></product-team-members>-->
+        <!--<product-business-owners product="product.product" editable="product.editable"></product-business-owners>-->
+        <!--<thing-built-with-these-things></thing-built-with-these-things>-->
       </div>
       <div class="col-lg-12">
-        <product-actions product="product.product"></product-actions>
+        <!--<product-actions product="product.product"></product-actions>-->
       </div>
     </form>
 
     <div class="col-lg-12">
-      <product-debug product="product.product"></product-debug>
+      <!--<product-debug product="product.product"></product-debug>-->
     </div>
   </container>
 </div>

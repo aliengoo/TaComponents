@@ -16,6 +16,7 @@ export default function userMultiSelect($interpolate, userService) {
   };
 
   function link(scope, element, attributes, controllers) {
+    console.log(scope.name);
     const select = $(element).find("select");
     let ngModel = controllers[1];
 

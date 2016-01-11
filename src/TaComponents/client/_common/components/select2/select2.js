@@ -13,12 +13,16 @@ export default function select2($log) {
     restrict: "A",
     require: "ngModel",
     scope: {
+      name: "@",
+      ngModel: "=",
+      setter: "&",
       select2Data: "=",
       select2Options: "="
     }
   };
 
   function link(scope, element, attributes, ngModel) {
+
     const select = $(element);
 
     // used to determine if select2 has been initialised,
@@ -52,6 +56,9 @@ export default function select2($log) {
       // set the model back to undefined
       select.on("select2:unselect", () => {
         ngModel.$setViewValue(undefined);
+        scope.setter({
+          value: undefined
+        });
       });
 
 
@@ -69,6 +76,9 @@ export default function select2($log) {
 
         if (val || val === "") {
           ngModel.$setViewValue(val);
+          scope.setter({
+            value: val
+          });
         }
       });
 
