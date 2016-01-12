@@ -12,6 +12,7 @@
       "commandName": "IISExpress",
       "launchUrl": "api/values",
       "environmentVariables": {
+        "Fake:UserContext": "true",
         "ActiveDirectory:DomainName": "workgroup",
         "ActiveDirectory:UserGroup": "groups",
         "Hosting:Environment": "Development",

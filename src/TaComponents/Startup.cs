@@ -66,6 +66,15 @@ namespace TaComponents
                 services.AddSingleton<IUserRepository, UserRepository>();
             }
 
+            if (Configuration.Get<bool>("Fake:UserContext"))
+            {
+                services.AddSingleton<IUserContext, FakeUserContext>();
+            }
+            else
+            {
+                services.AddSingleton<IUserContext, UserContext>();
+            }
+            
             services.AddTransient<IThingRepository, ThingRepository>();
             services.AddTransient<IDataRepository<Status>, StatusRepository>();
             services.AddTransient<IDataRepository<RiskLevel>, RiskLevelRepository>();
