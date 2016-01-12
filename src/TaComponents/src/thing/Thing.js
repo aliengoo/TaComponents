@@ -42,8 +42,6 @@ export default class Thing extends React.Component {
   render() {
     const {editable, thing, isValid} = this.state;
 
-    console.log("isValid" + isValid);
-
     return (
       <Container>
         <PageHeader>

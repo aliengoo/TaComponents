@@ -48,9 +48,13 @@ export default class Field {
     this.isValid = this.isValid.bind(this);
   }
 
-  set() {
+  /**
+   * By default, if no value is provided, the element.value is used
+   * @param value
+   */
+  set(value = undefined) {
     this.validate();
-    this.value = this.element.value;
+    this.value = value || this.element.value;
     this._fieldSetter(this);
   }
 
@@ -63,24 +67,16 @@ export default class Field {
   }
 
   static areAllValid(fields) {
-    var keys = _.keys(_.pick(fields, field => !field.isValid()));
-
-    return keys.length === 0;
+    return _.keys(_.pick(fields, field => !field.isValid())).length === 0;
   }
 
   getErrors() {
-    var errors = _.keys(_.pick(this.element.validity, (invalid, key) => {
+    return _.keys(_.pick(this.element.validity, (invalid, key) => {
       return key !== "valid" && invalid;
     }));
-
-    console.log(errors);
-    return errors;
   }
 
   getErrorMessages() {
-    var messages = _.values(_.pick(this.errorsMap, this.getErrors()));
-
-
-    return messages;
+    return _.values(_.pick(this.errorsMap, this.getErrors()));
   }
 }
