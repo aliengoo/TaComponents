@@ -19,7 +19,7 @@ export {
 };
 
 export default class Field {
-  constructor(element, fieldSetter, errorsMap = DefaultErrorMap) {
+  constructor(fieldSetter, element, validatorFn, fieldName, errorsMap = DefaultErrorMap) {
 
     if (!fieldSetter || !_.isFunction(fieldSetter)) {
       throw "Field expects a field setter";
@@ -27,10 +27,21 @@ export default class Field {
 
     this._fieldSetter = fieldSetter;
 
-    if (!element || !_.isFunction(element.checkValidity)) {
-      console.warn(`Field element invalid`);
+    if (element) {
+      this.element = element;
+    } else if (validatorFn) {
+      if (_.isUndefined(fieldName)) {
+        throw "Field with validatorFn requires field name";
+      }
+      this.fieldName = fieldName;
+      this.validatorFn = validatorFn;
     } else {
+      throw "Field required either a HTMLElement or a validatorFn";
+    }
 
+    this.errorsMap = errorsMap;
+
+    if (element) {
       this.fieldName = $(element).data("field-name");
 
       if (!this.fieldName) {
@@ -38,7 +49,6 @@ export default class Field {
       }
 
       this.element = element;
-      this.errorsMap = errorsMap;
       this.value = undefined;
     }
 
@@ -48,22 +58,28 @@ export default class Field {
     this.isValid = this.isValid.bind(this);
   }
 
+
   /**
    * By default, if no value is provided, the element.value is used
    * @param value
    */
   set(value = undefined) {
+    this.value = value || _.get(this, "element.value", undefined);
     this.validate();
-    this.value = value || this.element.value;
     this._fieldSetter(this);
   }
 
   validate() {
-    this.element.checkValidity();
+    if (this.element) {
+      this.element.checkValidity();
+      this.validityState = this.element.validity;
+    } else if (this.validatorFn) {
+      this.validityState = this.validatorFn(this.value);
+    }
   }
 
   isValid() {
-    return _.get(this.element.validity, "valid");
+    return _.get(this.validityState, "valid");
   }
 
   static areAllValid(fields) {
@@ -71,7 +87,7 @@ export default class Field {
   }
 
   getErrors() {
-    return _.keys(_.pick(this.element.validity, (invalid, key) => {
+    return _.keys(_.pick(this.validityState, (invalid, key) => {
       return key !== "valid" && invalid;
     }));
   }

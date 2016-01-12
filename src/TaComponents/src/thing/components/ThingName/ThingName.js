@@ -16,7 +16,7 @@ export default class ThingName extends React.Component {
   }
 
   componentDidMount() {
-    this._field = new Field(this.refs.ThingName, this.props.fieldSetter);
+    this._field = new Field(this.props.fieldSetter, this.refs.ThingName);
     this._field.set();
   }
 
@@ -35,6 +35,7 @@ export default class ThingName extends React.Component {
           data-field-name="name"
           minLength={3}
           onChange={this._onChange}
+          placeholder="Enter a name"
           ref="ThingName"
           required="required"
           defaultValue={value}

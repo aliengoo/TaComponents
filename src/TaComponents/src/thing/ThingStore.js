@@ -3,11 +3,13 @@
 import _ from "lodash";
 import alt from "../alt";
 import ThingActions from "./ThingActions";
+import UserActions from "../_actions/UserActions";
 import Field from "../_models/Field";
 
 class ThingStore {
   constructor() {
     this.bindActions(ThingActions);
+    this.bindActions(UserActions);
 
     this.state = {
       editable: true,
@@ -16,9 +18,33 @@ class ThingStore {
       fetchingId: null,
       fields: {},
       isValid: false,
-      thing: {}
+      users: [],
+      thing: {
+      }
     };
   }
+
+  onGetAllUsers() {
+    this.setState({
+      fetching: true
+    });
+  }
+
+  onGetAllUsersThen(users) {
+    this.setState({
+      fetching: false,
+      users
+    });
+  }
+
+  onGetAllUsersError(response) {
+    this.setState({
+      fetching: false,
+      users: [],
+      error: response
+    });
+  }
+
 
   onSetField(field) {
     // set the field matching the fieldName in fields

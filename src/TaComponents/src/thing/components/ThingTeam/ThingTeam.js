@@ -1,11 +1,13 @@
 "use strict";
 
+import $ from "jquery";
 import _ from "lodash";
 import React from "react";
 import Field from "../../../_models/Field";
 import FormGroup from "../../../_components/FormGroup";
 import Label from "../../../_components/Label";
 import FieldMessages from "../../../_components/FieldMessages";
+import Select from "react-select";
 
 export default class ThingTeam extends React.Component {
 
@@ -16,29 +18,34 @@ export default class ThingTeam extends React.Component {
   }
 
   componentDidMount() {
-    this._field = new Field(this.refs.ThingTeam, this.props.fieldSetter);
-    this._field.set();
+    this._field = new Field(
+      this.props.fieldSetter,
+      undefined,
+      this.props.validatorFn,
+      this.props.fieldName,
+      this.props.errorsMap
+    );
+
+    this._field.set(this.props.value);
   }
 
-  _onChange() {
-    this._field.set();
+  _onChange(values) {
+    this._field.set(values.split(","));
   }
 
   render() {
 
-    const {editable, value} = this.props;
+    const {editable, value, users, label, fieldName, placeholder} = this.props;
 
     const inputContent = (
       <div>
-        <input
-          className="form-control"
-          data-field-name="name"
-          minLength={3}
+        <Select
+          placeholder={placeholder}
+          value={value}
+          options={users}
+          multi={true}
+          name={fieldName}
           onChange={this._onChange}
-          ref="ThingTeam"
-          required="required"
-          defaultValue={value}
-          type="text"
         />
         <FieldMessages field={this._field}/>
       </div>
@@ -47,10 +54,11 @@ export default class ThingTeam extends React.Component {
     const staticContent = (<p className="form-control-static">{value}</p>);
 
     return (
-      <div className="ThingName">
+      <div className="ThingTeam">
         <FormGroup>
-          <Label>Name</Label>
+          <Label>{label}</Label>
           {editable ? inputContent : staticContent}
+
         </FormGroup>
       </div>
     );
@@ -59,6 +67,11 @@ export default class ThingTeam extends React.Component {
 
 ThingTeam.propTypes = {
   editable: React.PropTypes.bool.isRequired,
-  value: React.PropTypes.arrayOf(React.PropTypes.string),
-  fieldSetter:  React.PropTypes.func.isRequired
+  errorsMap: React.PropTypes.object,
+  fieldName: React.PropTypes.string.isRequired,
+  fieldSetter: React.PropTypes.func.isRequired,
+  label: React.PropTypes.string.isRequired,
+  placeholder: React.PropTypes.string,
+  validatorFn: React.PropTypes.func.isRequired,
+  value: React.PropTypes.array
 };
