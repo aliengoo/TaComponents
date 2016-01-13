@@ -24,8 +24,6 @@ export default class ThingRiskLevel extends React.Component {
       this.props.fieldName,
       this.props.errorsMap
     );
-
-    this._field.set(this.props.value);
   }
 
   _onChange(value) {

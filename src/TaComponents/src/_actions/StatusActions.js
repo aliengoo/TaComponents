@@ -5,17 +5,17 @@ import alt from "../alt";
 import axios from "axios";
 
 class StatusActions {
-  getStatuses() {
+  get() {
     return (dispatch) => {
       dispatch();
 
       return axios.get(`api/status`)
-        .then(this.getStatusesThen)
-        .catch(this.getStatusesError);
+        .then(this.getThen)
+        .catch(this.getError);
     };
   }
 
-  getStatusesThen(response) {
+  getThen(response) {
     // results are formatted for react-select
     return _.map(response.data, riske => {
       return {
@@ -25,7 +25,7 @@ class StatusActions {
     });
   }
 
-  getStatusesError(response) {
+  getError(response) {
     return response;
   }
 }

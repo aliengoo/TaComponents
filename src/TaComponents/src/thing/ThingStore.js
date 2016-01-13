@@ -4,94 +4,31 @@ import _ from "lodash";
 import alt from "../alt";
 import ThingActions from "./ThingActions";
 import UserActions from "../_actions/UserActions";
-import RiskLevelActions from "../_actions/RiskLevelActions";
-import StatusActions from "../_actions/StatusActions";
+import RiskLevelStore from "../_actions/RiskLevelStore";
+import StatusStore from "../_actions/StatusStore";
+import UserStore from "../_actions/UserStore";
 import Field from "../_models/Field";
 
 class ThingStore {
   constructor() {
     this.bindActions(ThingActions);
-    this.bindActions(UserActions);
-    this.bindActions(RiskLevelActions);
-    this.bindActions(StatusActions);
 
     this.state = {
       editable: true,
       error: null,
-      fetching: false,
-      fetchingId: null,
+      // start fetching true to prevent controls rendering initially
+      fetching: true,
+      fetchingIsNameUnique: false,
       fields: {},
       isValid: false,
-      users: [],
-      riskLevels: [],
-      statuses: [],
       isNameUnique: true,
       thing: {}
     };
   }
 
-  onGetRiskLevels() {
+  onClearFetching() {
     this.setState({
-      fetching: true,
-      riskLevels: []
-    });
-  }
-
-  onGetRiskLevelsThen(riskLevels) {
-    this.setState({
-      fetching: false,
-      riskLevels
-    });
-  }
-
-  onGetRiskLevelsError(error) {
-    this.setState({
-      fetching: false,
-      riskLevels: [],
-      error
-    });
-  }
-
-  onGetStatuses() {
-    this.setState({
-      fetching: true,
-      statuses: []
-    });
-  }
-
-  onGetStatusesThen(statuses) {
-    this.setState({
-      fetching: false,
-      statuses
-    });
-  }
-
-  onGetStatusesError(error) {
-    this.setState({
-      fetching: false,
-      statuses: [],
-      error
-    });
-  }
-
-  onGetAllUsers() {
-    this.setState({
-      fetching: true
-    });
-  }
-
-  onGetAllUsersThen(users) {
-    this.setState({
-      fetching: false,
-      users
-    });
-  }
-
-  onGetAllUsersError(response) {
-    this.setState({
-      fetching: false,
-      users: [],
-      error: response
+      fetching: false
     });
   }
 
@@ -106,7 +43,7 @@ class ThingStore {
     const isValid = Field.areAllValid(fields);
 
     // update the thing object with the field value
-    const thing = Object.assign(this.state.thing, {
+    const thing = Object.assign({}, this.state.thing, {
       [field.fieldName]: field.value
     });
 
@@ -120,13 +57,13 @@ class ThingStore {
 
   onIsNameUnique() {
     this.setState({
-      fetching: true
+      fetchingIsNameUnique: true
     });
   }
 
   onIsNameUniqueThen(isNameUnique) {
     this.setState({
-      fetching: false,
+      fetchingIsNameUnique: false,
       isNameUnique
     });
   }
@@ -135,12 +72,12 @@ class ThingStore {
     // conflict, indicating the name is not unique
     if (response.status === 409) {
       this.setState({
-        fetching: false,
+        fetchingIsNameUnique: false,
         isNameUnique: false
       });
     } else {
       this.setState({
-        fetching: false,
+        fetchingIsNameUnique: false,
         error: response
       });
     }
@@ -152,7 +89,32 @@ class ThingStore {
     });
   }
 
+  onSave() {
+    this.setState({
+      fetching: true
+    });
+  }
+
+  onSaveThen(thing) {
+    this.setState({
+      fetching: false,
+      thing
+    });
+  }
+
+  onSaveError(response) {
+    this.setState({
+      fetching: false,
+      error: response
+    });
+  }
+
   onGet(id) {
+    this.waitFor([
+      RiskLevelStore.dispatchToken,
+      StatusStore.dispatchToken,
+      UserStore.dispatchToken
+    ]);
     this.setState({
       fetching: true,
       fetchingId: id,

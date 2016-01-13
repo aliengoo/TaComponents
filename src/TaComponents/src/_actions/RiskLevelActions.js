@@ -5,17 +5,21 @@ import alt from "../alt";
 import axios from "axios";
 
 class RiskLevelActions {
-  getRiskLevels() {
+  constructor() {
+    this.getThen = this.getThen.bind(this);
+    this.getError = this.getError.bind(this);
+  }
+  get() {
     return (dispatch) => {
       dispatch();
 
       return axios.get(`api/risk-level`)
-        .then(this.getRiskLevelsThen)
-        .catch(this.getRiskLevelsError);
+        .then(this.getThen)
+        .catch(this.getError);
     };
   }
 
-  getRiskLevelsThen(response) {
+  getThen(response) {
     // results are formatted for react-select
     return _.map(response.data, riskLevel => {
       return {
@@ -25,7 +29,7 @@ class RiskLevelActions {
     });
   }
 
-  getRiskLevelsError(response) {
+  getError(response) {
     return response;
   }
 }

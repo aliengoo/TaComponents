@@ -50,19 +50,7 @@
         /// Considered the owner of the system
         /// </summary>
         public List<string> BusinessOwners { get; set; }
-
-        /// <summary>
-        /// List of departments - source from Active Directory
-        /// </summary>
-        public List<string> BusinessUserDepartments { get; set; } 
-
-        /// <summary>
-        /// List of individual users - source from Active Directory
-        /// </summary>
-        public List<string> BusinessUserIndividuals { get; set; } 
-        
+       
         public List<Comment> Comments { get; set; }
-
-        
     }
 }

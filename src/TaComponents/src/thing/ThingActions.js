@@ -15,12 +15,17 @@ class ThingActions {
     return field;
   }
 
-  isNameUnique(name) {
+  clearFetching() {
+    return true;
+  }
+
+  isNameUnique(name, id) {
     return (dispatch) => {
       dispatch();
       return axios.get(`api/thing/is-name-unique`, {
         params: {
-          name
+          name,
+          id
         }
       }).then(this.isNameUniqueThen)
         .catch(this.isNameUniqueError);
@@ -56,6 +61,24 @@ class ThingActions {
   }
 
   getError(response) {
+    return response;
+  }
+
+  save(thing) {
+    return (dispatch) => {
+      dispatch();
+
+      return axios.post(`api/thing`, thing)
+        .then(this.saveThen)
+        .catch(this.saveError)
+    };
+  }
+
+  saveThen(response) {
+    return response.data;
+  }
+
+  saveError(response) {
     return response;
   }
 }

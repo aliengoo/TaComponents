@@ -20,7 +20,6 @@ export {
 
 export default class Field {
   constructor(fieldSetter, element, validatorFn, fieldName, errorsMap = DefaultErrorMap) {
-
     if (!fieldSetter || !_.isFunction(fieldSetter)) {
       throw "Field expects a field setter";
     }
@@ -57,7 +56,6 @@ export default class Field {
     this.validate = this.validate.bind(this);
     this.isValid = this.isValid.bind(this);
   }
-
 
   /**
    * By default, if no value is provided, the element.value is used

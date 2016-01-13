@@ -23,7 +23,6 @@ export default class ThingName extends React.Component {
       conflict: "This name is already in use",
       valueMissing: "You must specify a name"
     });
-    this._field.set();
   }
 
   _onChange() {
@@ -39,7 +38,7 @@ export default class ThingName extends React.Component {
     if (this._field) {
       var currentValidityState = this._field.validityState;
 
-      if (currentValidityState.valid) {
+      if (currentValidityState && currentValidityState.valid) {
         var newValidityState = Object.assign({}, currentValidityState, {
           conflict: !isNameUnique,
           valid: isNameUnique
