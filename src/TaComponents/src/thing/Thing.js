@@ -180,76 +180,73 @@ export default class Thing extends React.Component {
       thing
       } = this.state;
 
-    if (true) {
-      return <FetchingPlaceholder/>;
-    } else {
-      return (
-        <form noValidate={true} name="thingForm">
-          <div className="col-lg-6">
-            <ThingName
-              fieldSetter={this._setField}
-              isNameUniqueFn={this._isNameUnique}
-              isNameUnique={isNameUnique}
-              editable={editable}
-              value={thing.name}/>
+    return (
+      <form noValidate={true} name="thingForm">
+        <div className="col-lg-6">
 
-            <ThingDescription
-              fieldSetter={this._setField}
-              editable={editable}
-              value={thing.description}
-            />
+          <ThingName
+            fieldSetter={this._setField}
+            isNameUniqueFn={this._isNameUnique}
+            isNameUnique={isNameUnique}
+            editable={editable}
+            value={thing.name}/>
+          <ThingDescription
+            fieldSetter={this._setField}
+            editable={editable}
+            value={thing.description}
+          />
 
-            <ThingCurrentStatus
-              fieldSetter={this._setField}
-              editable={editable}
-              value={thing.currentStatusId}
-              statuses={statuses}/>
 
-            <ThingIntendedStatus
-              fieldSetter={this._setField}
-              editable={editable}
-              value={thing.intendedStatusId}
-              statuses={statuses}/>
+          <ThingCurrentStatus
+            fieldSetter={this._setField}
+            editable={editable}
+            value={thing.currentStatusId}
+            statuses={statuses}/>
 
-          </div>
-          <div className="col-lg-6">
-            <ThingStaffRiskLevel
-              fieldSetter={this._setField}
-              editable={editable}
-              value={thing.staffRiskLevelId}
-              riskLevels={riskLevels}/>
+          <ThingIntendedStatus
+            fieldSetter={this._setField}
+            editable={editable}
+            value={thing.intendedStatusId}
+            statuses={statuses}/>
 
-            <ThingOwners
-              fieldSetter={this._setField}
-              editable={editable}
-              value={thing.businessOwners}
-              users={users}/>
+        </div>
+        <div className="col-lg-6">
+          <ThingStaffRiskLevel
+            fieldSetter={this._setField}
+            editable={editable}
+            value={thing.staffRiskLevelId}
+            riskLevels={riskLevels}/>
 
-            <ThingPrimaryTechnicalTeam
-              fieldSetter={this._setField}
-              editable={editable}
-              value={thing.primaryTechnicalTeam}
-              secondaryTechnicalTeam={thing.secondaryTechnicalTeam}
-              users={users}/>
-            <ThingSecondaryTechnicalTeam
-              fieldSetter={this._setField}
-              editable={editable}
-              value={thing.secondaryTechnicalTeam}
-              primaryTechnicalTeam={thing.primaryTechnicalTeam}
-              users={users}/>
-          </div>
+          <ThingOwners
+            fieldSetter={this._setField}
+            editable={editable}
+            value={thing.businessOwners}
+            users={users}/>
 
-          <div className="col-lg-12">
-            <button disabled={!isValid} className="btn btn-primary btn-lg" type="button" onClick={this._save}>Save
-            </button>
-          </div>
-        </form>
-      );
-    }
+          <ThingPrimaryTechnicalTeam
+            fieldSetter={this._setField}
+            editable={editable}
+            value={thing.primaryTechnicalTeam}
+            secondaryTechnicalTeam={thing.secondaryTechnicalTeam}
+            users={users}/>
+          <ThingSecondaryTechnicalTeam
+            fieldSetter={this._setField}
+            editable={editable}
+            value={thing.secondaryTechnicalTeam}
+            primaryTechnicalTeam={thing.primaryTechnicalTeam}
+            users={users}/>
+        </div>
+
+        <div className="col-lg-12">
+          <button disabled={!isValid} className="btn btn-primary btn-lg" type="button" onClick={this._save}>Save
+          </button>
+        </div>
+      </form>
+    );
   }
 
   renderThingModel() {
-    return <pre className="hide">{JSON.stringify(this.state.thing, null, 2)}</pre>
+    return <pre className="">{JSON.stringify(this.state.thing, null, 2)}</pre>
   }
 }
 

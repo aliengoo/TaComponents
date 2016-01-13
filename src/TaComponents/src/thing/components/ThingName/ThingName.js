@@ -25,10 +25,13 @@ export default class ThingName extends React.Component {
     });
   }
 
+  componentDidUpdate() {
+    this.refs.ThingName.value = this.props.value;
+  }
+
   _onChange() {
-    const {isNameUniqueFn} = this.props;
     this._field.set();
-    isNameUniqueFn(this._field.value);
+    this.props.isNameUniqueFn(this._field.value);
   }
 
   render() {

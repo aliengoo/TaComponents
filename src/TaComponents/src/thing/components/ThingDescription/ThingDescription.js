@@ -1,6 +1,7 @@
 "use strict";
 
 import _ from "lodash";
+import $ from "jquery";
 import React from "react";
 import Field from "../../../_models/Field";
 import FormGroup from "../../../_components/FormGroup";
@@ -18,7 +19,10 @@ export default class ThingDescription extends React.Component {
 
   componentDidMount() {
     this._field = new Field(this.props.fieldSetter, this.refs.ThingDescription);
-    this._field.set();
+  }
+
+  componentDidUpdate() {
+    this.refs.ThingDescription.value = this.props.value;
   }
 
   _onChange() {
@@ -37,9 +41,8 @@ export default class ThingDescription extends React.Component {
           data-field-name="description"
           placeholder="What does this thing do?"
           ref="ThingDescription"
-          rows="5"
           onChange={this._onChange}
-          defaultValue={value}
+          rows="5"
         />
         <FieldMessages field={this._field}/>
       </div>);

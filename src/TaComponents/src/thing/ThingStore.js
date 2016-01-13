@@ -35,7 +35,7 @@ class ThingStore {
 
   onSetField(field) {
     // set the field matching the fieldName in fields
-    const fields = Object.assign(this.state.fields, {
+    const fields = Object.assign({}, this.state.fields, {
       [field.fieldName]: field
     });
 
