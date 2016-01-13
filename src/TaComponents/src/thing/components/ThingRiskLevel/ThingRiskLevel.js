@@ -1,20 +1,19 @@
 "use strict";
 
 import _ from "lodash";
-import React, {PropTypes} from "react";
+import React from "react";
 import Field from "../../../_models/Field";
 import FormGroup from "../../../_components/FormGroup";
 import Label from "../../../_components/Label";
 import FieldMessages from "../../../_components/FieldMessages";
 import Select from "react-select";
 
-export default class ThingTeam extends React.Component {
+export default class ThingRiskLevel extends React.Component {
 
   constructor(props) {
     super(props);
 
     this._onChange = _.debounce(this._onChange, 500).bind(this);
-    this._rawSelectValueAdapter = this._rawSelectValueAdapter.bind(this);
   }
 
   componentDidMount() {
@@ -29,24 +28,18 @@ export default class ThingTeam extends React.Component {
     this._field.set(this.props.value);
   }
 
-  _onChange(values) {
-    this._field.set(this._rawSelectValueAdapter(values));
+  _onChange(value) {
+    this._field.set(value);
   }
-
-  _rawSelectValueAdapter(r = "") {
-    return _.filter(r.split(","), v => !!v);
-  }
-
   render() {
-    const {editable, value, users, label, fieldName, placeholder, tooltip, requiredIndicator} = this.props;
+    const {editable, value, riskLevels, label, fieldName, placeholder, requiredIndicator, tooltip} = this.props;
 
     const inputContent = (
       <div>
         <Select
           placeholder={placeholder}
           value={value}
-          options={users}
-          multi={true}
+          options={riskLevels}
           name={fieldName}
           onChange={this._onChange}
         />
@@ -57,9 +50,9 @@ export default class ThingTeam extends React.Component {
     const staticContent = (<p className="form-control-static">{value}</p>);
 
     return (
-      <div className="ThingTeam">
+      <div className="ThingRiskLevel">
         <FormGroup>
-          <Label>{label} {requiredIndicator} {tooltip} </Label>
+          <Label>{label} {requiredIndicator} {tooltip}</Label>
           {editable ? inputContent : staticContent}
         </FormGroup>
       </div>
@@ -67,16 +60,16 @@ export default class ThingTeam extends React.Component {
   }
 }
 
-ThingTeam.propTypes = {
-  editable: PropTypes.bool.isRequired,
-  errorsMap: PropTypes.object,
-  fieldName: PropTypes.string.isRequired,
-  fieldSetter: PropTypes.func.isRequired,
-  label: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
-  tooltip: PropTypes.node,
-  requiredIndicator: PropTypes.node,
-  users: PropTypes.array,
-  validatorFn: PropTypes.func.isRequired,
-  value: PropTypes.array
+ThingRiskLevel.propTypes = {
+  editable: React.PropTypes.bool.isRequired,
+  errorsMap: React.PropTypes.object,
+  fieldName: React.PropTypes.string.isRequired,
+  fieldSetter: React.PropTypes.func.isRequired,
+  label: React.PropTypes.string.isRequired,
+  placeholder: React.PropTypes.string,
+  riskLevels: React.PropTypes.array,
+  tooltip: React.PropTypes.node,
+  requiredIndicator: React.PropTypes.node,
+  validatorFn: React.PropTypes.func.isRequired,
+  value: React.PropTypes.string
 };

@@ -7,6 +7,7 @@ export default class PageHeader extends React.Component {
     return (
       <header className="container">
         <h1>{this.props.children}</h1>
+        <hr/>
       </header>
     );
   }

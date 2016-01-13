@@ -6,6 +6,9 @@ import Field from "../../../_models/Field";
 import FormGroup from "../../../_components/FormGroup";
 import Label from "../../../_components/Label";
 import FieldMessages from "../../../_components/FieldMessages";
+import Tooltip from "../../../_components/Tooltip";
+import RequiredIndicator from "../../../_components/RequiredIndicator";
+
 
 export default class ThingName extends React.Component {
 
@@ -16,17 +19,35 @@ export default class ThingName extends React.Component {
   }
 
   componentDidMount() {
-    this._field = new Field(this.props.fieldSetter, this.refs.ThingName);
+    this._field = new Field(this.props.fieldSetter, this.refs.ThingName, undefined, undefined, {
+      conflict: "This name is already in use",
+      valueMissing: "You must specify a name"
+    });
     this._field.set();
   }
 
   _onChange() {
+    const {isNameUniqueFn} = this.props;
     this._field.set();
+    isNameUniqueFn(this._field.value);
   }
 
   render() {
 
-    const {editable, value} = this.props;
+    const {editable, value, isNameUnique} = this.props;
+
+    if (this._field) {
+      var currentValidityState = this._field.validityState;
+
+      if (currentValidityState.valid) {
+        var newValidityState = Object.assign({}, currentValidityState, {
+          conflict: !isNameUnique,
+          valid: isNameUnique
+        });
+
+        this._field.setValidityState(newValidityState);
+      }
+    }
 
     const inputContent = (
       <div>
@@ -47,10 +68,24 @@ export default class ThingName extends React.Component {
 
     const staticContent = (<p className="form-control-static">{value}</p>);
 
+    const tooltip = (
+      <Tooltip title="What's the name?" container="ThingName">
+        <strong>Note:</strong>
+        <ul>
+          <li>
+            The name must be <strong>unique</strong>
+          </li>
+          <li>
+            Include the version number, e.g. "C# v6.0"
+          </li>
+        </ul>
+      </Tooltip>
+    );
+
     return (
       <div className="ThingName">
         <FormGroup>
-          <Label>Name</Label>
+          <Label>Name <RequiredIndicator/> {tooltip}</Label>
           {editable ? inputContent : staticContent}
         </FormGroup>
       </div>
@@ -61,5 +96,7 @@ export default class ThingName extends React.Component {
 ThingName.propTypes = {
   editable: React.PropTypes.bool.isRequired,
   value: React.PropTypes.string,
-  fieldSetter: React.PropTypes.func.isRequired
+  fieldSetter: React.PropTypes.func.isRequired,
+  isNameUnique: React.PropTypes.bool.isRequired,
+  isNameUniqueFn: React.PropTypes.func.isRequired
 };

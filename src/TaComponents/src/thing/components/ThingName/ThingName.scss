@@ -1,3 +1,9 @@
 .ThingName {
-  width: 300px;
+  width: 350px;
+
+  .Tooltip {
+    li {
+      font-size: 11px;
+    }
+  }
 }

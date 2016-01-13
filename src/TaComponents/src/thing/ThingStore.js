@@ -4,12 +4,16 @@ import _ from "lodash";
 import alt from "../alt";
 import ThingActions from "./ThingActions";
 import UserActions from "../_actions/UserActions";
+import RiskLevelActions from "../_actions/RiskLevelActions";
+import StatusActions from "../_actions/StatusActions";
 import Field from "../_models/Field";
 
 class ThingStore {
   constructor() {
     this.bindActions(ThingActions);
     this.bindActions(UserActions);
+    this.bindActions(RiskLevelActions);
+    this.bindActions(StatusActions);
 
     this.state = {
       editable: true,
@@ -19,9 +23,55 @@ class ThingStore {
       fields: {},
       isValid: false,
       users: [],
-      thing: {
-      }
+      riskLevels: [],
+      statuses: [],
+      isNameUnique: true,
+      thing: {}
     };
+  }
+
+  onGetRiskLevels() {
+    this.setState({
+      fetching: true,
+      riskLevels: []
+    });
+  }
+
+  onGetRiskLevelsThen(riskLevels) {
+    this.setState({
+      fetching: false,
+      riskLevels
+    });
+  }
+
+  onGetRiskLevelsError(error) {
+    this.setState({
+      fetching: false,
+      riskLevels: [],
+      error
+    });
+  }
+
+  onGetStatuses() {
+    this.setState({
+      fetching: true,
+      statuses: []
+    });
+  }
+
+  onGetStatusesThen(statuses) {
+    this.setState({
+      fetching: false,
+      statuses
+    });
+  }
+
+  onGetStatusesError(error) {
+    this.setState({
+      fetching: false,
+      statuses: [],
+      error
+    });
   }
 
   onGetAllUsers() {
@@ -65,6 +115,40 @@ class ThingStore {
       isValid,
       thing,
       error: null
+    });
+  }
+
+  onIsNameUnique() {
+    this.setState({
+      fetching: true
+    });
+  }
+
+  onIsNameUniqueThen(isNameUnique) {
+    this.setState({
+      fetching: false,
+      isNameUnique
+    });
+  }
+
+  onIsNameUniqueError(response) {
+    // conflict, indicating the name is not unique
+    if (response.status === 409) {
+      this.setState({
+        fetching: false,
+        isNameUnique: false
+      });
+    } else {
+      this.setState({
+        fetching: false,
+        error: response
+      });
+    }
+  }
+
+  onClearIsNameUnique() {
+    this.setState({
+      isNameUnique: true
     });
   }
 

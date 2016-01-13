@@ -44,6 +44,11 @@
             {
                 var riskLevels = new List<RiskLevel>
                                      {
+                                        new RiskLevel
+                                             {
+                                                 Id = "0",
+                                                 Text = "None"
+                                             },
                                          new RiskLevel
                                              {
                                                  Id = "1",

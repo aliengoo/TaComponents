@@ -2,6 +2,8 @@
 
 import _ from "lodash";
 import React from "react";
+import Tooltip from "../../../_components/Tooltip";
+import RequiredIndicator from "../../../_components/RequiredIndicator";
 import ThingTeam from "../ThingTeam/ThingTeam";
 
 export default class ThingPrimaryTechnicalTeam extends React.Component {
@@ -17,6 +19,12 @@ export default class ThingPrimaryTechnicalTeam extends React.Component {
   render() {
     const {fieldSetter, users, value, editable} = this.props;
 
+    const tooltip = (
+      <Tooltip container="ThingPrimaryTechnicalTeam">
+        <p>List people who are most capable at supporting this thing.</p>
+      </Tooltip>
+    );
+
     return (
       <ThingTeam
         editable={editable}
@@ -25,6 +33,7 @@ export default class ThingPrimaryTechnicalTeam extends React.Component {
         fieldName="primaryTechnicalTeam"
         label="Primary Technical Team"
         placeholder="Select primary team members"
+        tooltip={tooltip}
         users={users}
         value={value}
         validatorFn={this._validator}

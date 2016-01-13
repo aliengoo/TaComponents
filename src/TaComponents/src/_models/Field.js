@@ -82,6 +82,10 @@ export default class Field {
     return _.get(this.validityState, "valid");
   }
 
+  setValidityState(validityState) {
+    this.validityState = validityState;
+  }
+
   static areAllValid(fields) {
     return _.keys(_.pick(fields, field => !field.isValid())).length === 0;
   }
