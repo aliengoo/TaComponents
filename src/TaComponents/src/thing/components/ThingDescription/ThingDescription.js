@@ -22,7 +22,9 @@ export default class ThingDescription extends React.Component {
   }
 
   componentDidUpdate() {
-    this.refs.ThingDescription.value = this.props.value;
+    if (this.props.editable) {
+      this.refs.ThingDescription.value = this.props.value;
+    }
   }
 
   _onChange() {
@@ -30,7 +32,6 @@ export default class ThingDescription extends React.Component {
   }
 
   render() {
-
     const {editable, value} = this.props;
 
     const textAreaContent = (
@@ -47,22 +48,28 @@ export default class ThingDescription extends React.Component {
         <FieldMessages field={this._field}/>
       </div>);
 
-    const staticContent = (<p className="form-control-static">{value}</p>);
+    const staticContent = (<div className=".view">{value}</div>);
 
-    const tooltip = (
+    const tooltip = editable ? (
       <Tooltip container="ThingDescription">
         <p>Provide a short description of what this thing is.</p>
       </Tooltip>
-    );
+    ) : <div></div>;
 
     return (
-      <FormGroup>
-        <Label>Description {tooltip}</Label>
-        {editable ? textAreaContent : staticContent}
-      </FormGroup>
+      <div className="ThingDescription">
+        <FormGroup>
+          <Label>Description {tooltip}</Label>
+          {editable ? textAreaContent : staticContent}
+        </FormGroup>
+      </div>
     );
   }
 }
+
+ThingDescription.defaultProps = {
+  value: ""
+};
 
 ThingDescription.propTypes = {
   editable: React.PropTypes.bool.isRequired,

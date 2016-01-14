@@ -7,6 +7,7 @@ import FormGroup from "../../../_components/FormGroup";
 import Label from "../../../_components/Label";
 import FieldMessages from "../../../_components/FieldMessages";
 import Select from "react-select";
+import ThingStatusView from "./ThingStatusView";
 
 export default class ThingStatus extends React.Component {
 
@@ -29,35 +30,32 @@ export default class ThingStatus extends React.Component {
   _onChange(value) {
     this._field.set(value);
   }
+
   render() {
     const {editable, value, statuses, label, fieldName, tooltip, placeholder, requiredIndicator} = this.props;
 
-    const inputContent = (
-      <div>
-        <Select
-          placeholder={placeholder}
-          value={value}
-          options={statuses}
-          name={fieldName}
-          onChange={this._onChange}
-        />
-        <div>
-          {this.props.children}
+    if (editable) {
+      return (
+        <div className="ThingStatus">
+          <FormGroup>
+            <Label>{label} {requiredIndicator} {tooltip}</Label>
+            <Select
+              placeholder={placeholder}
+              value={value}
+              options={statuses}
+              name={fieldName}
+              onChange={this._onChange}
+            />
+            <div>
+              {this.props.children}
+            </div>
+            <FieldMessages field={this._field}/>
+          </FormGroup>
         </div>
-        <FieldMessages field={this._field}/>
-      </div>
-    );
-
-    const staticContent = (<p className="form-control-static">{value}</p>);
-
-    return (
-      <div className="ThingStatus">
-        <FormGroup>
-          <Label>{label} {requiredIndicator} {tooltip}</Label>
-          {editable ? inputContent : staticContent}
-        </FormGroup>
-      </div>
-    );
+      );
+    } else {
+      return <ThingStatusView statuses={statuses} value={value} label={label}/>
+    }
   }
 }
 

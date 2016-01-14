@@ -7,6 +7,7 @@
     using Microsoft.Extensions.Configuration;
 
     using MongoDB.Bson;
+    using MongoDB.Bson.Serialization.IdGenerators;
     using MongoDB.Driver;
 
     using Newtonsoft.Json.Linq;
@@ -74,11 +75,21 @@
                     throw new VersionConflictException($"The version of ${nameof(doc)}v${doc.Version} did not match the current version v${latestVersion.Version}");
                 }
 
+                // TODO: Mitigate transaction-less environment
+
+                // take the latest version, copy it, strip the id, 
+                var previousVersion = latestVersion;
+                previousVersion.StaticId = latestVersion.Id;
+                previousVersion.Id = null;
+                
+                Collection.InsertOne(previousVersion);
+
                 doc.Version += 1;
                 doc.Updated = _dateContext.Now;
-                doc.UpdatedBy = _userContext.Name; 
+                doc.UpdatedBy = _userContext.Name;
+                doc.PreviousId = previousVersion.Id;
 
-                Collection.InsertOne(doc);
+                Collection.FindOneAndReplace(d => d.Id == doc.Id, doc);
 
                 // TODO: Notify change
             }
@@ -93,7 +104,9 @@
             doc.CreatedBy = _userContext.Name;
             doc.Updated = doc.Created;
             doc.UpdatedBy = doc.UpdatedBy;
-
+            doc.Id = (string)StringObjectIdGenerator.Instance.GenerateId(Collection, doc);
+            doc.StaticId = doc.Id;
+            
             await Collection.InsertOneAsync(doc);
 
             return doc;

@@ -15,6 +15,10 @@ class ThingActions {
     return field;
   }
 
+  setEditable(editable) {
+    return editable;
+  }
+
   clearFetching() {
     return true;
   }
@@ -68,7 +72,15 @@ class ThingActions {
     return (dispatch) => {
       dispatch();
 
-      return axios.post(`api/thing`, thing)
+      var promise;
+
+      if(thing.id) {
+        promise = axios.put(`api/thing/${thing.id}`, thing);
+      } else {
+        promise = axios.post(`api/thing`, thing);
+      }
+
+      return promise
         .then(this.saveThen)
         .catch(this.saveError)
     };

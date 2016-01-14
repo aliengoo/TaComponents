@@ -1,2 +1,14 @@
+@mixin view-label($bg, $c) {
+  border: 1px solid $bg;
+  background-color: $bg;
+  color: $c;
+  border-radius: 3px;
+  padding: 2px 5px;
+  font-weight: inherit;
+}
+
 /* inject:imports */
 /* endinject */
+
+
+

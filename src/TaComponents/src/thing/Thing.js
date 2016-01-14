@@ -31,88 +31,70 @@ export default class Thing extends React.Component {
     super(props);
 
     this.state = ThingStore.getState();
-    this.onThingStoreChange = this.onThingStoreChange.bind(this);
+    this._onThingStoreChange = this._onThingStoreChange.bind(this);
     this._setField = this._setField.bind(this);
     this._save = this._save.bind(this);
     this._isNameUnique = this._isNameUnique.bind(this);
-    this._isEditing = !!this.props.params.id;
-    this._loadRiskLevels = this._loadRiskLevels.bind(this);
-    this._loadStatuses = this._loadStatuses.bind(this);
-    this._loadUsers = this._loadUsers.bind(this);
+    this._isEditing = this.props.params.mode === "edit";
+    this._isViewing = this.props.params.mode === "view";
+
+    this._loadSelectData = this._loadSelectData.bind(this);
   }
 
-  _loadRiskLevels() {
+  /**
+   * Pulls data using an action and set the data on the state
+   * @param key - the state key
+   * @param store - the store to listen to an unlisten to
+   * @param actionFn - the action function to initiate a process
+   * @private
+   */
+  _loadSelectData(key, store, actionFn) {
     var listener = (state) => {
-      if (state.riskLevels.length > 0) {
+      if (state[key].length > 0) {
         this.setState({
-          riskLevels: state.riskLevels
+          [key]: state[key]
         });
-
-        RiskLevelStore.unlisten(listener);
+        store.unlisten(listener);
       }
     };
 
-    RiskLevelStore.listen(listener);
-
-    RiskLevelActions.get();
-  }
-
-  _loadStatuses() {
-    var listener = (state) => {
-      if (state.statuses.length > 0) {
-        this.setState({
-          statuses: state.statuses
-        });
-
-        StatusStore.unlisten(listener);
-      }
-    };
-
-    StatusStore.listen(listener);
-    StatusActions.get();
-  }
-
-  _loadUsers() {
-    var listener = (state) => {
-      if (state.users.length > 0) {
-        this.setState({
-          users: state.users
-        });
-
-        UserStore.unlisten(listener);
-      }
-    };
-
-    UserStore.listen(listener);
-    UserActions.getAllUsers();
+    store.listen(listener);
+    actionFn();
   }
 
   componentDidMount() {
-    this._loadUsers();
-    this._loadStatuses();
-    this._loadRiskLevels();
+    // set select data on state
+    this._loadSelectData("riskLevels", RiskLevelStore, RiskLevelActions.get);
+    this._loadSelectData("users", UserStore, UserActions.getAllUsers);
+    this._loadSelectData("statuses", StatusStore, StatusActions.get);
 
-    if (this._isEditing) {
+    ThingActions.setEditable(!this._isViewing);
+
+    if (this._isEditing || this._isViewing) {
       ThingActions.get(this.props.params.id);
     } else {
       // when not editing, set the fetch to false
       ThingActions.clearFetching();
     }
 
-    ThingStore.listen(this.onThingStoreChange);
+    ThingStore.listen(this._onThingStoreChange);
   }
 
   componentWillUnmount() {
-    ThingStore.unlisten(this.onThingStoreChange);
+    ThingStore.unlisten(this._onThingStoreChange);
   }
 
-  onThingStoreChange(state) {
+  _onThingStoreChange(state) {
     this.setState(state);
   }
 
   _isNameUnique(name) {
     if (name) {
-      ThingActions.isNameUnique(name);
+      if (this._isEditing) {
+        ThingActions.isNameUnique(name, this.state.thing.id);
+      } else {
+        ThingActions.isNameUnique(name);
+      }
     } else {
       ThingActions.clearIsNameUnique();
     }
@@ -185,6 +167,7 @@ export default class Thing extends React.Component {
         <div className="col-lg-6">
 
           <ThingName
+            fetching={fetching}
             fieldSetter={this._setField}
             isNameUniqueFn={this._isNameUnique}
             isNameUnique={isNameUnique}
@@ -246,7 +229,7 @@ export default class Thing extends React.Component {
   }
 
   renderThingModel() {
-    return <pre className="">{JSON.stringify(this.state.thing, null, 2)}</pre>
+    return <pre className="hide">{JSON.stringify(this.state.thing, null, 2)}</pre>
   }
 }
 

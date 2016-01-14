@@ -41,7 +41,11 @@
             // for existing products exclude itself
             if (!string.IsNullOrWhiteSpace(id))
             {
+                // ignore the current version
                 query.Add("_id", new BsonDocument { { "$ne", id } });
+
+                // ignore previous versions
+                query.Add("StaticId", new BsonDocument { { "$ne", id } });
             }
 
             var count = await Collection.CountAsync(new BsonDocumentFilterDefinition<Thing>(query));

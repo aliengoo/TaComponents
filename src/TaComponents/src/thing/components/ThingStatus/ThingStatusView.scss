@@ -1,0 +1,33 @@
+@mixin status {
+  display:inline-block;
+  margin-top: 5px;
+}
+
+.ThingStatusView {
+  .status-1 {
+    @include status;
+    @include view-label(#4f6bb3, #ffffff);
+  }
+
+  .status-2 {
+    @include status;
+    @include view-label(#478e25, #ffffff);
+  }
+
+  .status-3 {
+    @include status;
+    @include view-label(#874491, #ffffff);
+  }
+
+  .status-4 {
+    @include status;
+    @include view-label(#912f2a, #ffffff);
+  }
+
+  .status-5 {
+    @include status;
+    @include view-label(#fd992b, #ffffff);
+  }
+}
+
+

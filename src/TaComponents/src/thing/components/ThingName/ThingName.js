@@ -26,7 +26,9 @@ export default class ThingName extends React.Component {
   }
 
   componentDidUpdate() {
-    this.refs.ThingName.value = this.props.value;
+    if (this.props.editable) {
+      this.refs.ThingName.value = this.props.value;
+    }
   }
 
   _onChange() {
@@ -36,7 +38,12 @@ export default class ThingName extends React.Component {
 
   render() {
 
-    const {editable, value, isNameUnique} = this.props;
+    const {editable, value, isNameUnique, fetching} = this.props;
+
+    if (!editable) {
+      // don't bother showing anything, ThingHeader will display the name
+      return (<div></div>);
+    }
 
     if (this._field) {
       var currentValidityState = this._field.validityState;
@@ -54,6 +61,7 @@ export default class ThingName extends React.Component {
     const inputContent = (
       <div>
         <input
+          diabled={fetching}
           className="form-control"
           data-field-name="name"
           minLength={3}
@@ -95,7 +103,12 @@ export default class ThingName extends React.Component {
   }
 }
 
+ThingName.defaultProps = {
+  value: ""
+};
+
 ThingName.propTypes = {
+  fetching: React.PropTypes.bool,
   editable: React.PropTypes.bool.isRequired,
   value: React.PropTypes.string,
   fieldSetter: React.PropTypes.func.isRequired,

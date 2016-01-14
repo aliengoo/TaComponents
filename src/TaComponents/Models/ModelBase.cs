@@ -28,6 +28,13 @@
         public int Version { get; set; }
 
         /// <summary>
+        /// The permanent ID, this will refer to the current version.
+        /// On updating a model, the previous version is assigned another ID, this provides a
+        /// link back to the original version.
+        /// </summary>
+        public string StaticId { get; set; }
+
+        /// <summary>
         /// Nothing is actually deleted, just marked as deleted
         /// </summary>
         public bool? Deleted { get; set; }
@@ -36,5 +43,6 @@
         /// Editing is not allowed
         /// </summary>
         public bool? Frozen { get; set; }
+        public string PreviousId { get; internal set; }
     }
 }

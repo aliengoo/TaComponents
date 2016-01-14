@@ -52,9 +52,9 @@ namespace TaComponents.Controllers
         }
 
         [HttpGet("is-name-unique")]
-        public async Task<HttpStatusCodeResult> IsNameUnique([FromQuery] string name, [FromQuery] string id)
+        public async Task<HttpStatusCodeResult> IsNameUnique([FromQuery] string name, [FromQuery] string id = null)
         {
-            var isUnique = await _thingRepository.IsNameUnique(name);
+            var isUnique = await _thingRepository.IsNameUnique(name, id);
 
             // ok or conflict
             return isUnique ? Ok() : new HttpStatusCodeResult(409);

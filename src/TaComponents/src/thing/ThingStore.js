@@ -55,6 +55,12 @@ class ThingStore {
     });
   }
 
+  onSetEditable(editable) {
+    this.setState({
+      editable
+    });
+  }
+
   onIsNameUnique() {
     this.setState({
       fetchingIsNameUnique: true
@@ -110,20 +116,18 @@ class ThingStore {
   }
 
   onGet(id) {
-    this.waitFor([
-      RiskLevelStore.dispatchToken,
-      StatusStore.dispatchToken,
-      UserStore.dispatchToken
-    ]);
     this.setState({
       fetching: true,
-      fetchingId: id,
-      thing: {},
       error: null
     });
   }
 
   onGetThen(thing) {
+    this.waitFor([
+      RiskLevelStore.dispatchToken,
+      StatusStore.dispatchToken,
+      UserStore.dispatchToken
+    ]);
     this.setState({
       fetching: false,
       fetchingId: null,
@@ -133,12 +137,7 @@ class ThingStore {
   }
 
   onGetError(response) {
-    this.setState({
-      fetching: false,
-      fetchingId: null,
-      thing: {},
-      error: response
-    });
+    console.error("onGetError:", response);
   }
 }
 

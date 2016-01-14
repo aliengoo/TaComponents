@@ -9,7 +9,7 @@ let router = (
   <Router>
     <Route path="/" component={Home}/>
     <Route path="/thing" component={Thing}/>
-    <Route path="/thing/:id/edit" component={Thing}/>
+    <Route path="/thing/:id/:mode" component={Thing}/>
   </Router>
 );
 
