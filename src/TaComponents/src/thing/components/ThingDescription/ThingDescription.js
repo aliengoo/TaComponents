@@ -14,7 +14,7 @@ export default class ThingDescription extends React.Component {
 
   constructor(props) {
     super(props);
-    this._onChange = _.debounce(this._onChange, 500).bind(this);
+    this._onChange = this._onChange.bind(this);
   }
 
   componentDidMount() {
@@ -22,9 +22,7 @@ export default class ThingDescription extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.editable) {
-      this.refs.ThingDescription.value = this.props.value;
-    }
+    this.refs.ThingDescription.value = this.props.value;
   }
 
   _onChange() {
@@ -32,35 +30,30 @@ export default class ThingDescription extends React.Component {
   }
 
   render() {
-    const {editable, value} = this.props;
+    const {value} = this.props;
 
-    const textAreaContent = (
-      <div>
-        <textarea
-          className="form-control"
-          cols="30"
-          data-field-name="description"
-          placeholder="What does this thing do?"
-          ref="ThingDescription"
-          onChange={this._onChange}
-          rows="5"
-        />
-        <FieldMessages field={this._field}/>
-      </div>);
-
-    const staticContent = (<div className=".view">{value}</div>);
-
-    const tooltip = editable ? (
+    const tooltip = (
       <Tooltip container="ThingDescription">
         <p>Provide a short description of what this thing is.</p>
       </Tooltip>
-    ) : <div></div>;
+    );
 
     return (
       <div className="ThingDescription">
         <FormGroup>
           <Label>Description {tooltip}</Label>
-          {editable ? textAreaContent : staticContent}
+          <div>
+              <textarea
+                className="form-control"
+                cols="30"
+                data-field-name="description"
+                placeholder="What does this thing do?"
+                ref="ThingDescription"
+                onChange={this._onChange}
+                rows="5"
+              />
+            <FieldMessages field={this._field}/>
+          </div>
         </FormGroup>
       </div>
     );

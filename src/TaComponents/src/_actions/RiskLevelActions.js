@@ -4,32 +4,29 @@ import _ from "lodash";
 import alt from "../alt";
 import axios from "axios";
 
+import RiskLevelApi from "../_api/RiskLevelApi";
+
 class RiskLevelActions {
   constructor() {
-    this.getThen = this.getThen.bind(this);
-    this.getError = this.getError.bind(this);
+    this.riskLevelApi = new RiskLevelApi();
+    this.getRiskLevelsThen = this.getRiskLevelsThen.bind(this);
+    this.getRiskLevelsError = this.getRiskLevelsError.bind(this);
   }
-  get() {
+
+  getRiskLevels() {
     return (dispatch) => {
       dispatch();
-
-      return axios.get(`api/risk-level`)
-        .then(this.getThen)
-        .catch(this.getError);
+      return this.riskLevelApi.get()
+        .then(this.getRiskLevelsThen)
+        .catch(this.getRiskLevelsError);
     };
   }
 
-  getThen(response) {
-    // results are formatted for react-select
-    return _.map(response.data, riskLevel => {
-      return {
-        value: riskLevel.id,
-        label: riskLevel.text
-      };
-    });
+  getRiskLevelsThen(options) {
+    return options;
   }
 
-  getError(response) {
+  getRiskLevelsError(response) {
     return response;
   }
 }

@@ -15,7 +15,7 @@ export default class ThingName extends React.Component {
   constructor(props) {
     super(props);
 
-    this._onChange = _.debounce(this._onChange, 500).bind(this);
+    this._onChange = this._onChange.bind(this);
   }
 
   componentDidMount() {
@@ -58,46 +58,22 @@ export default class ThingName extends React.Component {
       }
     }
 
-    const inputContent = (
-      <div>
-        <input
-          diabled={fetching}
-          className="form-control"
-          data-field-name="name"
-          minLength={3}
-          onChange={this._onChange}
-          placeholder="Enter a name"
-          ref="ThingName"
-          required="required"
-          defaultValue={value}
-          type="text"
-        />
-        <FieldMessages field={this._field}/>
-      </div>
-    );
-
-    const staticContent = (<p className="form-control-static">{value}</p>);
-
-    const tooltip = (
-      <Tooltip title="What's the name?" container="ThingName">
-        <strong>Note:</strong>
-        <ul>
-          <li>
-            The name must be <strong>unique</strong>
-          </li>
-          <li>
-            Include the version number, e.g. "C# v6.0"
-          </li>
-        </ul>
-      </Tooltip>
-    );
-
     return (
       <div className="ThingName">
-        <FormGroup>
-          <Label>Name <RequiredIndicator/> {tooltip}</Label>
-          {editable ? inputContent : staticContent}
-        </FormGroup>
+        <div>
+          <input
+            diabled={fetching}
+            data-field-name="name"
+            minLength={3}
+            onChange={this._onChange}
+            placeholder="Enter the name here"
+            ref="ThingName"
+            required="required"
+            defaultValue={value}
+            type="text"
+          />
+          <FieldMessages field={this._field}/>
+        </div>
       </div>
     );
   }

@@ -3,11 +3,12 @@
 import _ from "lodash";
 import alt from "../alt";
 import axios from "axios";
-
+import UserApi from "../_api/UserApi";
 
 class UserActions {
 
   constructor() {
+    this.userApi = new UserApi();
     this.getAllUsersThen = this.getAllUsersThen.bind(this);
     this.getAllUsersError = this.getAllUsersError.bind(this);
   }
@@ -15,25 +16,19 @@ class UserActions {
   getAllUsers() {
     return (dispatch) => {
       dispatch();
-      return axios.get("api/user/all")
+      return this.userApi.getAll()
         .then(this.getAllUsersThen)
         .catch(this.getAllUsersError);
     }
   }
 
-  getAllUsersThen(response) {
-    return _.map(response.data, (user) => {
-      return {
-        value: user.samAccountName,
-        label: `${user.firstName} ${user.lastName}`
-      };
-    });
+  getAllUsersThen(users) {
+    return users;
   }
 
   getAllUsersError(response) {
     return response;
   }
-
 }
 
 export default alt.createActions(UserActions);

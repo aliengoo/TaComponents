@@ -104,10 +104,14 @@ gulp.task("build:js", function (done) {
   });
 });
 
-gulp.task('default', ['vendor:css', 'build:css', 'build:js'], function () {
+var watcher = () => {
   lp.livereload({
     start: true
   });
   gulp.watch(['src/**/*.js', 'src/**/*.html'], ["build:js"]);
   gulp.watch('src/**/*.scss', ["build:css"]);
-});
+};
+
+gulp.task('default', ['vendor:css', 'build:css', 'build:js'], watcher);
+
+gulp.task("build:js:watch", ["build:js"], watcher);

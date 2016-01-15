@@ -1,9 +1,22 @@
 .ThingName {
-  width: 350px;
-
   .Tooltip {
     li {
       font-size: 11px;
     }
   }
+
+  input::-webkit-input-placeholder {
+    color: #969696;
+  }
+
+  input {
+    width: 100%;
+    padding: 5px 5px 5px 0;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: solid gainsboro 1px;
+    font-size: 2em;
+  }
+  margin-bottom: 15px;
 }

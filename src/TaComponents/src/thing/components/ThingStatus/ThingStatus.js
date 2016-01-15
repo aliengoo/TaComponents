@@ -40,6 +40,8 @@ export default class ThingStatus extends React.Component {
           <FormGroup>
             <Label>{label} {requiredIndicator} {tooltip}</Label>
             <Select
+              labelKey={"text"}
+              valueKey={"id"}
               placeholder={placeholder}
               value={value}
               options={statuses}

@@ -4,14 +4,16 @@ import _ from "lodash";
 import alt from "../alt";
 import ThingActions from "./ThingActions";
 import UserActions from "../_actions/UserActions";
-import RiskLevelStore from "../_actions/RiskLevelStore";
-import StatusStore from "../_actions/StatusStore";
-import UserStore from "../_actions/UserStore";
+import RiskLevelActions from "../_actions/RiskLevelActions";
+import StatusActions from "../_actions/StatusActions";
 import Field from "../_models/Field";
 
 class ThingStore {
   constructor() {
     this.bindActions(ThingActions);
+    this.bindActions(RiskLevelActions);
+    this.bindActions(StatusActions);
+    this.bindActions(UserActions);
 
     this.state = {
       editable: true,
@@ -24,6 +26,57 @@ class ThingStore {
       isNameUnique: true,
       thing: {}
     };
+  }
+
+  onGetRiskLevels() {
+    this.setState({
+      fetching: true
+    });
+  }
+
+  onGetRiskLevelsThen(riskLevels) {
+    this.setState({
+      fetching: false,
+      riskLevels
+    });
+  }
+
+  onGetRiskLevelsError(response) {
+    this._handleError(response);
+  }
+
+  onGetStatuses() {
+    this.setState({
+      fetching: true
+    });
+  }
+
+  onGetStatusesThen(statuses) {
+    this.setState({
+      fetching: false,
+      statuses
+    });
+  }
+
+  onGetStatusesError(response) {
+    this._handleError(response);
+  }
+
+  onGetAllUsers() {
+    this.setState({
+      fetching: true
+    });
+  }
+
+  onGetAllUsersThen(users) {
+    this.setState({
+      fetching: false,
+      users
+    });
+  }
+
+  onGetAllUsersError(response) {
+    this._handleError(response);
   }
 
   onClearFetching() {
@@ -123,11 +176,6 @@ class ThingStore {
   }
 
   onGetThen(thing) {
-    this.waitFor([
-      RiskLevelStore.dispatchToken,
-      StatusStore.dispatchToken,
-      UserStore.dispatchToken
-    ]);
     this.setState({
       fetching: false,
       fetchingId: null,
@@ -139,6 +187,10 @@ class ThingStore {
   onGetError(response) {
     console.error("onGetError:", response);
   }
+
+  _handleError (response) {
+    console.error("onGetError:", response);
+  }
 }
 
-export default alt.createStore(ThingStore, "ThingStore");
+export default alt.createStore(ThingStore);

@@ -41,6 +41,8 @@ export default class ThingTeam extends React.Component {
     const inputContent = (
       <div>
         <Select
+          labelKey={"name"}
+          valueKey={"samAccountName"}
           placeholder={placeholder}
           value={value}
           options={users}

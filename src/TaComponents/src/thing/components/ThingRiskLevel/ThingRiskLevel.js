@@ -35,6 +35,8 @@ export default class ThingRiskLevel extends React.Component {
     const inputContent = (
       <div>
         <Select
+          labelKey={"text"}
+          valueKey={"id"}
           placeholder={placeholder}
           value={value}
           options={riskLevels}

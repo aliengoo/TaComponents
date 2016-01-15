@@ -1,31 +1,28 @@
 "use strict";
 
-import _ from "lodash";
 import alt from "../alt";
-import axios from "axios";
+import StatusApi from "../_api/StatusApi";
 
 class StatusActions {
-  get() {
+  constructor() {
+    this.statusApi = new StatusApi();
+    this.getStatusesThen = this.getStatusesThen.bind(this);
+    this.getStatusesError = this.getStatusesError.bind(this);
+  }
+  getStatuses() {
     return (dispatch) => {
       dispatch();
-
-      return axios.get(`api/status`)
-        .then(this.getThen)
-        .catch(this.getError);
+      return this.statusApi.get()
+        .then(this.getStatusesThen)
+        .catch(this.getStatusesError);
     };
   }
 
-  getThen(response) {
-    // results are formatted for react-select
-    return _.map(response.data, riske => {
-      return {
-        value: riske.id,
-        label: riske.text
-      };
-    });
+  getStatusesThen(statuses) {
+    return statuses;
   }
 
-  getError(response) {
+  getStatusesError(response) {
     return response;
   }
 }
