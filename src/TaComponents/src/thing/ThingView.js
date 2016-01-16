@@ -4,7 +4,7 @@ import React, {Component, PropTypes} from "react";
 
 // stores and actions
 import UserActions from "../_actions/UserActions";
-import RiskLevelActions from "../_actions/RiskLevelActions";
+import RiskActions from "../_actions/RiskActions";
 import StatusActions from "../_actions/StatusActions";
 import ThingActions from "./ThingActions";
 import ThingStore from "./ThingStore";
@@ -29,7 +29,8 @@ export default class ThingView extends Component {
   }
 
   componentDidMount() {
-    RiskLevelActions.getRiskLevels();
+    RiskActions.getRiskSeverities();
+    RiskActions.getRiskProbabilities();
     StatusActions.getStatuses();
     UserActions.getAllUsers();
     ThingActions.get(this.props.params.id);

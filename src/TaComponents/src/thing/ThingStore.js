@@ -4,14 +4,14 @@ import _ from "lodash";
 import alt from "../alt";
 import ThingActions from "./ThingActions";
 import UserActions from "../_actions/UserActions";
-import RiskLevelActions from "../_actions/RiskLevelActions";
+import RiskActions from "../_actions/RiskActions";
 import StatusActions from "../_actions/StatusActions";
 import Field from "../_models/Field";
 
 class ThingStore {
   constructor() {
     this.bindActions(ThingActions);
-    this.bindActions(RiskLevelActions);
+    this.bindActions(RiskActions);
     this.bindActions(StatusActions);
     this.bindActions(UserActions);
 
@@ -24,24 +24,43 @@ class ThingStore {
       fields: {},
       isValid: false,
       isNameUnique: true,
+      riskSeverities: [],
+      riskProbabilities: [],
       thing: {}
     };
   }
 
-  onGetRiskLevels() {
+  onGetRiskSeverities() {
     this.setState({
       fetching: true
     });
   }
 
-  onGetRiskLevelsThen(riskLevels) {
+  onGetRiskSeveritiesThen(riskSeverities) {
     this.setState({
       fetching: false,
-      riskLevels
+      riskSeverities
     });
   }
 
-  onGetRiskLevelsError(response) {
+  onGetRiskSeveritiesError(response) {
+    this._handleError(response);
+  }
+
+  onGetRiskProbabilities() {
+    this.setState({
+      fetching: true
+    });
+  }
+
+  onGetRiskProbabilitiesThen(riskProbabilities) {
+    this.setState({
+      fetching: false,
+      riskProbabilities
+    });
+  }
+
+  onGetRiskProbabilitiesError(response) {
     this._handleError(response);
   }
 

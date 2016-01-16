@@ -4,7 +4,7 @@ import React from "react";
 import ThingActions from "./ThingActions";
 import ThingStore from "./ThingStore";
 import UserActions from "../_actions/UserActions";
-import RiskLevelActions from "../_actions/RiskLevelActions";
+import RiskActions from "../_actions/RiskActions";
 import StatusActions from "../_actions/StatusActions";
 
 import AppNavbar from "../_components/AppNavbar";
@@ -37,7 +37,8 @@ export default class Thing extends React.Component {
   }
 
   componentDidMount() {
-    RiskLevelActions.getRiskLevels();
+    RiskActions.getRiskSeverities();
+    RiskActions.getRiskProbabilities();
     StatusActions.getStatuses();
     UserActions.getAllUsers();
 

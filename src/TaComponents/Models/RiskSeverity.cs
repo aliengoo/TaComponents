@@ -1,6 +1,6 @@
 ﻿namespace TaComponents.Models
 {
-    public class RiskLevel : ModelBase
+    public class RiskSeverity : ModelBase
     {
         public string Text { get; set; }
     }

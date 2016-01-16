@@ -77,7 +77,8 @@ namespace TaComponents
             
             services.AddTransient<IThingRepository, ThingRepository>();
             services.AddTransient<IDataRepository<Status>, StatusRepository>();
-            services.AddTransient<IDataRepository<RiskLevel>, RiskLevelRepository>();
+            services.AddTransient<IDataRepository<RiskSeverity>, RiskSeverityRepository>();
+            services.AddTransient<IDataRepository<RiskProbability>, RiskProbabilityRepository>();
             services.AddTransient<IDataRepository<User>, MongoRepository<User>>();
             
             services.AddTransient<IUserCacheRepository, UserCacheRepository>();

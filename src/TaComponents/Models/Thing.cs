@@ -23,7 +23,7 @@
         /// <summary>
         /// <see cref="RiskLevel"/>
         /// </summary>
-        public string StaffRiskLevelId { get; set; }
+        public Risk Risk { get; set; }
 
         /// <summary>
         /// <see cref="Status"/>
