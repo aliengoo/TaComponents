@@ -20,8 +20,8 @@ export default class ThingRiskLevel extends React.Component {
     this._field = new Field(
       this.props.fieldSetter,
       undefined,
-      this.props.validatorFn,
-      this.props.fieldName,
+      this.props._validatorFn,
+      this.props._fieldName,
       this.props.errorsMap
     );
   }
@@ -40,7 +40,7 @@ export default class ThingRiskLevel extends React.Component {
           placeholder={placeholder}
           value={value}
           options={riskLevels}
-          name={fieldName}
+          name={modelPropertyName}
           onChange={this._onChange}
         />
         <FieldMessages field={this._field}/>
@@ -63,7 +63,7 @@ export default class ThingRiskLevel extends React.Component {
 ThingRiskLevel.propTypes = {
   editable: React.PropTypes.bool.isRequired,
   errorsMap: React.PropTypes.object,
-  fieldName: React.PropTypes.string.isRequired,
+  modelPropertyName: React.PropTypes.string.isRequired,
   fieldSetter: React.PropTypes.func.isRequired,
   label: React.PropTypes.string.isRequired,
   placeholder: React.PropTypes.string,

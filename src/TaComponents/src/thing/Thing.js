@@ -83,7 +83,7 @@ export default class Thing extends React.Component {
   }
 
   render() {
-    const {fetching, fetchingIsNameUnique, thing, isNameUnique} = this.state;
+    const {fetching, fetchingIsNameUnique, thing} = this.state;
 
     return (
       <div>
@@ -122,62 +122,15 @@ export default class Thing extends React.Component {
               fetching={fetching}
               fieldSetter={this._setField}
               isNameUniqueFn={this._isNameUnique}
-              isNameUnique={isNameUnique}
-              editable={editable}
               value={thing.name}/>
           </div>
         </div>
         <div className="row">
-
-
           <div className="col-lg-6">
-
-
-            <ThingDescription
-              fieldSetter={this._setField}
-              editable={editable}
-              value={thing.description}
-            />
-
-
-            <ThingCurrentStatus
-              fieldSetter={this._setField}
-              editable={editable}
-              value={thing.currentStatusId}
-              statuses={statuses}/>
-
-            <ThingIntendedStatus
-              fieldSetter={this._setField}
-              editable={editable}
-              value={thing.intendedStatusId}
-              statuses={statuses}/>
 
           </div>
           <div className="col-lg-6">
-            <ThingStaffRiskLevel
-              fieldSetter={this._setField}
-              editable={editable}
-              value={thing.staffRiskLevelId}
-              riskLevels={riskLevels}/>
 
-            <ThingOwners
-              fieldSetter={this._setField}
-              editable={editable}
-              value={thing.businessOwners}
-              users={users}/>
-
-            <ThingPrimaryTechnicalTeam
-              fieldSetter={this._setField}
-              editable={editable}
-              value={thing.primaryTechnicalTeam}
-              secondaryTechnicalTeam={thing.secondaryTechnicalTeam}
-              users={users}/>
-            <ThingSecondaryTechnicalTeam
-              fieldSetter={this._setField}
-              editable={editable}
-              value={thing.secondaryTechnicalTeam}
-              primaryTechnicalTeam={thing.primaryTechnicalTeam}
-              users={users}/>
           </div>
         </div>
 

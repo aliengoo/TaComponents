@@ -105,26 +105,27 @@ class ThingStore {
   }
 
 
-  onSetField(field) {
-    // set the field matching the fieldName in fields
-    const fields = Object.assign({}, this.state.fields, {
-      [field.fieldName]: field
+  onSetField() {
+    this.setState({
+      fetching: true
     });
+  }
 
-    // check for validity by counting the number of fields that are invalid
-    const isValid = Field.areAllValid(fields);
-
-    // update the thing object with the field value
-    const thing = Object.assign({}, this.state.thing, {
-      [field.fieldName]: field.value
-    });
+  onSetFieldThen(field) {
+    var result = field.evaluateInContext(
+      this.state.fields,
+      this.state.thing);
 
     this.setState({
-      fields,
-      isValid,
-      thing,
-      error: null
+      fetching: false,
+      fields: result.updatedFields,
+      isValid: result.isValid,
+      thing: result.updatedModel
     });
+  }
+
+  onSetFieldError(error) {
+    this._handleError(error);
   }
 
   onSetEditable(editable) {

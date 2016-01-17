@@ -21,8 +21,8 @@ export default class ThingStatus extends React.Component {
     this._field = new Field(
       this.props.fieldSetter,
       undefined,
-      this.props.validatorFn,
-      this.props.fieldName,
+      this.props._validatorFn,
+      this.props._fieldName,
       this.props.errorsMap
     );
   }
@@ -45,7 +45,7 @@ export default class ThingStatus extends React.Component {
               placeholder={placeholder}
               value={value}
               options={statuses}
-              name={fieldName}
+              name={modelPropertyName}
               onChange={this._onChange}
             />
             <div>
@@ -64,7 +64,7 @@ export default class ThingStatus extends React.Component {
 ThingStatus.propTypes = {
   editable: React.PropTypes.bool.isRequired,
   errorsMap: React.PropTypes.object,
-  fieldName: React.PropTypes.string.isRequired,
+  modelPropertyName: React.PropTypes.string.isRequired,
   fieldSetter: React.PropTypes.func.isRequired,
   label: React.PropTypes.string.isRequired,
   placeholder: React.PropTypes.string,

@@ -9,10 +9,26 @@ class ThingActions {
     this.getError = this.getError.bind(this);
     this.isNameUniqueError = this.isNameUniqueError.bind(this);
     this.isNameUniqueThen = this.isNameUniqueThen.bind(this);
+    this.setFieldThen = this.setFieldThen.bind(this);
+    this.setFieldError = this.setFieldError.bind(this);
   }
 
   setField(field) {
+    return (dispatch) => {
+      dispatch();
+
+      return field.validate()
+        .then(this.setFieldThen)
+        .catch(this.setFieldError);
+    };
+  }
+
+  setFieldThen(field) {
     return field;
+  }
+
+  setFieldError(error) {
+    return error;
   }
 
   setEditable(editable) {
