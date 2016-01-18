@@ -3,25 +3,13 @@
 import React, {Component, PropTypes} from "react";
 import FormGroup from "../../../../_components/FormGroup";
 import Label from "../../../../_components/Label";
-import FieldMessages from "../../../../_components/FieldMessages";
-import Field from "../../../../_models/Field";
+import ValidityStateMessages from "../../../../_components/ValidityStateMessages";
 
 export default class ThingRiskDescription extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  componentDidMount() {
-    this._field = new Field(
-      this.props.fieldSetter,
-      this.refs.ThingRiskDescription);
-  }
-
-  componentDidUpdate() {
-    this.refs.ThingRiskDescription = this.props.value;
-  }
 
   render() {
+    const {name, onChange, validityState} = this.props;
+
     return (
       <div className="ThingRiskDescription">
         <FormGroup>
@@ -31,9 +19,11 @@ export default class ThingRiskDescription extends Component {
             ref="ThingRiskDescription"
             rows="10"
             cols="30"
-            onChange={() => this._field.set()}
+            onChange={() => onChange({
+              [name]: this.refs[name].value
+            })}
           />
-          <FieldMessages field={this._field}/>
+          <ValidityStateMessages validityState={validityState}/>
         </FormGroup>
       </div>
     );
@@ -44,5 +34,6 @@ ThingRiskDescription.defaultProps = {};
 
 ThingRiskDescription.propTypes = {
   value: PropTypes.string,
-  fieldSetter: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  validityState: PropTypes.object
 };

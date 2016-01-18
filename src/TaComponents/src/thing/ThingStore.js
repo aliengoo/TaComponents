@@ -6,6 +6,7 @@ import ThingActions from "./ThingActions";
 import UserActions from "../_actions/UserActions";
 import RiskActions from "../_actions/RiskActions";
 import StatusActions from "../_actions/StatusActions";
+import {isValid} from "../_validation/validate";
 
 class ThingStore {
   constructor() {
@@ -19,20 +20,43 @@ class ThingStore {
       error: null,
       // start fetching true to prevent controls rendering initially
       fetching: true,
+      validating: false,
       fetchingIsNameUnique: false,
       isValid: false,
       isNameUnique: true,
       riskSeverities: [],
       riskProbabilities: [],
-      thing: {}
+      thing: {},
+      thingValidityState: {}
     };
   }
 
-  onSetValue(keyValuePair) {
-    const thing = Object.assign({}, {[keyValuePair.key]: keyValuePair.value});
+  onSetValue(data) {
+
+    const thing = Object.assign({}, this.state.thing, {
+      [data.property]: data.value
+    });
+
 
     this.setState({
       thing
+    });
+  }
+
+  onValidate() {
+    this.setState({
+      validating: true
+    });
+  }
+
+  onValidateThen(validationResult) {
+    const thingValidityState = Object.assign({}, this.state.thingValidityState, {
+      [validationResult.property]: validationResult.validityState
+    });
+
+    this.setState({
+      isValid: isValid(thingValidityState),
+      thingValidityState
     });
   }
 
@@ -149,7 +173,7 @@ class ThingStore {
     console.error("onGetError:", response);
   }
 
-  _handleError (response) {
+  _handleError(response) {
     console.error("onGetError:", response);
   }
 }

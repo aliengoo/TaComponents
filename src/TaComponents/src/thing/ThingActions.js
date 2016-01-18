@@ -4,37 +4,45 @@ import alt from "../alt";
 import ThingApi from "./ThingApi";
 import validate, {valueMissing, tooShort} from "../_validation/validate";
 
-function isThingNameUnique(api, name, id) {
-  return thingApi.isThingNameUnique(name, id);
-}
-
 class ThingActions {
   constructor() {
     this.thingApi = new ThingApi();
 
-    const ValidatorConfig = {
-      name: [valueMissing(), tooShort(3), (data) => {
-        return this.thingApi.isThingNameUnique(data.name, data.id).then(unique => {
-          return {
-            nameInUse: !unique,
-            valid: unique
-          };
-        });
-      }, {
+    const isThingNameUnique = (name) => {
+      return this.thingApi.isThingNameUnique(name, this.id).then(unique => {
+        return {
+          nameInUse: !unique
+        };
+      });
+    };
+
+    this._validatorConfig = {
+      name: [valueMissing(), tooShort(3), isThingNameUnique, {
         nameInUse: "The name specified is already in use",
         valueMissing: "Name is a required",
-        tooShort: ""
+        tooShort: "Name is too short"
       }]
     };
 
     this.getThen = this.getThen.bind(this);
     this.getError = this.getError.bind(this);
+    this.validateThen = this.validateThen.bind(this);
   }
 
-  setValue(keyValuePair) {
-    return keyValuePair;
+  setValue(property, value) {
+    return {property, value};
   }
 
+  validate(thing, property, value) {
+    return (dispatch) => {
+      dispatch();
+      return validate(thing, property, value, this._validatorConfig).then(this.validateThen);
+    };
+  }
+
+  validateThen(validationResult) {
+    return validationResult;
+  }
 
   clearFetching() {
     return true;

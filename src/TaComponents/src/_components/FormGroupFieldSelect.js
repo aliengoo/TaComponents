@@ -4,29 +4,23 @@ import _ from "lodash";
 import Q from "q";
 import React, {Component, PropTypes} from "react";
 import FormGroup from "./FormGroup";
-import FieldMessage from "../_components/FieldMessages";
+import ValidityStateMessages from "../_components/ValidityStateMessages";
 import Label from "./Label";
 import Select from "react-select";
 
 export default class FormGroupFieldSelect extends Component {
-  constructor(props) {
-    super(props);
-    this._onChange = this._onChange.bind(this);
-  }
-
-  _onChange(value) {
-    var actual = value;
-
-    if (this.props.multi) {
-      actual = _.filter(value.split(","), v => !!v);
-    }
-
-    this._field.set(actual);
-  }
 
   render() {
 
-    const {label, labelKey, placeholder, value, valueKey, options, name, multi, attr, tooltip} = this.props;
+    const {
+      label,
+      labelKey,
+      placeholder,
+      value,
+      valueKey,
+      onChange,
+      options,
+      name, multi, attr, tooltip} = this.props;
 
     return (
       <div className="FormGroupFieldSelect">
@@ -41,9 +35,9 @@ export default class FormGroupFieldSelect extends Component {
             inputProps={attr}
             name={name}
             multi={multi}
-            onChange={this._onChange}
+            onChange={onChange}
           />
-          <FieldMessage field={this._field}/>
+          <ValidityStateMessages validityState={validityState}/>
         </FormGroup>
       </div>
     );

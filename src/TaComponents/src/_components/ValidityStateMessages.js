@@ -11,12 +11,12 @@ export default class ValidityStateMessages extends React.Component {
       return <div></div>;
     }
 
-    const messages = validityState.messages;
+    const messages = _.values(validityState.messages);
 
     return (
       <div className="ValidityStateMessages">
-        {messages.map((messages, key) =>
-          <span className="help-block" key={key}>{messages}</span>)}
+        {messages.map((message, key) =>
+          <span className="help-block" key={key}>{message}</span>)}
       </div>
     );
   }

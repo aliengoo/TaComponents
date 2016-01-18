@@ -76,7 +76,7 @@ export function tooShort(minLength) {
           but got the type '${typeof value}' for the value '${value}' - you will need to convert the value first.`;
       } else {
         return Q.resolve({
-          tooShort: !(value.length < minLength)
+          tooShort: value.length < minLength
         });
       }
     }
@@ -89,6 +89,7 @@ export function tooLong(maxLength) {
   }
 
   return (value) => {
+
     // no valid, then it's fine
     if (!value) {
       return Q.resolve({
@@ -149,17 +150,20 @@ export function invalidUrl() {
   };
 }
 
-/*
-var pipeline = {
-  name:
-};
+export function isValid(overallValidityState) {
+  return _.keys(_.pick(overallValidityState, (value) => {
+    return value.valid === false;
+  })).length === 0;
+}
 
+export default function validate(currentModelState, property, value, config) {
 
- */
-
-export default function validate(config, property, value) {
-
+  // pipline represents each validator
   let pipeline = [];
+
+  if (!_.isObject(currentModelState)) {
+    throw `validate: Expected a current model (for context validation)`;
+  }
 
   if (_.isArray(config)) {
       pipeline = config;
@@ -184,20 +188,25 @@ export default function validate(config, property, value) {
     throw "validate: expected the last item in the validation pipeline to contain an object containing error messages";
   }
 
-  let promises = [];
 
-  for (var segment in pipeline) {
-    promises.push(segment(value));
-  }
+  var actualPipeline = _.takeWhile(pipeline, _.isFunction);
+
+  let promises = _.map(actualPipeline, (fn) => {
+    return fn.call(currentModelState, value);
+  });
 
   return Q.all(promises).then((results) => {
-    let validityState = Object.assign({}, {...results});
+    let validityState = Object.assign({}, ...results);
 
     const errorKeys = _.keys(_.pick(validityState, value => value));
 
     validityState.valid = errorKeys.length === 0;
     validityState.messages = _.pick(messages, errorKeys);
 
-    return validityState;
+    return {
+      validityState,
+      value,
+      property
+    };
   });
 }

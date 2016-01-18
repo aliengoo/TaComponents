@@ -60,8 +60,9 @@ export default class Thing extends React.Component {
     this.setState(state);
   }
 
-  _onChange(keyValuePair) {
-    ThingActions.setValue(keyValuePair);
+  _onChange(property, value) {
+    ThingActions.setValue(property, value);
+    ThingActions.validate(this.state.thing, property, value);
   }
 
   _save(event) {
@@ -90,13 +91,9 @@ export default class Thing extends React.Component {
 
   renderThing() {
     const {
-      editable,
       fetching,
-      isNameUnique,
+      thingValidityState,
       isValid,
-      users,
-      riskLevels,
-      statuses,
       thing
       } = this.state;
 
@@ -107,26 +104,14 @@ export default class Thing extends React.Component {
           <div className="col-lg-6">
             <ThingName
               fetching={fetching}
-              fieldSetter={this._onChange}
+              validityState={thingValidityState.name}
+              onChange={this._onChange}
               value={thing.name}/>
           </div>
         </div>
         <div className="row">
           <div className="col-lg-6">
-            <ThingDescription fetching={fetching}
-                              fieldSetter={this._onChange}
-                              value={thing.description}/>
-            <ThingCurrentStatus
-              fetching={fetching}
-              value={thing.currentStatusId}
-              fieldSetter={this._onChange}
-              statuses={statuses}/>
 
-            <ThingIntendedStatus
-              fetching={fetching}
-              value={thing.intendedStatusId}
-              fieldSetter={this._onChange}
-              statuses={statuses}/>
 
           </div>
           <div className="col-lg-6">
@@ -143,7 +128,7 @@ export default class Thing extends React.Component {
   }
 
   renderThingModel() {
-    return <pre className="">{JSON.stringify(this.state.thing, null, 2)}</pre>
+    return <pre className="">{JSON.stringify(this.state.thingValidityState, null, 2)}</pre>
   }
 }
 

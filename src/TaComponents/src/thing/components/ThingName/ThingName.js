@@ -10,9 +10,10 @@ import FormGroupFieldInput from "../../../_components/FormGroupFieldInput";
 export default class ThingName extends React.Component {
 
   render() {
-    const {value, onChange, fetching} = this.props;
+    const {value, onChange, fetching, validityState} = this.props;
 
     var options = {
+      validityState,
       attr: {
         disabled: fetching,
         placeholder: "Enter the name here",
