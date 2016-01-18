@@ -7,31 +7,35 @@ import FormGroup from "./FormGroup";
 import Label from "./Label";
 import FieldMessages from "./FieldMessages";
 
-export default class FormGroupFieldTextArea extends Component {
-  constructor(props) {
-    super(props);
-  }
+export default class FormGroupFieldTextarea extends Component {
 
   componentDidMount() {
-    const {fieldSetter, validator, errorsMap, modelPropertyName} = this.props;
+    const {fieldSetter, validator, errorsMap, name} = this.props;
+
+    const element = this.refs[name];
 
     this._field = new Field({
+      element,
       fieldSetter,
       validator,
       errorsMap,
-      modelPropertyName
+      name
     });
   }
 
   render() {
 
-    const {label, inputOptions, modelPropertyName, tooltip} = this.props;
+    const {label, attr, name, tooltip, value} = this.props;
 
     return (
-      <div className="FormGroupFieldTextArea">
+      <div className="FormGroupFieldTextarea">
         <FormGroup>
           <Label>{label} {tooltip}</Label>
-          <textarea {...inputOptions} ref={modelPropertyName}/>
+          <textarea
+            {...attr}
+            ref={name}
+            value={value}
+            onChange={() => this._field.set()}/>
           <FieldMessages field={this._field}/>
         </FormGroup>
       </div>
@@ -39,18 +43,20 @@ export default class FormGroupFieldTextArea extends Component {
   }
 }
 
-FormGroupFieldTextArea.defaultProps = {
+FormGroupFieldTextarea.defaultProps = {
   validator: () => {
-    return {valid: true};
+    return Q.resolve({valid: true});
   },
   label: ""
 };
 
-FormGroupFieldTextArea.propTypes = {
-  label: PropTypes.string,
+FormGroupFieldTextarea.propTypes = {
+  label: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   fieldSetter: PropTypes.func.isRequired,
-  modelPropertyName: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
   errorsMap: PropTypes.object,
   validator: PropTypes.func,
-  inputOptions: PropTypes.object.isRequired
+  value: PropTypes.string,
+  attr: PropTypes.object,
+  tooltip: PropTypes.node
 };

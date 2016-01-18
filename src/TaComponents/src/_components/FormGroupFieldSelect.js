@@ -9,36 +9,40 @@ import FieldMessage from "../_components/FieldMessages";
 import Label from "./Label";
 import Select from "react-select";
 
-export default class FormGroupSelect extends Component {
+export default class FormGroupFieldSelect extends Component {
   constructor(props) {
     super(props);
+
+    this._onChange = this._onChange.bind(this);
   }
 
   componentDidMount() {
-    const {fieldSetter, validator, errorsMap, modelPropertyName} = this.props;
+    const {fieldSetter, validator, errorsMap, name} = this.props;
 
     this._field = new Field({
       fieldSetter,
       validator,
       errorsMap,
-      modelPropertyName
+      name
     });
   }
 
   _onChange(value) {
+    var actual = value;
+
     if (this.props.multi) {
-      return _.filter(value.split(","), v => !!v);
+      actual = _.filter(value.split(","), v => !!v);
     }
 
-    return value;
+    this._field.set(actual);
   }
 
   render() {
 
-    const {label, labelKey, placeholder, value, valueKey, options, modelPropertyName, multi, tooltip} = this.props;
+    const {label, labelKey, placeholder, value, valueKey, options, name, multi, attr, tooltip} = this.props;
 
     return (
-      <div className="FormGroupSelect">
+      <div className="FormGroupFieldSelect">
         <FormGroup>
           <Label>{label} {tooltip}</Label>
           <Select
@@ -47,7 +51,8 @@ export default class FormGroupSelect extends Component {
             placeholder={placeholder}
             value={value}
             options={options}
-            name={modelPropertyName}
+            inputProps={attr}
+            name={name}
             multi={multi}
             onChange={this._onChange}
           />
@@ -58,7 +63,7 @@ export default class FormGroupSelect extends Component {
   }
 }
 
-FormGroupSelect.defaultProps = {
+FormGroupFieldSelect.defaultProps = {
   validator: () => {
     return Q.resolve({valid: true});
   },
@@ -68,15 +73,15 @@ FormGroupSelect.defaultProps = {
   valueKey: "value"
 };
 
-FormGroupSelect.propTypes = {
-  value: PropTypes.oneOf([PropTypes.array, PropTypes.string]),
+FormGroupFieldSelect.propTypes = {
+  value: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   valueKey: PropTypes.string,
-  label: PropTypes.oneOf([PropTypes.node, PropTypes.string]),
+  label: PropTypes.oneOfType([PropTypes.node, PropTypes.string]),
   labelKey: PropTypes.string,
   placeholder: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.object),
   fieldSetter: PropTypes.func.isRequired,
-  modelPropertyName: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   errorsMap: PropTypes.object,
   validator: PropTypes.func,
   multi: PropTypes.bool,

@@ -106,9 +106,7 @@ class ThingStore {
 
 
   onSetField() {
-    this.setState({
-      fetching: true
-    });
+    this.setState();
   }
 
   onSetFieldThen(field) {
@@ -131,40 +129,6 @@ class ThingStore {
   onSetEditable(editable) {
     this.setState({
       editable
-    });
-  }
-
-  onIsNameUnique() {
-    this.setState({
-      fetchingIsNameUnique: true
-    });
-  }
-
-  onIsNameUniqueThen(isNameUnique) {
-    this.setState({
-      fetchingIsNameUnique: false,
-      isNameUnique
-    });
-  }
-
-  onIsNameUniqueError(response) {
-    // conflict, indicating the name is not unique
-    if (response.status === 409) {
-      this.setState({
-        fetchingIsNameUnique: false,
-        isNameUnique: false
-      });
-    } else {
-      this.setState({
-        fetchingIsNameUnique: false,
-        error: response
-      });
-    }
-  }
-
-  onClearIsNameUnique() {
-    this.setState({
-      isNameUnique: true
     });
   }
 
@@ -198,7 +162,6 @@ class ThingStore {
   onGetThen(thing) {
     this.setState({
       fetching: false,
-      fetchingId: null,
       thing,
       error: null
     });
@@ -213,4 +176,4 @@ class ThingStore {
   }
 }
 
-export default alt.createStore(ThingStore);
+export default alt.createStore(ThingStore, "ThingStore");

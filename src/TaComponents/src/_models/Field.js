@@ -40,9 +40,11 @@ export default class Field {
       throw "Field options was not an object";
     }
 
-    this._options = Object.assign({
-      errorsMap: DefaultErrorMap
-    }, options);
+    const errorsMap = Object.assign({}, DefaultErrorMap, options.errorsMap || {});
+
+    this._options = Object.assign({}, options, {
+      errorsMap
+    });
 
     this._validateOptions();
     this.value = undefined;
@@ -54,7 +56,7 @@ export default class Field {
    * @param value
    */
   set(value = undefined) {
-    this.value = value || _.get(this, "element.value", undefined);
+    this.value = value || _.get(this._options, "element.value", undefined);
     this._updateHistory(this.value);
     this._options.fieldSetter(this);
   }
@@ -62,7 +64,10 @@ export default class Field {
   _validateElement() {
     if (this._options.element) {
       this._options.element.checkValidity();
-      return Q.resolve(this._options.element.validity);
+
+      var validityState = Field.enumerateValidityState(this._options.element.validity);
+
+      return Q.resolve(validityState);
     }
 
     return Q.resolve({
@@ -72,7 +77,9 @@ export default class Field {
 
   _validateCustom() {
     if (_.isFunction(this._options.validator)) {
-      return this._options.validator(this.value).then(validityState => validatyState);
+      return this._options.validator(this.value).then(validityState => {
+        return validityState;
+      });
     }
 
     return Q.resolve({
@@ -84,16 +91,11 @@ export default class Field {
    * Validates the current state of an element, and/or calls the customer validator
    */
   validate() {
-
     return Q.all([
       this._validateElement(),
       this._validateCustom()]).then(v => {
-
       const valid = v[0].valid && v[1].valid;
-
-      this.validityState = Object.assign({}, v[0], v[1], {
-        valid
-      });
+      this.validityState = Object.assign({}, v[0], v[1], {valid});
 
       return this;
     });
@@ -170,13 +172,12 @@ export default class Field {
         }
       }
 
-      if (!this._options.modelPropertyName) {
-        this._options.modelPropertyName = $(element).data("model-property-name") || element.name;
+      if (!this._options.name) {
+        this._options.name = element.name;
       }
 
-      if (!this._options.modelPropertyName) {
-        errors.push(`Field:modelPropertyName was not specified,
-         and could not be obtained from the data-model-property-name or element.name values`);
+      if (!this._options.name) {
+        errors.push(`Field:name was not specified, and could not be obtained from the element.name value`);
       }
 
     } else {
@@ -184,8 +185,8 @@ export default class Field {
         errors.push("Field:element was not provided, so expected a validator function to be")
       }
 
-      if (!this._options.modelPropertyName) {
-        errors.push("Field:modelPropertyName is required");
+      if (!this._options.name) {
+        errors.push("Field:name is required");
       }
     }
 
@@ -196,24 +197,42 @@ export default class Field {
 
   /**
    * Evaluates the current instance in the context of other fields, and a model.
-   * @param {object} fields - each property of fields should match the Field.modelPropertyName value
-   * @param {object} model - the model representing the values of each field.  The Field.modelPropertyName
+   * @param {object} fields - each property of fields should match the Field.name value
+   * @param {object} model - the model representing the values of each field.  The Field.name
    * should match the model property.
    * @returns {{updatedFields: {object}, updatedModel: {object}, isValid: boolean}} a new object, containing immutable
    * instances of fields, the model and the updated validity state.
    */
   evaluateInContext(fields, model) {
-    const p = this._options.modelPropertyName;
+    const pn = this._options.name;
     const updatedFields = Object.assign({}, fields, {
-      [p]: this
+      [pn]: this
     });
 
     const updatedModel = Object.assign({}, model, {
-      [p]: this.value
+      [pn]: this.value
     });
 
     const isValid = _.keys(_.pick(updatedFields, field => !field.isValid())).length === 0;
 
     return {updatedFields, updatedModel, isValid};
+  }
+
+  /**
+   * Created because HTMLInputElement.validity is not enumerable.  You can access individual properties, but
+   * Object.assign doesn't work, or for of, or _.clone.
+   *
+   * The only way to enumerate the property values is using for(var key in v)
+   * @param v
+   * @returns {{}}
+   */
+  static enumerateValidityState(v) {
+    var o = {};
+
+    for(var key in v) {
+      o[key] = v[key];
+    }
+
+    return o;
   }
 }

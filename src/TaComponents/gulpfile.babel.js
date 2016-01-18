@@ -94,7 +94,7 @@ gulp.task("build:js", function (done) {
     .pipe(exorcist(mapfile))
     .pipe(source("bundle.js"))
     .pipe(gulp.dest("./wwwroot/js"))
-    .on('end', () => {
+    .pipe(lp.livereload()).on('end', () => {
     notifier.notify({
       title: "build:js",
       message: "Browserify finished",

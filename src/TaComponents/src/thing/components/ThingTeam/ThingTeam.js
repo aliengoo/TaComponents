@@ -7,7 +7,7 @@ import FormGroupFieldSelect from "../../../_components/FormGroupFieldSelect";
 export default class ThingTeam extends React.Component {
 
   render() {
-    const {editable, value, users, label, fieldName, placeholder, tooltip, requiredIndicator} = this.props;
+    const {value, users, label, name, placeholder, tooltip, requiredIndicator} = this.props;
 
     return (
       <div className="ThingTeam">
@@ -18,7 +18,7 @@ export default class ThingTeam extends React.Component {
           value={value}
           options={users}
           multi={true}
-          name={modelPropertyName}
+          name={name}
           onChange={this._onChange}
         />
       </div>
@@ -27,9 +27,8 @@ export default class ThingTeam extends React.Component {
 }
 
 ThingTeam.propTypes = {
-  editable: PropTypes.bool.isRequired,
   errorsMap: PropTypes.object,
-  modelPropertyName: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   fieldSetter: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   placeholder: PropTypes.string,

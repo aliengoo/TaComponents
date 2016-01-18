@@ -40,7 +40,7 @@ export default class ThingRiskLevel extends React.Component {
           placeholder={placeholder}
           value={value}
           options={riskLevels}
-          name={modelPropertyName}
+          name={name}
           onChange={this._onChange}
         />
         <FieldMessages field={this._field}/>
@@ -63,7 +63,7 @@ export default class ThingRiskLevel extends React.Component {
 ThingRiskLevel.propTypes = {
   editable: React.PropTypes.bool.isRequired,
   errorsMap: React.PropTypes.object,
-  modelPropertyName: React.PropTypes.string.isRequired,
+  name: React.PropTypes.string.isRequired,
   fieldSetter: React.PropTypes.func.isRequired,
   label: React.PropTypes.string.isRequired,
   placeholder: React.PropTypes.string,

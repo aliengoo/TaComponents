@@ -6,17 +6,19 @@ import React from "react";
 import Tooltip from "../../../_components/Tooltip";
 import RequiredIndicator from "../../../_components/RequiredIndicator";
 import FormGroupFieldInput from "../../../_components/FormGroupFieldInput";
+import ThingApi from "../../ThingApi";
 
 export default class ThingName extends React.Component {
 
   constructor(props) {
     super(props);
 
+    this._thingApi = new ThingApi();
     this._validator = this._validator.bind(this);
   }
 
   _validator(value) {
-    return this.props.isNameUniqueFn(value).then((nameIsUnique) => {
+    return this._thingApi.isThingNameUnique(value).then((nameIsUnique) => {
       return {
         nameNotUnique: !nameIsUnique,
         valid: nameIsUnique
@@ -30,8 +32,8 @@ export default class ThingName extends React.Component {
     var options = {
       fieldSetter,
       value,
-      label: "Name",
-      modelPropertyName: "name",
+      label: "",
+      name: "name",
       errorsMap: {
         nameNotUnique: "This name is already in use",
         valueMissing: "You must specify a name"
@@ -40,10 +42,9 @@ export default class ThingName extends React.Component {
       tooltip: (<span/>),
       attr: {
         disabled: fetching,
-        name: "name",
         minLength: 3,
         placeholder: "Enter the name here",
-        required: true,
+        required: "required",
         type: "text"
       }
     };
@@ -63,6 +64,5 @@ ThingName.defaultProps = {
 ThingName.propTypes = {
   fetching: React.PropTypes.bool,
   value: React.PropTypes.string,
-  fieldSetter: React.PropTypes.func.isRequired,
-  isNameUniqueFn: React.PropTypes.func.isRequired
+  fieldSetter: React.PropTypes.func.isRequired
 };

@@ -32,7 +32,6 @@ export default class Thing extends React.Component {
     this._onThingStoreChange = this._onThingStoreChange.bind(this);
     this._setField = this._setField.bind(this);
     this._save = this._save.bind(this);
-    this._isNameUnique = this._isNameUnique.bind(this);
     this._isEditing = this.props.params.mode === "edit";
   }
 
@@ -59,18 +58,6 @@ export default class Thing extends React.Component {
 
   _onThingStoreChange(state) {
     this.setState(state);
-  }
-
-  _isNameUnique(name) {
-    if (name) {
-      if (this._isEditing) {
-        ThingActions.isNameUnique(name, this.state.thing.id);
-      } else {
-        ThingActions.isNameUnique(name);
-      }
-    } else {
-      ThingActions.clearIsNameUnique();
-    }
   }
 
   _setField(field) {
@@ -121,12 +108,25 @@ export default class Thing extends React.Component {
             <ThingName
               fetching={fetching}
               fieldSetter={this._setField}
-              isNameUniqueFn={this._isNameUnique}
               value={thing.name}/>
           </div>
         </div>
         <div className="row">
           <div className="col-lg-6">
+            <ThingDescription fetching={fetching}
+                              fieldSetter={this._setField}
+                              value={thing.description}/>
+            <ThingCurrentStatus
+              fetching={fetching}
+              value={thing.currentStatusId}
+              fieldSetter={this._setField}
+              statuses={statuses}/>
+
+            <ThingIntendedStatus
+              fetching={fetching}
+              value={thing.intendedStatusId}
+              fieldSetter={this._setField}
+              statuses={statuses}/>
 
           </div>
           <div className="col-lg-6">
@@ -143,7 +143,7 @@ export default class Thing extends React.Component {
   }
 
   renderThingModel() {
-    return <pre className="hide">{JSON.stringify(this.state.thing, null, 2)}</pre>
+    return <pre className="">{JSON.stringify(this.state.thing, null, 2)}</pre>
   }
 }
 

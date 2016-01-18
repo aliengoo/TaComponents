@@ -3,10 +3,7 @@
 import _ from "lodash";
 import $ from "jquery";
 import React from "react";
-import Field from "../../../_models/Field";
-import FormGroup from "../../../_components/FormGroup";
-import Label from "../../../_components/Label";
-import FieldMessages from "../../../_components/FieldMessages";
+import FormGroupFieldTextarea from "../../../_components/FormGroupFieldTextArea";
 import Tooltip from "../../../_components/Tooltip";
 import RequiredIndicator from "../../../_components/RequiredIndicator";
 
@@ -14,23 +11,10 @@ export default class ThingDescription extends React.Component {
 
   constructor(props) {
     super(props);
-    this._onChange = this._onChange.bind(this);
-  }
-
-  componentDidMount() {
-    this._field = new Field(this.props.fieldSetter, this.refs.ThingDescription);
-  }
-
-  componentDidUpdate() {
-    this.refs.ThingDescription.value = this.props.value;
-  }
-
-  _onChange() {
-    this._field.set();
   }
 
   render() {
-    const {value} = this.props;
+    const {value, fieldSetter, fetching} = this.props;
 
     const tooltip = (
       <Tooltip container="ThingDescription">
@@ -38,23 +22,24 @@ export default class ThingDescription extends React.Component {
       </Tooltip>
     );
 
+    var options = {
+      fieldSetter,
+      value,
+      label: "Description",
+      name: "description",
+      errorsMap: {},
+      tooltip,
+      attr: {
+        className: "form-control",
+        rows: 5,
+        disabled: fetching,
+        placeholder: "Enter some sort of description"
+      }
+    };
+
     return (
       <div className="ThingDescription">
-        <FormGroup>
-          <Label>Description {tooltip}</Label>
-          <div>
-              <textarea
-                className="form-control"
-                cols="30"
-                data-field-name="description"
-                placeholder="What does this thing do?"
-                ref="ThingDescription"
-                onChange={this._onChange}
-                rows="5"
-              />
-            <FieldMessages field={this._field}/>
-          </div>
-        </FormGroup>
+        <FormGroupFieldTextarea {...options}/>
       </div>
     );
   }
@@ -65,7 +50,7 @@ ThingDescription.defaultProps = {
 };
 
 ThingDescription.propTypes = {
-  editable: React.PropTypes.bool.isRequired,
+  fetching: React.PropTypes.bool,
   value: React.PropTypes.string,
   fieldSetter: React.PropTypes.func.isRequired
 };

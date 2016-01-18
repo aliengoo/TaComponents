@@ -9,40 +9,34 @@ import FieldMessages from "./FieldMessages";
 
 export default class FormGroupFieldInput extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this._onChange = this._onChange.bind(this);
-  }
-
   componentDidMount() {
-    const {fieldSetter, validator, errorsMap, modelPropertyName} = this.props;
+    const {fieldSetter, validator, errorsMap, name} = this.props;
+
+    const element = this.refs[name];
 
     this._field = new Field({
+      element,
       fieldSetter,
       validator,
       errorsMap,
-      modelPropertyName
+      name
     });
-  }
-
-  componentDidUpdate() {
-    this.refs[this.props.modelPropertyName] = this.props.value;
-  }
-
-  _onChange() {
-    this._field.set();
   }
 
   render() {
 
-    const {label, attr, modelPropertyName, tooltip} = this.props;
+    const {label, attr, name, value, tooltip} = this.props;
 
     return (
       <div className="FormGroupFieldInput">
         <FormGroup>
           <Label>{label} {tooltip}</Label>
-          <input {...attr} ref={modelPropertyName} onChange={this._onChange}/>
+          <input
+            {...attr}
+            ref={name}
+            onChange={() => this._field.set()}
+            value={value}
+          />
           <FieldMessages field={this._field}/>
         </FormGroup>
       </div>
@@ -61,7 +55,7 @@ FormGroupFieldInput.defaultProps = {
 FormGroupFieldInput.propTypes = {
   label: PropTypes.string,
   fieldSetter: PropTypes.func.isRequired,
-  modelPropertyName: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   errorsMap: PropTypes.object,
   validator: PropTypes.func,
   value: PropTypes.string,
