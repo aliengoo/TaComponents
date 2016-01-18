@@ -2,43 +2,41 @@
 
 import alt from "../alt";
 import ThingApi from "./ThingApi";
+import validate, {valueMissing, tooShort} from "../_validation/validate";
+
+function isThingNameUnique(api, name, id) {
+  return thingApi.isThingNameUnique(name, id);
+}
 
 class ThingActions {
   constructor() {
     this.thingApi = new ThingApi();
+
+    const ValidatorConfig = {
+      name: [valueMissing(), tooShort(3), (data) => {
+        return this.thingApi.isThingNameUnique(data.name, data.id).then(unique => {
+          return {
+            nameInUse: !unique,
+            valid: unique
+          };
+        });
+      }, {
+        nameInUse: "The name specified is already in use",
+        valueMissing: "Name is a required",
+        tooShort: ""
+      }]
+    };
+
     this.getThen = this.getThen.bind(this);
     this.getError = this.getError.bind(this);
-    this.setFieldThen = this.setFieldThen.bind(this);
-    this.setFieldError = this.setFieldError.bind(this);
   }
 
-  setField(field) {
-    return (dispatch) => {
-      dispatch();
-
-      return field.validate()
-        .then(this.setFieldThen)
-        .catch(this.setFieldError);
-    };
+  setValue(keyValuePair) {
+    return keyValuePair;
   }
 
-  setFieldThen(field) {
-    return field;
-  }
-
-  setFieldError(error) {
-    return error;
-  }
-
-  setEditable(editable) {
-    return editable;
-  }
 
   clearFetching() {
-    return true;
-  }
-
-  clearIsNameUnique() {
     return true;
   }
 

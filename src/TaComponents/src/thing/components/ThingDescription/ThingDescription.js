@@ -1,20 +1,18 @@
 "use strict";
 
-import _ from "lodash";
-import $ from "jquery";
-import React from "react";
+import React, {Component, PropTypes} from "react";
 import FormGroupFieldTextarea from "../../../_components/FormGroupFieldTextArea";
 import Tooltip from "../../../_components/Tooltip";
 import RequiredIndicator from "../../../_components/RequiredIndicator";
 
-export default class ThingDescription extends React.Component {
+export default class ThingDescription extends Component {
 
   constructor(props) {
     super(props);
   }
 
   render() {
-    const {value, fieldSetter, fetching} = this.props;
+    const {value, onChange, fetching} = this.props;
 
     const tooltip = (
       <Tooltip container="ThingDescription">
@@ -23,11 +21,10 @@ export default class ThingDescription extends React.Component {
     );
 
     var options = {
-      fieldSetter,
+      onChange,
       value,
       label: "Description",
       name: "description",
-      errorsMap: {},
       tooltip,
       attr: {
         className: "form-control",
@@ -50,7 +47,7 @@ ThingDescription.defaultProps = {
 };
 
 ThingDescription.propTypes = {
-  fetching: React.PropTypes.bool,
-  value: React.PropTypes.string,
-  fieldSetter: React.PropTypes.func.isRequired
+  fetching: PropTypes.bool,
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired
 };

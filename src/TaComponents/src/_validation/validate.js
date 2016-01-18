@@ -149,40 +149,55 @@ export function invalidUrl() {
   };
 }
 
+/*
+var pipeline = {
+  name:
+};
+
+
+ */
+
 export default function validate(config, property, value) {
 
-  let validators = [];
+  let pipeline = [];
 
   if (_.isArray(config)) {
-      validators = config;
+      pipeline = config;
   } else if (_.isObject(config)) {
-    validators = _.get(config, property, []);
-    if (!_.isArray(validators)) {
+    pipeline = _.get(config, property, []);
+    if (!_.isArray(pipeline)) {
       throw `validate: expected the validators for ${property} to be an array`;
     }
   } else {
     throw "validate: Expected config argument to be an object or an array"
   }
 
-  if (validators.length === 0) {
+  if (pipeline.length === 0) {
     return Q.resolve({
       valid: true
     });
   }
 
+  var messages = _.last(pipeline);
+
+  if (!_.isObject(messages)) {
+    throw "validate: expected the last item in the validation pipeline to contain an object containing error messages";
+  }
+
   let promises = [];
 
-  for (var validator in validators) {
-    if (!_.isFunction(validator)) {
-      throw "validate: expected the validator to be a function";
-    }
-    promises.push(validator(value));
+  for (var segment in pipeline) {
+    promises.push(segment(value));
   }
 
   return Q.all(promises).then((results) => {
     let validityState = Object.assign({}, {...results});
 
-    validityState.valid = _.keys(_.pick(validityState, value => value)).length === 0;
+    const errorKeys = _.keys(_.pick(validityState, value => value));
+
+    validityState.valid = errorKeys.length === 0;
+    validityState.messages = _.pick(messages, errorKeys);
+
     return validityState;
   });
 }

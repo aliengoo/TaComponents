@@ -3,7 +3,6 @@
 import _ from "lodash";
 import Q from "q";
 import React, {Component, PropTypes} from "react";
-import Field from "../_models/Field";
 import FormGroup from "./FormGroup";
 import FieldMessage from "../_components/FieldMessages";
 import Label from "./Label";
@@ -12,19 +11,7 @@ import Select from "react-select";
 export default class FormGroupFieldSelect extends Component {
   constructor(props) {
     super(props);
-
     this._onChange = this._onChange.bind(this);
-  }
-
-  componentDidMount() {
-    const {fieldSetter, validator, errorsMap, name} = this.props;
-
-    this._field = new Field({
-      fieldSetter,
-      validator,
-      errorsMap,
-      name
-    });
   }
 
   _onChange(value) {
@@ -64,9 +51,6 @@ export default class FormGroupFieldSelect extends Component {
 }
 
 FormGroupFieldSelect.defaultProps = {
-  validator: () => {
-    return Q.resolve({valid: true});
-  },
   multi: false,
   label: "",
   labelKey: "label",
@@ -80,10 +64,9 @@ FormGroupFieldSelect.propTypes = {
   labelKey: PropTypes.string,
   placeholder: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.object),
-  fieldSetter: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
-  errorsMap: PropTypes.object,
-  validator: PropTypes.func,
+  validityState: PropTypes.object,
   multi: PropTypes.bool,
   tooltip: PropTypes.node
 };

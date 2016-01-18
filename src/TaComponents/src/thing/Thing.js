@@ -30,7 +30,7 @@ export default class Thing extends React.Component {
 
     this.state = ThingStore.getState();
     this._onThingStoreChange = this._onThingStoreChange.bind(this);
-    this._setField = this._setField.bind(this);
+    this._onChange = this._onChange.bind(this);
     this._save = this._save.bind(this);
     this._isEditing = this.props.params.mode === "edit";
   }
@@ -60,8 +60,8 @@ export default class Thing extends React.Component {
     this.setState(state);
   }
 
-  _setField(field) {
-    ThingActions.setField(field);
+  _onChange(keyValuePair) {
+    ThingActions.setValue(keyValuePair);
   }
 
   _save(event) {
@@ -107,25 +107,25 @@ export default class Thing extends React.Component {
           <div className="col-lg-6">
             <ThingName
               fetching={fetching}
-              fieldSetter={this._setField}
+              fieldSetter={this._onChange}
               value={thing.name}/>
           </div>
         </div>
         <div className="row">
           <div className="col-lg-6">
             <ThingDescription fetching={fetching}
-                              fieldSetter={this._setField}
+                              fieldSetter={this._onChange}
                               value={thing.description}/>
             <ThingCurrentStatus
               fetching={fetching}
               value={thing.currentStatusId}
-              fieldSetter={this._setField}
+              fieldSetter={this._onChange}
               statuses={statuses}/>
 
             <ThingIntendedStatus
               fetching={fetching}
               value={thing.intendedStatusId}
-              fieldSetter={this._setField}
+              fieldSetter={this._onChange}
               statuses={statuses}/>
 
           </div>

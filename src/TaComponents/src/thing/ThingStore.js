@@ -6,7 +6,6 @@ import ThingActions from "./ThingActions";
 import UserActions from "../_actions/UserActions";
 import RiskActions from "../_actions/RiskActions";
 import StatusActions from "../_actions/StatusActions";
-import Field from "../_models/Field";
 
 class ThingStore {
   constructor() {
@@ -21,13 +20,20 @@ class ThingStore {
       // start fetching true to prevent controls rendering initially
       fetching: true,
       fetchingIsNameUnique: false,
-      fields: {},
       isValid: false,
       isNameUnique: true,
       riskSeverities: [],
       riskProbabilities: [],
       thing: {}
     };
+  }
+
+  onSetValue(keyValuePair) {
+    const thing = Object.assign({}, {[keyValuePair.key]: keyValuePair.value});
+
+    this.setState({
+      thing
+    });
   }
 
   onGetRiskSeverities() {
@@ -101,34 +107,6 @@ class ThingStore {
   onClearFetching() {
     this.setState({
       fetching: false
-    });
-  }
-
-
-  onSetField() {
-    this.setState();
-  }
-
-  onSetFieldThen(field) {
-    var result = field.evaluateInContext(
-      this.state.fields,
-      this.state.thing);
-
-    this.setState({
-      fetching: false,
-      fields: result.updatedFields,
-      isValid: result.isValid,
-      thing: result.updatedModel
-    });
-  }
-
-  onSetFieldError(error) {
-    this._handleError(error);
-  }
-
-  onSetEditable(editable) {
-    this.setState({
-      editable
     });
   }
 
