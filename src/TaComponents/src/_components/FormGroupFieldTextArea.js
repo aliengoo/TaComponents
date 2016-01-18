@@ -1,7 +1,6 @@
 "use strict";
 
 import React, {Component, PropTypes} from "react";
-import Q from "q";
 import FormGroup from "./FormGroup";
 import Label from "./Label";
 import ValidityStateMessages from "./ValidityStateMessages";
