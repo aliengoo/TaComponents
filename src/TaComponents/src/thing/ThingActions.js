@@ -1,5 +1,7 @@
 "use strict";
 
+import Q from "q";
+import _ from "lodash";
 import alt from "../alt";
 import ThingApi from "./ThingApi";
 import ShadowModel from "../_validation/ShadowModel";
@@ -18,11 +20,33 @@ class ThingActions {
       });
     };
 
+    const primaryConflictsWithSecondaryTeam = function (primaryTechnicalTeam) {
+      return Q.resolve({
+        primaryTechnicalTeamConflict: _.intersection(
+          this.secondaryTechnicalTeam,
+          primaryTechnicalTeam).length > 0
+      });
+    };
+
+    const secondaryConflictsWithPrimaryTeam = function (secondaryTechnicalTeam) {
+      return Q.resolve({
+        secondaryTechnicalTeamConflict: _.intersection(
+          this.primaryTechnicalTeam,
+          secondaryTechnicalTeam).length > 0
+      });
+    };
+
     this._validatorConfig = {
       name: [valueMissing(), tooShort(3), isThingNameUnique, {
         nameInUse: "The name specified is already in use",
         valueMissing: "Name is a required",
         tooShort: "Name is too short"
+      }],
+      primaryTechnicalTeam: [primaryConflictsWithSecondaryTeam, {
+        primaryTechnicalTeamConflict: "A member of the primary technical team is also a secondary team member"
+      }],
+      secondaryTechnicalTeam: [secondaryConflictsWithPrimaryTeam, {
+        secondaryTechnicalTeamConflict: "A member of the secondary technical team is also a primary team member"
       }]
     };
 

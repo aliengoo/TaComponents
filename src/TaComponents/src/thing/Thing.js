@@ -85,6 +85,7 @@ export default class Thing extends React.Component {
 
           <div className="ui container">
             <PageHeader>New Thing</PageHeader>
+            <pre className="hidden">{JSON.stringify(thing, null, 2)}</pre>
             <form noValidate={true} name="thingForm" className="ui form">
               <ThingName
                 fetching={fetching}
@@ -183,4 +184,4 @@ export default class Thing extends React.Component {
 }
 
 
-//<pre className="hidden">{JSON.stringify(thingShadow, null, 2)}</pre>
+
