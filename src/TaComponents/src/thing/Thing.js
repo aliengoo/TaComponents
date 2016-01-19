@@ -17,6 +17,8 @@ import FetchingPlaceholder from "../_components/FetchingPlaceholder";
 import ThingName from "./components/ThingName/ThingName";
 import ThingDescription from "./components/ThingDescription/ThingDescription";
 import ThingStatus from "./components/ThingStatus/ThingStatus";
+import ThingStatusDetails from "./components/ThingStatusDetails/ThingStatusDetails";
+import ThingUsersSelect from "./components/ThingUsersSelect/ThingUsersSelect";
 
 export default class Thing extends React.Component {
   constructor(props) {
@@ -69,6 +71,7 @@ export default class Thing extends React.Component {
       fetching,
       fetchingIsNameUnique,
       statuses,
+      users,
       thingShadow,
       thing
       } = this.state;
@@ -121,8 +124,47 @@ export default class Thing extends React.Component {
                     value={thing.intendedStatusId}
                   />
                 </Field>
-
               </div>
+              <ThingStatusDetails
+                fetching={fetching}
+                shadowValue={thingShadow.statusDetails}
+                onChange={this._onChange}
+                value={thing.statusDetails}/>
+
+              <DividingHeader>Technical Team</DividingHeader>
+              <Field>
+                <div className="two fields">
+                  <Field>
+                    <ThingUsersSelect
+                      tooltip={{
+                        content: "Select users who are most capable of supporting this thing"
+                      }}
+                      name="primaryTechnicalTeam"
+                      label="Primary Team"
+                      users={users}
+                      fetching={fetching}
+                      onChange={this._onChange}
+                      shadowValue={thingShadow.primaryTechnicalTeam}
+                      value={thing.primaryTechnicalTeam}
+                    />
+
+                  </Field>
+                  <Field>
+                    <ThingUsersSelect
+                      tooltip={{
+                        content: "Select users that could attempt to support this system"
+                      }}
+                      name="secondaryTechnicalTeam"
+                      label="Secondary Team"
+                      users={users}
+                      fetching={fetching}
+                      onChange={this._onChange}
+                      shadowValue={thingShadow.secondaryTechnicalTeam}
+                      value={thing.secondaryTechnicalTeam}
+                    />
+                  </Field>
+                </div>
+              </Field>
 
               <button
                 disabled={!thingShadow.isValid}

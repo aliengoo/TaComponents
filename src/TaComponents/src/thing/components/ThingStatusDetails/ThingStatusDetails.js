@@ -9,22 +9,22 @@ import ValidityStateMessages from "../../../_components/ValidityStateMessages";
 import Tooltip from "../../../_components/Tooltip";
 import RequiredIndicator from "../../../_components/RequiredIndicator";
 
-export default class ThingDescription extends Component {
+export default class ThingStatusDetails extends Component {
 
   render() {
     const {value, onChange, fetching, shadowValue} = this.props;
 
     return (
-      <div className="ThingDescription">
+      <div className="ThingStatusDetails">
         <Field>
-          <label>Description</label>
+          <label>Status Details</label>
             <textarea
               rows="5"
               disabled={fetching}
-              placeholder={"Enter a description"}
+              placeholder={"Provide more information about the current and intended status"}
               type="text"
-              ref="description"
-              onChange={() => onChange("description", this.refs.description.value)}
+              ref="statusDetails"
+              onChange={() => onChange("statusDetails", this.refs.statusDetails.value)}
               value={value}
             />
           <ValidityStateMessages shadowValue={shadowValue}/>
@@ -35,11 +35,11 @@ export default class ThingDescription extends Component {
   }
 }
 
-ThingDescription.defaultProps = {
+ThingStatusDetails.defaultProps = {
   value: ""
 };
 
-ThingDescription.propTypes = {
+ThingStatusDetails.propTypes = {
   fetching: PropTypes.bool,
   value: PropTypes.string,
   shadowValue: PropTypes.object,

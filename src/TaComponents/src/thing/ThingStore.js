@@ -25,8 +25,7 @@ class ThingStore {
       isNameUnique: true,
       riskSeverities: [],
       riskProbabilities: [],
-      thing: {
-      },
+      thing: {},
       thingShadow: {}
     };
   }
