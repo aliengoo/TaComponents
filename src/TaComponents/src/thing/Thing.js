@@ -8,21 +8,15 @@ import RiskActions from "../_actions/RiskActions";
 import StatusActions from "../_actions/StatusActions";
 
 import AppNavbar from "../_components/AppNavbar";
-import ContainerFluid from "../_components/ContainerFluid";
 import PageHeader from "../_components/PageHeader";
+import DividingHeader from "../_components/DividingHeader";
+import Field from "../_components/Field";
 import FetchingIndicator from "../_components/FetchingIndicator";
 import FetchingPlaceholder from "../_components/FetchingPlaceholder";
 
 import ThingName from "./components/ThingName/ThingName";
-import ThingCurrentStatus from "./components/ThingCurrentStatus/ThingCurrentStatus";
-import ThingIntendedStatus from "./components/ThingIntendedStatus/ThingIntendedStatus";
-
-import ThingStaffRiskLevel from "./components/ThingStaffRiskLevel/ThingStaffRiskLevel";
-import ThingPrimaryTechnicalTeam from "./components/ThingPrimaryTechnicalTeam/ThingPrimaryTechnicalTeam";
-import ThingSecondaryTechnicalTeam from "./components/ThingSecondaryTechnicalTeam/ThingSecondaryTechnicalTeam";
-import ThingOwners from "./components/ThingOwners/ThingOwners";
 import ThingDescription from "./components/ThingDescription/ThingDescription";
-import ThingHeader from "./components/ThingHeader/ThingHeader";
+import ThingStatus from "./components/ThingStatus/ThingStatus";
 
 export default class Thing extends React.Component {
   constructor(props) {
@@ -62,7 +56,7 @@ export default class Thing extends React.Component {
 
   _onChange(property, value) {
     ThingActions.setValue(property, value);
-    ThingActions.validate(this.state.thing, property, value);
+    ThingActions.evaluateValue(property, value);
   }
 
   _save(event) {
@@ -71,66 +65,80 @@ export default class Thing extends React.Component {
   }
 
   render() {
-    const {fetching, fetchingIsNameUnique, thing} = this.state;
+    const {
+      fetching,
+      fetchingIsNameUnique,
+      statuses,
+      thingShadow,
+      thing
+      } = this.state;
 
     return (
       <div>
         <AppNavbar/>
         <FetchingIndicator fetching={fetching || fetchingIsNameUnique}/>
         <div className="Thing">
-          <ContainerFluid>
-            {this.renderThingModel()}
-            <div className="col-lg-12">
-              {this.renderThing()}
-            </div>
-          </ContainerFluid>
+
+
+          <div className="ui container">
+            <PageHeader>New Thing</PageHeader>
+            <form noValidate={true} name="thingForm" className="ui form">
+              <ThingName
+                fetching={fetching}
+                shadowValue={thingShadow.name}
+                onChange={this._onChange}
+                value={thing.name}/>
+
+              <ThingDescription
+                fetching={fetching}
+                shadowValue={thingShadow.description}
+                onChange={this._onChange}
+                value={thing.description}/>
+
+              <DividingHeader>Status</DividingHeader>
+
+              <div className="two fields">
+                <Field>
+                  <ThingStatus
+                    name="currentStatusId"
+                    label="Current Status"
+                    statuses={statuses}
+                    fetching={fetching}
+                    onChange={this._onChange}
+                    shadowValue={thingShadow.currentStatusId}
+                    value={thing.currentStatusId}
+                  />
+                </Field>
+
+                <Field>
+                  <ThingStatus
+                    name="intendedStatusId"
+                    label="Intended Status"
+                    statuses={statuses}
+                    fetching={fetching}
+                    onChange={this._onChange}
+                    shadowValue={thingShadow.intendedStatusId}
+                    value={thing.intendedStatusId}
+                  />
+                </Field>
+
+              </div>
+
+              <button
+                disabled={!thingShadow.isValid}
+                className="ui primary button"
+                type="button"
+                onClick={this._save}>
+                Save
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     );
   }
 
-  renderThing() {
-    const {
-      fetching,
-      thingValidityState,
-      isValid,
-      thing
-      } = this.state;
-
-    return (
-      <form noValidate={true} name="thingForm">
-
-        <div className="row">
-          <div className="col-lg-6">
-            <ThingName
-              fetching={fetching}
-              validityState={thingValidityState.name}
-              onChange={this._onChange}
-              value={thing.name}/>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-lg-6">
-
-
-          </div>
-          <div className="col-lg-6">
-
-          </div>
-        </div>
-
-        <div className="col-lg-12">
-          <button disabled={!isValid} className="btn btn-primary btn-lg" type="button" onClick={this._save}>Save
-          </button>
-        </div>
-      </form>
-    );
-  }
-
-  renderThingModel() {
-    return <pre className="">{JSON.stringify(this.state.thingValidityState, null, 2)}</pre>
-  }
 }
 
 
-
+//<pre className="hidden">{JSON.stringify(thingShadow, null, 2)}</pre>

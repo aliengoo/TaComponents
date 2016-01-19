@@ -188,7 +188,6 @@ export default function validate(currentModelState, property, value, config) {
     throw "validate: expected the last item in the validation pipeline to contain an object containing error messages";
   }
 
-
   var actualPipeline = _.takeWhile(pipeline, _.isFunction);
 
   let promises = _.map(actualPipeline, (fn) => {

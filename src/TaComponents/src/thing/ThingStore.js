@@ -20,44 +20,38 @@ class ThingStore {
       error: null,
       // start fetching true to prevent controls rendering initially
       fetching: true,
-      validating: false,
+      evaluating: false,
       fetchingIsNameUnique: false,
-      isValid: false,
       isNameUnique: true,
       riskSeverities: [],
       riskProbabilities: [],
-      thing: {},
-      thingValidityState: {}
+      thing: {
+      },
+      thingShadow: {}
     };
   }
 
-  onSetValue(data) {
-
-    const thing = Object.assign({}, this.state.thing, {
-      [data.property]: data.value
-    });
-
-
+  onSetValue(thing) {
     this.setState({
       thing
     });
   }
 
-  onValidate() {
+  onEvaluateValue() {
     this.setState({
-      validating: true
+      evaluating: true
     });
   }
 
-  onValidateThen(validationResult) {
-    const thingValidityState = Object.assign({}, this.state.thingValidityState, {
-      [validationResult.property]: validationResult.validityState
-    });
-
+  onEvaluateValueThen(thingShadow) {
     this.setState({
-      isValid: isValid(thingValidityState),
-      thingValidityState
+      evaluating: false,
+      thingShadow
     });
+  }
+
+  onEvaluateValueError(error) {
+    this._handleError(error);
   }
 
   onGetRiskSeverities() {

@@ -5,13 +5,13 @@ import React from "react";
 
 export default class ValidityStateMessages extends React.Component {
   render() {
-    const {validityState} = this.props;
+    const {shadowValue} = this.props;
 
-    if (!validityState) {
+    if (!shadowValue) {
       return <div></div>;
     }
 
-    const messages = _.values(validityState.messages);
+    const messages = _.values(shadowValue.$messages);
 
     return (
       <div className="ValidityStateMessages">
@@ -23,5 +23,5 @@ export default class ValidityStateMessages extends React.Component {
 }
 
 ValidityStateMessages.propTypes = {
-  validityState: React.PropTypes.object
+  shadowValue: React.PropTypes.object
 };

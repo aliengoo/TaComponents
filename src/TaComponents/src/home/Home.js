@@ -4,7 +4,6 @@ import React, {Component} from "react";
 import HomeActions from "./HomeActions";
 import HomeStore from "./HomeStore";
 
-import Container from "../_components/Container";
 import PageHeader from "../_components/PageHeader";
 import User from "../_components/User";
 
@@ -33,12 +32,12 @@ export default class Home extends Component {
     const {user, fetching} = this.state;
 
     return (
-      <Container>
-        <PageHeader>Home</PageHeader>
-        <div className="col-lg-12">
+      <div className="ui grid">
+        <div className="one column wide">
+          <PageHeader>Home</PageHeader>
           <User user={user} fetching={fetching}/>
         </div>
-      </Container>
+      </div>
     );
   }
 }

@@ -22,9 +22,8 @@ let notifier = new WindowsToaster({
 
 var mapfile = path.join(__dirname, 'wwwroot/js', 'bundle.js.map');
 
-gulp.task('vendor:fonts', () => {
+gulp.task("vendor:fonts:font-awesome", () => {
   const src = [
-    'node_modules/bootstrap/fonts/*',
     'node_modules/font-awesome/fonts/*'
   ];
 
@@ -32,11 +31,20 @@ gulp.task('vendor:fonts', () => {
     .pipe(gulp.dest('wwwroot/fonts'));
 });
 
+gulp.task('vendor:fonts', ["vendor:fonts:font-awesome"], () => {
+  const src = [
+    'node_modules/semantic-ui/dist/themes/**'
+  ];
+
+  return gulp.src(src)
+    .pipe(gulp.dest('wwwroot/css/themes'));
+});
+
 gulp.task('vendor:css', ['vendor:fonts'], () => {
   var src = [
     'node_modules/animate.css/animate.css',
     'node_modules/font-awesome/css/font-awesome.css',
-    'node_modules/bootstrap/dist/css/bootstrap.css',
+    'node_modules/semantic-ui/dist/semantic.min.css',
     'node_modules/react-select/dist/react-select.css'
   ];
 

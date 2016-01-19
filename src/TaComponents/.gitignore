@@ -216,3 +216,5 @@ wwwroot/js
 wwwroot/css
 wwwroot/fonts
 .idea
+semantic
+semantic.json

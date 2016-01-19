@@ -11,12 +11,9 @@ import ThingStore from "./ThingStore";
 
 // components
 import AppNavbar from "../_components/AppNavbar";
-import Container from "../_components/Container";
 import FetchingIndicator from "../_components/FetchingIndicator";
 import FetchingPlaceholder from "../_components/FetchingPlaceholder";
 
-import ThingHeader from "./components/ThingHeader/ThingHeader";
-import ThingDescriptionView from "./components/ThingDescription/ThingDescriptionView";
 
 
 export default class ThingView extends Component {
@@ -50,11 +47,8 @@ export default class ThingView extends Component {
         <FetchingIndicator fetching={fetching}/>
         {fetching ?
           <FetchingPlaceholder/> :
-          <Container>
-            <ThingHeader thing={thing}/>
-
-            <ThingDescriptionView description={thing.description}/>
-          </Container>
+          <div className="ui grid">
+          </div>
         };
       </div>
     );

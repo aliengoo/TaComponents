@@ -2,14 +2,16 @@
 
 import alt from "../alt";
 import ThingApi from "./ThingApi";
+import ShadowModel from "../_validation/ShadowModel";
 import validate, {valueMissing, tooShort} from "../_validation/validate";
 
 class ThingActions {
   constructor() {
-    this.thingApi = new ThingApi();
+    this._thingApi = new ThingApi();
+    this._shadowModel = new ShadowModel();
 
     const isThingNameUnique = (name) => {
-      return this.thingApi.isThingNameUnique(name, this.id).then(unique => {
+      return this._thingApi.isThingNameUnique(name, this.id).then(unique => {
         return {
           nameInUse: !unique
         };
@@ -26,22 +28,29 @@ class ThingActions {
 
     this.getThen = this.getThen.bind(this);
     this.getError = this.getError.bind(this);
-    this.validateThen = this.validateThen.bind(this);
+    this.evaluateValueThen = this.evaluateValueThen.bind(this);
   }
 
   setValue(property, value) {
-    return {property, value};
+    return this._shadowModel.setModel(property, value);
   }
 
-  validate(thing, property, value) {
+  evaluateValue(property, value) {
     return (dispatch) => {
       dispatch();
-      return validate(thing, property, value, this._validatorConfig).then(this.validateThen);
+      return this._shadowModel
+        .evaluate(property, value, this._validatorConfig)
+        .then(this.evaluateValueThen)
+        .catch(this.evaluateValueError);
     };
   }
 
-  validateThen(validationResult) {
-    return validationResult;
+  evaluateValueThen(shadowModelJS) {
+    return shadowModelJS;
+  }
+
+  evaluateValueError(error) {
+    return error;
   }
 
   clearFetching() {
@@ -51,7 +60,7 @@ class ThingActions {
   get(id) {
     return (dispatch) => {
       dispatch(id);
-      return this.thingApi
+      return this._thingApi
         .then(this.getThen)
         .catch(this.getError);
     };
@@ -69,7 +78,7 @@ class ThingActions {
     return (dispatch) => {
       dispatch();
 
-      return this.thingApi.saveThing(thing)
+      return this._thingApi.saveThing(thing)
         .then(this.saveThen)
         .catch(this.saveError)
     };

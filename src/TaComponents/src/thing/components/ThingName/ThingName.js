@@ -3,32 +3,33 @@
 import Q from "q";
 import _ from "lodash";
 import React, {Component, PropTypes} from "react";
+
+import Field from "../../../_components/Field";
+import ValidityStateMessages from "../../../_components/ValidityStateMessages";
 import Tooltip from "../../../_components/Tooltip";
 import RequiredIndicator from "../../../_components/RequiredIndicator";
-import FormGroupFieldInput from "../../../_components/FormGroupFieldInput";
 
 export default class ThingName extends React.Component {
 
   render() {
-    const {value, onChange, fetching, validityState} = this.props;
-
-    var options = {
-      validityState,
-      attr: {
-        disabled: fetching,
-        placeholder: "Enter the name here",
-        type: "text"
-      },
-      label: "",
-      name: "name",
-      onChange,
-      tooltip: (<span/>),
-      value
-    };
+    const {value, onChange, fetching, shadowValue} = this.props;
 
     return (
       <div className="ThingName">
-        <FormGroupFieldInput {...options} />
+        <Field>
+          <label>Name</label>
+          <div className="eight wide field">
+            <input
+              disabled={fetching}
+              placeholder={"enter a name"}
+              type="text"
+              ref="name"
+              onChange={() => onChange("name", this.refs.name.value)}
+              value={value}
+            />
+          </div>
+          <ValidityStateMessages shadowValue={shadowValue}/>
+        </Field>
       </div>
     );
   }
@@ -41,6 +42,6 @@ ThingName.defaultProps = {
 ThingName.propTypes = {
   fetching: PropTypes.bool,
   value: PropTypes.string,
-  validityState: PropTypes.object,
+  shadowValue: PropTypes.object,
   onChange: PropTypes.func.isRequired
 };
