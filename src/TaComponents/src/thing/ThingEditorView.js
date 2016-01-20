@@ -23,6 +23,7 @@ import ThingDetailsSegment from "./segments/ThingDetailsSegment";
 import ThingStatusSegment from "./segments/ThingStatusSegment";
 import ThingBusinessSegment from "./segments/ThingBusinessSegment";
 import ThingTechnicalTeamSegment from "./segments/ThingTechnicalTeamSegment";
+import ThingTestSegment from "./segments/ThingTestSegment";
 
 export default class Thing extends React.Component {
   constructor(props) {
@@ -90,7 +91,7 @@ export default class Thing extends React.Component {
       <div>
         <AppNavbar/>
         <FetchingIndicator fetching={fetching || fetchingIsNameUnique}/>
-        <div className="Thing">
+        <div className="ThingEditorView">
 
 
           <div className="ui container">
@@ -99,36 +100,52 @@ export default class Thing extends React.Component {
             <pre className="hide">{JSON.stringify(thingFormatted, null, 2)}</pre>
             <form noValidate={true} name="thingForm" className="ui form">
 
-              <ThingDetailsSegment
-                fetching={fetching}
-                onChange={this._onChange}
-                thingShadow={thingShadow}
-                thing={thing}
-              />
+              <div className="ui two columns stackable grid">
+                <div className="column">
+                  <ThingDetailsSegment
+                    fetching={fetching}
+                    onChange={this._onChange}
+                    thingShadow={thingShadow}
+                    thing={thing}
+                  />
 
-              <ThingStatusSegment
-                fetching={fetching}
-                onChange={this._onChange}
-                statuses={statuses}
-                thingShadow={thingShadow}
-                thing={thing}
-              />
+                </div>
 
-              <ThingBusinessSegment
-                fetching={fetching}
-                onChange={this._onChange}
-                users={users}
-                thingShadow={thingShadow}
-                thing={thing}
-              />
+                <div className="column">
+                  <ThingStatusSegment
+                    fetching={fetching}
+                    onChange={this._onChange}
+                    statuses={statuses}
+                    thingShadow={thingShadow}
+                    thing={thing}
+                  />
 
-              <ThingTechnicalTeamSegment
-                fetching={fetching}
-                onChange={this._onChange}
-                users={users}
-                thingShadow={thingShadow}
-                thing={thing}
-              />
+                </div>
+                <div className="column">
+                  <ThingBusinessSegment
+                    fetching={fetching}
+                    onChange={this._onChange}
+                    users={users}
+                    thingShadow={thingShadow}
+                    thing={thing}
+                  />
+                </div>
+                <div className="column">
+                  <ThingTechnicalTeamSegment
+                    fetching={fetching}
+                    onChange={this._onChange}
+                    users={users}
+                    thingShadow={thingShadow}
+                    thing={thing}
+                  />
+                </div>
+
+                <div className="column">
+                  <ThingTestSegment/>
+                </div>
+              </div>
+
+
 
               <button
                 disabled={!thingShadow.isValid}

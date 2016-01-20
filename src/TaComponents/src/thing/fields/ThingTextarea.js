@@ -21,19 +21,17 @@ export default class ThingTextarea extends Component {
       shadowValue} = this.props;
 
     return (
-      <div className="ThingTextarea">
-        <Field>
-          <label>{label}</label>
-            <textarea
-              rows="3"
-              disabled={fetching}
-              placeholder={placeholder}
-              onChange={onChange}
-              value={value}
-            />
-          <ValidityStateMessages shadowValue={shadowValue}/>
-        </Field>
-      </div>
+      <Field>
+        <label>{label}</label>
+        <textarea
+          rows="3"
+          disabled={fetching}
+          placeholder={placeholder}
+          onChange={onChange}
+          value={value}
+        />
+        <ValidityStateMessages shadowValue={shadowValue}/>
+      </Field>
     );
   }
 }

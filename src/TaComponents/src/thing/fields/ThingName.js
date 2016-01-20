@@ -18,16 +18,14 @@ export default class ThingName extends Component {
       <div className="ThingName">
         <Field shadowValue={shadowValue}>
           <label>Name</label>
-          <div className="eight wide field">
-            <input
-              disabled={fetching}
-              placeholder={"Enter a name..."}
-              type="text"
-              ref="name"
-              onChange={() => onChange("name", this.refs.name.value)}
-              value={value}
-            />
-          </div>
+          <input
+            disabled={fetching}
+            placeholder={"Enter a name..."}
+            type="text"
+            ref="name"
+            onChange={() => onChange("name", this.refs.name.value)}
+            value={value}
+          />
           <ValidityStateMessages shadowValue={shadowValue}/>
         </Field>
       </div>
