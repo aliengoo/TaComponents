@@ -1,12 +1,11 @@
 "use strict";
 
 import _ from "lodash";
-import alt from "../alt";
+import alt from "../../alt";
 import ThingActions from "./ThingActions";
-import UserActions from "../_actions/UserActions";
-import RiskActions from "../_actions/RiskActions";
-import StatusActions from "../_actions/StatusActions";
-import {isValid} from "../_validation/validate";
+import UserActions from "../../_actions/UserActions";
+import RiskActions from "../../_actions/RiskActions";
+import StatusActions from "../../_actions/StatusActions";
 
 class ThingStore {
   constructor() {
@@ -26,7 +25,9 @@ class ThingStore {
       riskSeverities: [],
       riskProbabilities: [],
       thing: {},
-      thingShadow: {}
+      thingFormatted: {},
+      thingShadow: {
+      }
     };
   }
 
@@ -36,10 +37,33 @@ class ThingStore {
     });
   }
 
+  onGetFormattedModel(thingFormatted) {
+    this.setState({
+      thingFormatted
+    });
+  }
+
   onEvaluateValue() {
     this.setState({
       evaluating: true
     });
+  }
+
+  onEvaluateAll() {
+    this.setState({
+      evaluating: true
+    });
+  }
+
+  onEvaluateAllThen(thingShadow) {
+    this.setState({
+      evaluating: false,
+      thingShadow
+    });
+  }
+
+  onEvaluateAllError(error) {
+    this._handleError(error);
   }
 
   onEvaluateValueThen(thingShadow) {

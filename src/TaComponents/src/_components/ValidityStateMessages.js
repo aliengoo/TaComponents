@@ -1,13 +1,16 @@
 "use strict";
 
 import _ from "lodash";
-import React from "react";
+import React, {Component, PropTypes} from "react";
 
-export default class ValidityStateMessages extends React.Component {
+export default class ValidityStateMessages extends Component {
   render() {
-    const {shadowValue} = this.props;
+    const {shadowValue, showOnlyWhenDirty} = this.props;
 
-    if (!shadowValue) {
+    const valid = _.get(shadowValue, "$valid");
+    const show = _.get(shadowValue, "$dirty", false) && showOnlyWhenDirty;
+
+    if (valid || !show) {
       return <div></div>;
     }
 
@@ -16,12 +19,17 @@ export default class ValidityStateMessages extends React.Component {
     return (
       <div className="ValidityStateMessages">
         {messages.map((message, key) =>
-          <span className="help-block" key={key}>{message}</span>)}
+          <div className="help-block" key={key}>{message}</div>)}
       </div>
     );
   }
 }
 
+ValidityStateMessages.defaultProps = {
+  showOnlyWhenDirty: true
+};
+
 ValidityStateMessages.propTypes = {
-  shadowValue: React.PropTypes.object
+  showOnlyWhenDirty: PropTypes.bool,
+  shadowValue: PropTypes.object
 };

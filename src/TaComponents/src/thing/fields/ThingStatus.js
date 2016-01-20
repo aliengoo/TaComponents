@@ -2,8 +2,8 @@
 
 import $ from "jquery";
 import React, {Component, PropTypes} from "react";
-import ValidityStateMessages from "../../../_components/ValidityStateMessages";
-import Field from "../../../_components/Field";
+import ValidityStateMessages from "../../_components/ValidityStateMessages";
+import Field from "../../_components/Field";
 
 /**
  * Uncontrolled component.  Updates are handled in the dropdown call back.
@@ -41,7 +41,7 @@ export default class ThingStatus extends Component {
             ref={name}
             id={name}
             className="ui fluid search selection dropdown">
-            <option value={0}/>
+            <option value="0"/>
             {items}
           </select>
           <ValidityStateMessages shadowValue={shadowValue}/>

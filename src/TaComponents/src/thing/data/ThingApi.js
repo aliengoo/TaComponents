@@ -32,3 +32,9 @@ export default class ThingApi {
     }).then(response => response.status === 200);
   }
 }
+
+const thingApi = new ThingApi();
+
+export {
+  thingApi
+}

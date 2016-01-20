@@ -41,6 +41,12 @@
             {
                 var statuses = new List<Status>
                                                    {
+                                                    new Status
+                                                         {
+                                                            Id = "0",
+                                                            Text = "",
+                                                            Description = "There is no status"
+                                                         },
                                                      new Status
                                                          {
                                                             Id = "1",

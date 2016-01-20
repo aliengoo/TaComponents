@@ -2,9 +2,9 @@
 
 import $ from "jquery";
 import React, {Component, PropTypes} from "react";
-import ValidityStateMessages from "../../../_components/ValidityStateMessages";
-import Field from "../../../_components/Field";
-import Tooltip from "../../../_components/Tooltip";
+import ValidityStateMessages from "../../_components/ValidityStateMessages";
+import Field from "../../_components/Field";
+import Tooltip from "../../_components/Tooltip";
 
 /**
  * Uncontrolled component.  Updates are handled in the dropdown call back.

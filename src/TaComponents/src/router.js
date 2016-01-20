@@ -3,15 +3,14 @@
 import React from "react";
 import {Router, Route} from "react-router";
 import Home from "./home/Home";
-import Thing from "./thing/Thing";
-import ThingView from "./thing/ThingView";
+import ThingEditorView from "./thing/ThingEditorView";
+
 
 let router = (
   <Router>
     <Route path="/" component={Home}/>
-    <Route path="/thing" component={Thing}/>
-    <Route path="/thing/:id" component={Thing}/>
-    <Route path="/thing/:id/view" component={ThingView}/>
+    <Route path="/thing" component={ThingEditorView}/>
+    <Route path="/thing/:id" component={ThingEditorView}/>
   </Router>
 );
 
