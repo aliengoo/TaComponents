@@ -3,6 +3,8 @@
 import React, {Component, PropTypes} from "react";
 import DividingHeader from "../../_components/DividingHeader";
 import Segment from "../../_components/Segment";
+import Field from "../../_components/Field";
+import Fields from "../../_components/Fields";
 import ThingName from "../fields/ThingName";
 import ThingTextarea from "../fields/ThingTextarea";
 

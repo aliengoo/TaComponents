@@ -14,39 +14,31 @@ export default class ThingTechnicalTeamSegment extends Component {
     return (
       <Segment color="teal" fetching={fetching}>
         <DividingHeader>Technical Team</DividingHeader>
-        <Field>
-          <div className="two fields">
-            <Field>
-              <ThingUsersSelect
-                tooltip={{
-                        content: "Select users who are most capable of supporting this thing"
-                      }}
-                name="primaryTechnicalTeam"
-                label="Primary Team"
-                users={users}
-                fetching={fetching}
-                onChange={onChange}
-                shadowValue={thingShadow.primaryTechnicalTeam}
-                value={thing.primaryTechnicalTeam}
-              />
+        <ThingUsersSelect
+          tooltip={{
+                  content: "Select users who are most capable of supporting this thing"
+                }}
+          name="primaryTechnicalTeam"
+          label="Primary Team"
+          users={users}
+          fetching={fetching}
+          onChange={onChange}
+          shadowValue={thingShadow.primaryTechnicalTeam}
+          value={thing.primaryTechnicalTeam}
+        />
+        <ThingUsersSelect
+          tooltip={{
+                  content: "Select users that could attempt to support this system"
+                }}
+          name="secondaryTechnicalTeam"
+          label="Secondary Team"
+          users={users}
+          fetching={fetching}
+          onChange={onChange}
+          shadowValue={thingShadow.secondaryTechnicalTeam}
+          value={thing.secondaryTechnicalTeam}
+        />
 
-            </Field>
-            <Field>
-              <ThingUsersSelect
-                tooltip={{
-                        content: "Select users that could attempt to support this system"
-                      }}
-                name="secondaryTechnicalTeam"
-                label="Secondary Team"
-                users={users}
-                fetching={fetching}
-                onChange={onChange}
-                shadowValue={thingShadow.secondaryTechnicalTeam}
-                value={thing.secondaryTechnicalTeam}
-              />
-            </Field>
-          </div>
-        </Field>
         <ThingTextarea
           label="Technical Team Description"
           placeholder="Provide more details about the teams"

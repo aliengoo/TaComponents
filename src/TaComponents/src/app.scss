@@ -11,6 +11,13 @@
   display: none;
 }
 
+// semantic fix
+
+// TODO: Bug in my code
+//.ui.form .field:last-child, .ui.form .fields:last-child .field {
+//  margin-bottom: 1em;
+//}
+
 /* inject:imports */
 /* endinject */
 

@@ -21,7 +21,7 @@ export default class ThingTextarea extends Component {
       shadowValue} = this.props;
 
     return (
-      <Field>
+      <Field shadowValue={shadowValue}>
         <label>{label}</label>
         <textarea
           rows="3"

@@ -34,19 +34,17 @@ export default class ThingStatus extends Component {
     }
 
     return (
-      <div className="ThingStatus">
-        <Field>
-          <label>{label}</label>
-          <select
-            ref={name}
-            id={name}
-            className="ui fluid search selection dropdown">
-            <option value="0"/>
-            {items}
-          </select>
-          <ValidityStateMessages shadowValue={shadowValue}/>
-        </Field>
-      </div>
+      <Field shadowValue={shadowValue}>
+        <label>{label}</label>
+        <select
+          ref={name}
+          id={name}
+          className="ui fluid search selection dropdown">
+          <option value="0"/>
+          {items}
+        </select>
+        <ValidityStateMessages shadowValue={shadowValue}/>
+      </Field>
     );
   }
 }

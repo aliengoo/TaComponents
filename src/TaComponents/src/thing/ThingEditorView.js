@@ -12,7 +12,7 @@ import PageHeader from "../_components/PageHeader";
 import DividingHeader from "../_components/DividingHeader";
 import Field from "../_components/Field";
 import FetchingIndicator from "../_components/FetchingIndicator";
-import FetchingPlaceholder from "../_components/FetchingPlaceholder";
+import Segment from "../_components/Segment";
 
 import ThingName from "./fields/ThingName";
 import ThingTextarea from "./fields/ThingTextarea";
@@ -122,15 +122,6 @@ export default class Thing extends React.Component {
 
                 </div>
                 <div className="column">
-                  <ThingBusinessSegment
-                    fetching={fetching}
-                    onChange={this._onChange}
-                    users={users}
-                    thingShadow={thingShadow}
-                    thing={thing}
-                  />
-                </div>
-                <div className="column">
                   <ThingTechnicalTeamSegment
                     fetching={fetching}
                     onChange={this._onChange}
@@ -139,21 +130,26 @@ export default class Thing extends React.Component {
                     thing={thing}
                   />
                 </div>
-
                 <div className="column">
-                  <ThingTestSegment/>
+                  <ThingBusinessSegment
+                    fetching={fetching}
+                    onChange={this._onChange}
+                    users={users}
+                    thingShadow={thingShadow}
+                    thing={thing}
+                  />
                 </div>
               </div>
 
-
-
-              <button
-                disabled={!thingShadow.isValid}
-                className="ui primary button"
-                type="button"
-                onClick={this._save}>
-                Save
-              </button>
+              <Segment>
+                <button
+                  disabled={!thingShadow.isValid}
+                  className="ui primary button"
+                  type="button"
+                  onClick={this._save}>
+                  Save
+                </button>
+              </Segment>
             </form>
           </div>
         </div>

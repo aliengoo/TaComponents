@@ -11,7 +11,6 @@ export default class ShadowModel {
     this.getShadow = this.getShadow.bind(this);
     this.evaluateAll = this.evaluateAll.bind(this);
     this.evaluate = this.evaluate.bind(this);
-    this.isValid = this.isValid.bind(this);
     this._parseProperty = this._parseProperty.bind(this);
     this._formatProperty = this._formatProperty.bind(this);
     this._validationConfig = validationConfig;
@@ -58,10 +57,18 @@ export default class ShadowModel {
     return this._thingModel.toJS();
   }
 
-  isValid(shadowModelJS) {
+  static isValid(shadowModelJS) {
 
     const failingProperties =  _.pick(shadowModelJS, (value) => {
       return value.$valid === false;
+    });
+
+    return _.keys(failingProperties).length === 0;
+  }
+
+  static isValidGroup(groupProperties, shadowModelJS) {
+    const failingProperties =  _.pick(shadowModelJS, (value) => {
+      return value.$valid === false && groupProperties.indexOf(value.$property) !== -1;
     });
 
     return _.keys(failingProperties).length === 0;
@@ -77,7 +84,7 @@ export default class ShadowModel {
 
     return Q.all(promises).then(() => {
       const shadowModelJS = this.getShadow();
-      shadowModelJS.isValid = this.isValid(shadowModelJS);
+      shadowModelJS.isValid = ShadowModel.isValid(shadowModelJS);
       return shadowModelJS;
     });
   }
@@ -157,7 +164,7 @@ export default class ShadowModel {
       const shadowModelJS = this.getShadow();
 
       // assess the state of all shadow properties
-      shadowModelJS.isValid = this.isValid(shadowModelJS);
+      shadowModelJS.isValid = ShadowModel.isValid(shadowModelJS);
 
       return shadowModelJS;
     });

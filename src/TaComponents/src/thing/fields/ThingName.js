@@ -15,20 +15,18 @@ export default class ThingName extends Component {
     const {value, onChange, fetching, shadowValue} = this.props;
 
     return (
-      <div className="ThingName">
-        <Field shadowValue={shadowValue}>
-          <label>Name</label>
-          <input
-            disabled={fetching}
-            placeholder={"Enter a name..."}
-            type="text"
-            ref="name"
-            onChange={() => onChange("name", this.refs.name.value)}
-            value={value}
-          />
-          <ValidityStateMessages shadowValue={shadowValue}/>
-        </Field>
-      </div>
+      <Field shadowValue={shadowValue}>
+        <label>Name</label>
+        <input
+          disabled={fetching}
+          placeholder={"Enter a name..."}
+          type="text"
+          ref="name"
+          onChange={() => onChange("name", this.refs.name.value)}
+          value={value}
+        />
+        <ValidityStateMessages shadowValue={shadowValue}/>
+      </Field>
     );
   }
 }

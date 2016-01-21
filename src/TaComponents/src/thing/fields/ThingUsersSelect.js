@@ -40,20 +40,18 @@ export default class ThingUsersSelect extends Component {
     }
 
     return (
-      <div className="ThingUsersSelect">
-        <Field>
-          <label>{label} {tooltipContent}</label>
-          <select
-            multiple="multiple"
-            ref={name}
-            id={name}
-            className="ui fluid search dropdown">
-            <option value={0}/>
-            {options}
-          </select>
-          <ValidityStateMessages shadowValue={shadowValue}/>
-        </Field>
-      </div>
+      <Field shadowValue={shadowValue}>
+        <label>{label} {tooltipContent}</label>
+        <select
+          multiple="multiple"
+          ref={name}
+          id={name}
+          className="ui fluid search dropdown">
+          <option value={0}/>
+          {options}
+        </select>
+        <ValidityStateMessages shadowValue={shadowValue}/>
+      </Field>
     );
   }
 }
