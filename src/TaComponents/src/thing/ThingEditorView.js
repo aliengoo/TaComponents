@@ -6,6 +6,7 @@ import ThingStore from "./data/ThingStore";
 import UserActions from "../_actions/UserActions";
 import RiskActions from "../_actions/RiskActions";
 import StatusActions from "../_actions/StatusActions";
+import PrimaryButton from "../_components/PrimaryButton";
 
 import AppNavbar from "../_components/AppNavbar";
 import PageHeader from "../_components/PageHeader";
@@ -85,7 +86,7 @@ export default class Thing extends React.Component {
       thingFormatted,
       thingShadow,
       thing
-      } = this.state;
+    } = this.state;
 
     return (
       <div>
@@ -98,9 +99,10 @@ export default class Thing extends React.Component {
             <PageHeader>New Thing</PageHeader>
             <pre className="hide">{JSON.stringify(thing, null, 2)}</pre>
             <pre className="hide">{JSON.stringify(thingFormatted, null, 2)}</pre>
+            <pre className="hide">{JSON.stringify(thingShadow, null, 2)}</pre>
             <form noValidate={true} name="thingForm" className="ui form">
 
-              <div className="ui two columns stackable grid">
+              <div className="ui columns grid">
                 <div className="column">
                   <ThingDetailsSegment
                     fetching={fetching}
@@ -109,9 +111,6 @@ export default class Thing extends React.Component {
                     thing={thing}
                   />
 
-                </div>
-
-                <div className="column">
                   <ThingStatusSegment
                     fetching={fetching}
                     onChange={this._onChange}
@@ -119,9 +118,6 @@ export default class Thing extends React.Component {
                     thingShadow={thingShadow}
                     thing={thing}
                   />
-
-                </div>
-                <div className="column">
                   <ThingTechnicalTeamSegment
                     fetching={fetching}
                     onChange={this._onChange}
@@ -129,8 +125,6 @@ export default class Thing extends React.Component {
                     thingShadow={thingShadow}
                     thing={thing}
                   />
-                </div>
-                <div className="column">
                   <ThingBusinessSegment
                     fetching={fetching}
                     onChange={this._onChange}
@@ -142,13 +136,10 @@ export default class Thing extends React.Component {
               </div>
 
               <Segment>
-                <button
+                <PrimaryButton
                   disabled={!thingShadow.isValid}
-                  className="ui primary button"
-                  type="button"
-                  onClick={this._save}>
-                  Save
-                </button>
+                  onClick={this._save}>Save
+                </PrimaryButton>
               </Segment>
             </form>
           </div>

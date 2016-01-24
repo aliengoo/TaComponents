@@ -35,8 +35,7 @@ export default class ShadowModel {
   getFormattedModel() {
     const model = this._model.toJS();
 
-    const formattedModel = {
-    };
+    const formattedModel = {};
 
     Object.getOwnPropertyNames(model).forEach((property) => {
       const value = model[property];
@@ -59,7 +58,7 @@ export default class ShadowModel {
 
   static isValid(shadowModelJS) {
 
-    const failingProperties =  _.pick(shadowModelJS, (value) => {
+    const failingProperties = _.pick(shadowModelJS, (value) => {
       return value.$valid === false;
     });
 
@@ -67,7 +66,7 @@ export default class ShadowModel {
   }
 
   static isValidGroup(groupProperties, shadowModelJS) {
-    const failingProperties =  _.pick(shadowModelJS, (value) => {
+    const failingProperties = _.pick(shadowModelJS, (value) => {
       return value.$valid === false && groupProperties.indexOf(value.$property) !== -1;
     });
 
@@ -122,7 +121,7 @@ export default class ShadowModel {
 
     // when nothing has been defined create a dummy
     if (pipeline.length === 0) {
-      pipeline.push(function() {
+      pipeline.push(function () {
         return Q.resolve({
           dummy: false
         });

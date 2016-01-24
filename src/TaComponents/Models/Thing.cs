@@ -13,15 +13,13 @@
         
         public string Description { get; set; }
 
-        public string Vendor { get; set; }
-
         /// <summary>
         /// <see cref="Thing"/> that this product relies upon
         /// </summary>
         public List<string> BuiltWithTheseThings { get; set; }
 
         /// <summary>
-        /// <see cref="RiskLevel"/>
+        /// 
         /// </summary>
         public Risk Risk { get; set; }
 
@@ -36,21 +34,10 @@
         /// </summary>
         public string IntendedStatusId { get; set; }
 
-        /// <summary>
-        /// Key individual or individuals who are regarded as experts on thing thing
-        /// </summary>
-        public List<string> PrimaryTechnicalTeam { get; set; }
+        public string VendorId { get; set; }
 
-        /// <summary>
-        /// Team members who could offer some support, but should not be considered the first choice.
-        /// </summary>
-        public List<string> SecondaryTechnicalTeam { get; set; }
-        
-        /// <summary>
-        /// Considered the owner of the system
-        /// </summary>
-        public List<string> BusinessOwners { get; set; }
-       
+        public List<Team> Teams { get; set; }
+
         public List<Comment> Comments { get; set; }
     }
 }
